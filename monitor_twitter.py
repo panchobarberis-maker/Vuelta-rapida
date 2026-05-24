@@ -130,11 +130,13 @@ Respondé SOLO con JSON válido, sin texto extra:
 
 def render_post(content: dict, tweet_id: str) -> Path:
     sys.path.insert(0, str(Path(__file__).parent))
-    from generate_carousel import logo_b64, load_bg_images, capture_slides, FONTS, slugify
+    from generate_carousel import logo_b64, load_bg_images, capture_slides, FONTS, slugify, pick_bg
 
     logo    = logo_b64()
     bg_imgs = load_bg_images()
-    bg_url  = bg_imgs[int(tweet_id[-1]) % len(bg_imgs)] if bg_imgs else ""
+    # Usa foto del piloto si se menciona en el tweet, sino genérica
+    tweet_text_full = content.get("titulo","") + " " + content.get("subtitulo","") + " " + tweet_text
+    bg_url  = pick_bg(tweet_text_full, bg_imgs)
 
     titulo    = content["titulo"]
     subtitulo = content["subtitulo"]

@@ -67,6 +67,57 @@ def load_bg_images() -> list:
     return imgs
 
 
+# Mapeo apellido/nombre → archivo en drivers/
+DRIVER_ALIASES = {
+    "hamilton":    ["hamilton", "lewis"],
+    "verstappen":  ["verstappen", "max"],
+    "leclerc":     ["leclerc", "charles"],
+    "norris":      ["norris", "lando"],
+    "sainz":       ["sainz", "carlos"],
+    "alonso":      ["alonso", "fernando"],
+    "russell":     ["russell", "george"],
+    "colapinto":   ["colapinto", "franco"],
+    "piastri":     ["piastri", "oscar"],
+    "perez":       ["perez", "pérez", "checo"],
+    "antonelli":   ["antonelli", "andrea"],
+    "hadjar":      ["hadjar", "isack"],
+    "lawson":      ["lawson", "liam"],
+}
+
+
+def detect_driver(text: str) -> str | None:
+    """Devuelve el apellido del primer piloto mencionado en el texto, o None."""
+    text_lower = text.lower()
+    for driver, aliases in DRIVER_ALIASES.items():
+        if any(alias in text_lower for alias in aliases):
+            return driver
+    return None
+
+
+def load_driver_image(driver: str) -> str | None:
+    """Busca una imagen del piloto en drivers/ y la retorna como base64, o None."""
+    drivers_dir = REPO_ROOT / "drivers"
+    if not drivers_dir.exists():
+        return None
+    for p in drivers_dir.iterdir():
+        if p.suffix.lower() in BG_EXTENSIONS and driver in p.stem.lower():
+            try:
+                return file_b64(p)
+            except Exception:
+                pass
+    return None
+
+
+def pick_bg(text: str, bg_images: list, index: int = 0) -> str:
+    """Elige la imagen de fondo: foto del piloto si existe, sino la genérica."""
+    driver = detect_driver(text)
+    if driver:
+        driver_img = load_driver_image(driver)
+        if driver_img:
+            return driver_img
+    return bg_images[index % len(bg_images)] if bg_images else ""
+
+
 # ─── shared assets ───────────────────────────────────────────────────────────
 
 FONTS = """
@@ -663,13 +714,15 @@ Solo JSON válido, sin texto extra."""
 
 def render_slides(content: dict, tipo: str, logo_src: str, bg_images: list) -> list:
     slides = []
-    n_bg = len(bg_images)
 
-    def pick_bg(i: int) -> str:
-        return bg_images[i % n_bg] if bg_images else ""
+    # Texto completo del carrusel para detectar piloto
+    full_text = json.dumps(content, ensure_ascii=False)
+
+    def get_bg(i: int = 0) -> str:
+        return pick_bg(full_text, bg_images, i)
 
     if tipo == "horarios":
-        slides.append(build_portada(content["portada"], logo_src, pick_bg(0)))
+        slides.append(build_portada(content["portada"], logo_src, get_bg(0)))
         sesiones = content.get("sesiones", [])
         nota     = content.get("nota", "")
         days = {}
@@ -681,20 +734,20 @@ def render_slides(content: dict, tipo: str, logo_src: str, bg_images: list) -> l
             slides.append(build_horarios(
                 {"titulo": dia, "sesiones": slist,
                  "nota": nota if slide_n == total - 1 else ""},
-                slide_n, total, logo_src, pick_bg(i + 1)
+                slide_n, total, logo_src, get_bg(i + 1)
             ))
             slide_n += 1
-        slides.append(build_cierre(content["cierre"], logo_src, total, pick_bg(slide_n)))
+        slides.append(build_cierre(content["cierre"], logo_src, total, get_bg(slide_n)))
 
     else:
         total = 6
-        slides.append(build_portada(content["portada"], logo_src, pick_bg(0)))
+        slides.append(build_portada(content["portada"], logo_src, get_bg(0)))
         for i, sd in enumerate(content.get("slides", []), 1):
             if sd.get("tipo") == "dato":
-                slides.append(build_dato(sd, i + 1, total, logo_src, pick_bg(i)))
+                slides.append(build_dato(sd, i + 1, total, logo_src, get_bg(i)))
             else:
-                slides.append(build_contenido(sd, i + 1, total, logo_src, pick_bg(i)))
-        slides.append(build_cierre(content["cierre"], logo_src, total, pick_bg(total - 1)))
+                slides.append(build_contenido(sd, i + 1, total, logo_src, get_bg(i)))
+        slides.append(build_cierre(content["cierre"], logo_src, total, get_bg(total - 1)))
 
     return slides
 
