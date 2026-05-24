@@ -25,7 +25,8 @@ from pathlib import Path
 import anthropic
 from playwright.sync_api import sync_playwright
 
-CHROMIUM_PATH = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+_LOCAL_CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+CHROMIUM_PATH   = _LOCAL_CHROMIUM if Path(_LOCAL_CHROMIUM).exists() else None
 REPO_ROOT     = Path(__file__).parent
 LOGO_PATH     = REPO_ROOT / "PNG EN ROJO.png"
 
@@ -702,10 +703,10 @@ def capture_slides(slides_html: list, output_dir: Path) -> list:
     output_dir.mkdir(parents=True, exist_ok=True)
     paths = []
     with sync_playwright() as p:
-        browser = p.chromium.launch(
-            executable_path=CHROMIUM_PATH,
-            args=["--no-sandbox", "--disable-dev-shm-usage", "--font-render-hinting=none"]
-        )
+        launch_kwargs = {"args": ["--no-sandbox", "--disable-dev-shm-usage", "--font-render-hinting=none"]}
+        if CHROMIUM_PATH:
+            launch_kwargs["executable_path"] = CHROMIUM_PATH
+        browser = p.chromium.launch(**launch_kwargs)
         page = browser.new_page(viewport={"width": 1080, "height": 1350})
         for i, html in enumerate(slides_html, 1):
             page.set_content(html, wait_until="networkidle")
