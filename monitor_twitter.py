@@ -20,7 +20,7 @@ from pathlib import Path
 
 # ─── configuración ────────────────────────────────────────────────────────────
 
-HANDLE     = "alpineclub_esp"
+HANDLE     = "autosport"
 LAST_ID    = Path(".last_tweet_id")
 OUTPUT_DIR = Path("carruseles vuelta rapida club")
 
@@ -105,7 +105,7 @@ def generate_post_content(tweet_text: str) -> dict:
             "role": "user",
             "content": f"""Sos el community manager de Vuelta Rápida Club, comunidad argentina de F1.
 
-Este tweet fue publicado por @alpineclub_esp (cuenta española de fans de Alpine F1):
+Este tweet fue publicado por @autosport (medio internacional de motorsport):
 "{tweet_text}"
 
 Generá el contenido para una imagen de Instagram de Vuelta Rápida Club que comparta esta info.

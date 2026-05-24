@@ -1,4 +1,4 @@
-name: Monitor @alpineclub_esp
+name: Monitor @autosport
 
 on:
   schedule:
