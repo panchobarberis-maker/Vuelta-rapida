@@ -34,6 +34,10 @@ jobs:
       - name: Check for new tweets and generate post
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_ACCOUNT_ID: ${{ secrets.META_IG_ACCOUNT_ID }}
+          IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
         run: python3 monitor_twitter.py
 
       - name: Commit and push if hay contenido nuevo

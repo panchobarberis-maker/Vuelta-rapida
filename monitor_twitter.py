@@ -314,6 +314,17 @@ def main():
     LAST_ID.write_text(tweet["id"])
     print(f"\n✅ Listo. ID guardado: {tweet['id']}")
 
+    # Publicar en Instagram + Facebook si las variables están configuradas
+    if os.environ.get("META_USER_TOKEN") and os.environ.get("META_IG_ACCOUNT_ID"):
+        from post_meta import publish
+        caption = f"{content['titulo'].replace(chr(10), ' ')} — {content['subtitulo']}\n\n#F1 #Formula1 #VueltaRapidaClub"
+        try:
+            publish(out_path, caption)
+        except Exception as e:
+            print(f"⚠️  Error publicando en Meta: {e} (la imagen quedó guardada igual)")
+    else:
+        print("ℹ️  META_USER_TOKEN / META_IG_ACCOUNT_ID no configurados — solo se guarda la imagen")
+
 
 if __name__ == "__main__":
     main()
