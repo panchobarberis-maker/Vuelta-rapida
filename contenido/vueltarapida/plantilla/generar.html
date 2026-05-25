@@ -10,171 +10,223 @@
     height: 1080px;
     font-family: 'Arial Black', Arial, sans-serif;
     overflow: hidden;
+    background: #0d0d0d;
     position: relative;
   }
 
-  /* Foto de fondo */
-  .bg-photo {
+  /* Foto de Franco a la derecha */
+  .foto {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-image: url('../../../refe.jpg');
+    right: -20px;
+    bottom: 0;
+    height: 95%;
+    width: 65%;
+    background-image: url('../../../colap-1.png');
     background-size: cover;
     background-position: center top;
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%),
+                linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    mask-composite: intersect;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%),
+                        linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    -webkit-mask-composite: source-in;
   }
 
-  /* Overlay degradado */
-  .overlay {
+  /* Partículas rojas decorativas */
+  .particulas {
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.1) 0%,
-      rgba(0,0,0,0.2) 30%,
-      rgba(0,0,0,0.85) 65%,
-      rgba(0,0,0,0.97) 100%
-    );
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(180,0,0,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 20%, rgba(180,0,0,0.08) 0%, transparent 50%);
   }
 
-  /* Barra roja superior */
+  /* Barra roja izquierda */
+  .barra-izq {
+    position: absolute;
+    left: 60px;
+    top: 80px;
+    width: 5px;
+    height: 420px;
+    background: #DC0000;
+  }
+
+  /* Barra roja top */
   .barra-top {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
-    height: 8px;
+    height: 7px;
     background: #DC0000;
-    z-index: 10;
   }
 
-  /* Contenido inferior */
-  .contenido {
+  /* Logo VR arriba izquierda */
+  .logo {
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%;
-    padding: 0 70px 60px 70px;
-    z-index: 10;
+    top: 36px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-icono {
+    width: 90px;
+    height: 90px;
+    background-image: url('../../../PNG EN ROJO.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(340deg);
+  }
+
+  .logo-texto {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    line-height: 1;
+  }
+
+  .logo-texto .linea1 {
+    font-size: 34px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .logo-texto .linea2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #DC0000;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Contenido principal izquierda */
+  .contenido {
+    position: absolute;
+    left: 80px;
+    top: 180px;
+    max-width: 560px;
+    z-index: 10;
   }
 
   .etiqueta {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 6px;
     text-transform: uppercase;
     color: #DC0000;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    margin-bottom: 24px;
   }
 
-  .etiqueta::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 3px;
-    background: #DC0000;
-  }
-
-  .piloto {
-    font-size: 58px;
+  .nombre {
+    font-size: 72px;
     font-weight: 900;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1;
+    line-height: 0.9;
+    margin-bottom: 32px;
   }
 
-  .piloto span {
+  .nombre .apellido {
     color: #DC0000;
+    display: block;
   }
 
   .divisor {
-    width: 100%;
-    height: 1px;
-    background: rgba(255,255,255,0.2);
-    margin: 8px 0;
-  }
-
-  .stat-row {
-    display: flex;
-    align-items: center;
-    gap: 32px;
+    width: 80px;
+    height: 4px;
+    background: #DC0000;
+    margin-bottom: 32px;
   }
 
   .stat-numero {
-    font-size: 140px;
+    font-size: 180px;
     font-weight: 900;
-    color: #DC0000;
+    color: #ffffff;
     line-height: 1;
-    min-width: 160px;
+    margin-bottom: 8px;
+    text-shadow: 4px 4px 0px #DC0000;
   }
 
-  .stat-texto {
-    font-size: 30px;
+  .stat-label {
+    font-size: 26px;
     font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
     line-height: 1.3;
+    max-width: 400px;
   }
 
-  .stat-texto span {
+  .stat-label .highlight {
     color: #DC0000;
   }
 
+  /* Footer */
   .footer {
+    position: absolute;
+    bottom: 36px;
+    left: 80px;
+    right: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    z-index: 10;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 16px;
   }
 
-  .contexto {
-    font-size: 16px;
-    color: #888888;
-    letter-spacing: 3px;
+  .temporada {
+    font-size: 14px;
+    color: #666;
+    letter-spacing: 4px;
     text-transform: uppercase;
   }
 
-  .marca {
-    font-size: 18px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 3px;
+  .fuente {
+    font-size: 13px;
+    color: #444;
+    letter-spacing: 2px;
     text-transform: uppercase;
-  }
-
-  .marca span {
-    color: #DC0000;
   }
 </style>
 </head>
 <body>
-  <div class="bg-photo"></div>
-  <div class="overlay"></div>
+  <div class="particulas"></div>
+  <div class="foto"></div>
   <div class="barra-top"></div>
+  <div class="barra-izq"></div>
 
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-icono"></div>
+    <div class="logo-texto">
+      <span class="linea1">Vuelta Rápida</span>
+      <span class="linea2">Club</span>
+    </div>
+  </div>
+
+  <!-- Contenido -->
   <div class="contenido">
-    <div class="etiqueta">Estadística</div>
-
-    <div class="piloto">Franco <span>Colapinto</span></div>
-
+    <div class="etiqueta">Estadística F1</div>
+    <div class="nombre">
+      Franco
+      <span class="apellido">Colapinto</span>
+    </div>
     <div class="divisor"></div>
-
-    <div class="stat-row">
-      <div class="stat-numero">0</div>
-      <div class="stat-texto">
-        DNFs desde su llegada<br>a <span>Alpine</span>
-      </div>
+    <div class="stat-numero">0</div>
+    <div class="stat-label">
+      DNFs desde su llegada<br>a <span class="highlight">Alpine</span>
     </div>
+  </div>
 
-    <div class="footer">
-      <div class="contexto">Temporada 2025</div>
-      <div class="marca">Vuelta <span>Rápida</span></div>
-    </div>
+  <!-- Footer -->
+  <div class="footer">
+    <div class="temporada">Temporada 2025</div>
+    <div class="fuente">@F1BigData</div>
   </div>
 
 </body>
