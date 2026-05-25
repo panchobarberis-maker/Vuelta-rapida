@@ -45,5 +45,13 @@ jobs:
           git config user.name  "vuelta-rapida-bot"
           git config user.email "bot@vueltarapidaclub.com"
           git add -A
-          git diff --staged --quiet || git commit -m "🏎 Auto: post desde @alpineclub_esp"
+          git diff --staged --quiet || git commit -m "🏎 Auto: post desde @autosport"
           git push
+
+      - name: Publicar en Instagram y Facebook
+        if: ${{ hashFiles('.pending_post.json') != '' }}
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_ACCOUNT_ID: ${{ secrets.META_IG_ACCOUNT_ID }}
+        run: python3 post_meta.py

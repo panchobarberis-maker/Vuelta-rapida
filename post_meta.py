@@ -3,9 +3,10 @@
 Publica una imagen en Instagram y Facebook via Meta Graph API.
 
 Requiere variables de entorno:
-  META_USER_TOKEN      - User Token con permisos de publicación
+  META_USER_TOKEN      - Page Token con permisos de publicación
   META_PAGE_ID         - ID de la página de Facebook
   META_IG_ACCOUNT_ID   - ID de la cuenta de Instagram Business
+  GITHUB_REPOSITORY    - seteado automáticamente por GitHub Actions
 """
 
 import os
@@ -13,18 +14,17 @@ import sys
 import time
 import urllib.request
 import urllib.parse
-import urllib.error
 import json
 from pathlib import Path
 
 
 GRAPH = "https://graph.facebook.com/v21.0"
+GITHUB_RAW = "https://raw.githubusercontent.com"
 
 
 def _api(method: str, endpoint: str, params: dict = None, data: dict = None) -> dict:
     params = params or {}
-    token = os.environ["META_USER_TOKEN"]
-    params["access_token"] = token
+    params["access_token"] = os.environ["META_USER_TOKEN"]
 
     qs = urllib.parse.urlencode(params)
     url = f"{GRAPH}/{endpoint}?{qs}"
@@ -40,48 +40,34 @@ def _api(method: str, endpoint: str, params: dict = None, data: dict = None) -> 
         return json.loads(r.read().decode())
 
 
-def upload_image_to_imgbb(image_path: Path) -> str:
-    """Sube la imagen a imgbb y devuelve la URL pública."""
-    api_key = os.environ.get("IMGBB_API_KEY")
-    if not api_key:
-        raise RuntimeError("Falta IMGBB_API_KEY para subir la imagen")
-
-    import base64
-    with open(image_path, "rb") as f:
-        img_b64 = base64.b64encode(f.read()).decode()
-
-    data = urllib.parse.urlencode({"key": api_key, "image": img_b64}).encode()
-    req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data, method="POST")
-    with urllib.request.urlopen(req, timeout=30) as r:
-        result = json.loads(r.read().decode())
-
-    if not result.get("success"):
-        raise RuntimeError(f"imgbb error: {result}")
-    return result["data"]["url"]
+def github_raw_url(image_path: Path) -> str:
+    """Construye la URL pública de la imagen en el repo de GitHub."""
+    repo = os.environ.get("GITHUB_REPOSITORY", "panchobarberis-maker/vuelta-rapida")
+    # La imagen ya fue pusheada a main antes de llamar a esta función
+    rel = str(image_path).lstrip("/")
+    # Codificar espacios en el path
+    encoded = urllib.parse.quote(rel, safe="/")
+    return f"{GITHUB_RAW}/{repo}/main/{encoded}"
 
 
 def post_to_instagram(image_url: str, caption: str) -> str:
-    """Crea un post en Instagram. Devuelve el media ID publicado."""
     ig_id = os.environ["META_IG_ACCOUNT_ID"]
 
-    # Paso 1: crear contenedor
     print("  📤 Creando contenedor IG...")
     container = _api("POST", f"{ig_id}/media",
                      data={"image_url": image_url, "caption": caption})
     container_id = container["id"]
 
-    # Paso 2: esperar a que esté listo
-    for _ in range(10):
+    for _ in range(15):
         status = _api("GET", container_id, params={"fields": "status_code"})
         if status.get("status_code") == "FINISHED":
             break
         if status.get("status_code") == "ERROR":
             raise RuntimeError(f"IG container error: {status}")
-        time.sleep(3)
+        time.sleep(4)
     else:
         raise RuntimeError("Timeout esperando container IG")
 
-    # Paso 3: publicar
     print("  📸 Publicando en Instagram...")
     result = _api("POST", f"{ig_id}/media_publish",
                   data={"creation_id": container_id})
@@ -91,7 +77,6 @@ def post_to_instagram(image_url: str, caption: str) -> str:
 
 
 def post_to_facebook(image_path: Path, message: str) -> str:
-    """Publica la imagen directamente en el feed de Facebook."""
     page_id = os.environ["META_PAGE_ID"]
 
     print("  📘 Subiendo a Facebook...")
@@ -122,14 +107,21 @@ def post_to_facebook(image_path: Path, message: str) -> str:
     return post_id
 
 
-def publish(image_path: Path, caption: str):
-    """Publica en Instagram y Facebook. image_path debe ser un JPG local."""
+def publish_from_pending():
+    """Lee .pending_post.json y publica. Llamado por el workflow después del push."""
+    pending_file = Path(".pending_post.json")
+    if not pending_file.exists():
+        print("ℹ️  No hay post pendiente.")
+        return
+
+    pending = json.loads(pending_file.read_text())
+    image_path = Path(pending["path"])
+    caption = pending["caption"]
+
     print(f"\n🌐 Publicando: {image_path.name}")
 
-    # Instagram necesita URL pública — usamos imgbb como host temporal
-    print("  ☁️  Subiendo imagen a imgbb...")
-    image_url = upload_image_to_imgbb(image_path)
-    print(f"  ✓ URL: {image_url}")
+    image_url = github_raw_url(image_path)
+    print(f"  🔗 URL: {image_url}")
 
     errors = []
 
@@ -145,14 +137,14 @@ def publish(image_path: Path, caption: str):
         print(f"  ❌ Facebook: {e}")
         errors.append(f"Facebook: {e}")
 
+    pending_file.unlink()
+
     if errors:
-        print(f"\n⚠️  Hubo errores: {errors}")
+        print(f"\n⚠️  Errores: {errors}")
+        sys.exit(1)
     else:
         print("\n✅ Publicado en Instagram y Facebook")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Uso: python3 post_meta.py <imagen.jpg> <caption>")
-        sys.exit(1)
-    publish(Path(sys.argv[1]), sys.argv[2])
+    publish_from_pending()
