@@ -8,27 +8,32 @@
   body {
     width: 1080px;
     height: 1080px;
-    background: #0a0a0a;
     font-family: 'Arial Black', Arial, sans-serif;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: relative;
   }
 
-  /* Fondo con líneas diagonales F1 */
-  .bg-lines {
+  /* Foto de fondo */
+  .bg-photo {
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-      -55deg,
-      transparent,
-      transparent 40px,
-      rgba(220, 0, 0, 0.04) 40px,
-      rgba(220, 0, 0, 0.04) 41px
+    background-image: url('../../../refe.jpg');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  /* Overlay degradado */
+  .overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.1) 0%,
+      rgba(0,0,0,0.2) 30%,
+      rgba(0,0,0,0.85) 65%,
+      rgba(0,0,0,0.97) 100%
     );
   }
 
@@ -39,57 +44,46 @@
     width: 100%;
     height: 8px;
     background: #DC0000;
+    z-index: 10;
   }
 
-  /* Barra roja inferior */
-  .barra-bottom {
+  /* Contenido inferior */
+  .contenido {
     position: absolute;
     bottom: 0; left: 0;
     width: 100%;
-    height: 8px;
-    background: #DC0000;
-  }
-
-  /* Acento lateral izquierdo */
-  .acento-izq {
-    position: absolute;
-    left: 60px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 300px;
-    background: #DC0000;
-  }
-
-  .contenido {
-    position: relative;
+    padding: 0 70px 60px 70px;
     z-index: 10;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 80px 120px;
-    text-align: center;
-    gap: 40px;
+    gap: 16px;
   }
 
-  /* Etiqueta arriba */
   .etiqueta {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 6px;
     text-transform: uppercase;
     color: #DC0000;
-    border: 2px solid #DC0000;
-    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
-  /* Nombre del piloto */
+  .etiqueta::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #DC0000;
+  }
+
   .piloto {
-    font-size: 52px;
+    font-size: 58px;
     font-weight: 900;
     color: #ffffff;
-    letter-spacing: 2px;
     text-transform: uppercase;
+    letter-spacing: 1px;
     line-height: 1;
   }
 
@@ -97,106 +91,90 @@
     color: #DC0000;
   }
 
-  /* El dato principal */
-  .dato-numero {
-    font-size: 200px;
+  .divisor {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 8px 0;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .stat-numero {
+    font-size: 140px;
     font-weight: 900;
     color: #DC0000;
     line-height: 1;
-    text-shadow: 0 0 60px rgba(220, 0, 0, 0.3);
+    min-width: 160px;
   }
 
-  /* Texto del dato */
-  .dato-texto {
-    font-size: 32px;
+  .stat-texto {
+    font-size: 30px;
     font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    line-height: 1.4;
-    max-width: 700px;
+    letter-spacing: 2px;
+    line-height: 1.3;
   }
 
-  .dato-texto span {
+  .stat-texto span {
     color: #DC0000;
   }
 
-  /* Contexto / subtexto */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
   .contexto {
-    font-size: 20px;
+    font-size: 16px;
     color: #888888;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
   }
 
-  /* Logo marca */
   .marca {
-    position: absolute;
-    bottom: 36px;
-    right: 60px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .marca-nombre {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
     color: #ffffff;
     letter-spacing: 3px;
     text-transform: uppercase;
   }
 
-  .marca-nombre span {
+  .marca span {
     color: #DC0000;
-  }
-
-  /* Bandera argentina decorativa */
-  .bandera {
-    position: absolute;
-    top: 36px;
-    right: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .bandera-franja {
-    width: 50px;
-    height: 10px;
   }
 </style>
 </head>
 <body>
-  <div class="bg-lines"></div>
+  <div class="bg-photo"></div>
+  <div class="overlay"></div>
   <div class="barra-top"></div>
-  <div class="barra-bottom"></div>
-  <div class="acento-izq"></div>
-
-  <!-- Bandera argentina -->
-  <div class="bandera">
-    <div class="bandera-franja" style="background:#74ACDF;"></div>
-    <div class="bandera-franja" style="background:#ffffff;"></div>
-    <div class="bandera-franja" style="background:#74ACDF;"></div>
-  </div>
 
   <div class="contenido">
     <div class="etiqueta">Estadística</div>
 
     <div class="piloto">Franco <span>Colapinto</span></div>
 
-    <div class="dato-numero">0</div>
+    <div class="divisor"></div>
 
-    <div class="dato-texto">
-      DNFs desde su llegada a <span>Alpine</span>
+    <div class="stat-row">
+      <div class="stat-numero">0</div>
+      <div class="stat-texto">
+        DNFs desde su llegada<br>a <span>Alpine</span>
+      </div>
     </div>
 
-    <div class="contexto">Temporada 2025</div>
-  </div>
-
-  <!-- Marca -->
-  <div class="marca">
-    <div class="marca-nombre">Vuelta <span>Rápida</span></div>
+    <div class="footer">
+      <div class="contexto">Temporada 2025</div>
+      <div class="marca">Vuelta <span>Rápida</span></div>
+    </div>
   </div>
 
 </body>
