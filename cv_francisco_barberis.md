@@ -1,7 +1,7 @@
 # FRANCISCO BARBERIS
 **Law Firm SEO & Digital Marketing Specialist**
 
-franciscobarberiss@gmail.com | +54 29444 538946 | [View Portfolio →](https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC)
+franciscobarberiss@gmail.com | [View Portfolio →](https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC)
 
 ---
 

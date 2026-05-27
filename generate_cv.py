@@ -60,7 +60,7 @@ def build_cv(output_path):
     story.append(Paragraph("FRANCISCO BARBERIS", name_style))
     story.append(Paragraph("Law Firm SEO &amp; Digital Marketing Specialist", title_style))
     story.append(Paragraph(
-        'franciscobarberiss@gmail.com &nbsp;|&nbsp; +54 29444 538946 &nbsp;|&nbsp; '
+        'franciscobarberiss@gmail.com &nbsp;|&nbsp; '
         '<a href="https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC" '
         'color="#1a56db"><u>[ Click here to view Portfolio ]</u></a>',
         contact_style
