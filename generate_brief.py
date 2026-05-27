@@ -54,25 +54,7 @@ def build_brief(output_path):
                            fontName="Helvetica-Bold", spaceAfter=4, leading=20)))
     story.append(HRFlowable(width="100%", thickness=1.5, color=NAVY, spaceAfter=6, spaceBefore=4))
 
-    # Meta info table
-    meta = Table([
-        [Paragraph("Client:", label), Paragraph("Lange Firm — Employment Law Firm", body),
-         Paragraph("Prepared by:", label), Paragraph("Francisco Barberis", body)],
-        [Paragraph("Date:", label), Paragraph("May 2026", body),
-         Paragraph("Target URL:", label), Paragraph("/employment-lawyer-houston", body)],
-        [Paragraph("Content Type:", label), Paragraph("Pillar Page / Service Page", body),
-         Paragraph("Priority:", label), Paragraph("HIGH", ParagraphStyle("high", fontSize=9.5,
-                   textColor=colors.red, fontName="Helvetica-Bold", spaceAfter=5, leading=13))],
-    ], colWidths=[1.1*inch, 2.65*inch, 1.1*inch, 2.65*inch])
-    meta.setStyle(TableStyle([
-        ("BACKGROUND", (0,0),(-1,-1), BLUE_LIGHT),
-        ("TOPPADDING", (0,0),(-1,-1), 5),
-        ("BOTTOMPADDING", (0,0),(-1,-1), 5),
-        ("LEFTPADDING", (0,0),(-1,-1), 6),
-        ("GRID", (0,0),(-1,-1), 0.5, colors.HexColor("#d0d0d0")),
-    ]))
-    story.append(meta)
-    story.append(Spacer(1, 12))
+    story.append(Spacer(1, 6))
 
     # Keywords
     story.append(sec_header("KEYWORD STRATEGY"))
