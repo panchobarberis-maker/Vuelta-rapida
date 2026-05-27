@@ -96,6 +96,7 @@ def build_cv(output_path):
                 "Conduct technical SEO audits using Screaming Frog and Google Search Console, identifying and resolving site issues to improve crawlability and Core Web Vitals.",
                 "Perform keyword research and competitive analysis using SEMrush/Ahrefs to inform content strategy and on-page optimization.",
                 "Monitor and report on performance via Google Analytics (GA4) and Search Console, tracking KPIs and adjusting strategy accordingly.",
+                "Implement <b>Answer Engine Optimization (AEO)</b> and <b>Generative Engine Optimization (GEO)</b> strategies — including FAQ schema markup, E-E-A-T signals, and question-based content formats — to maximize visibility in AI-generated results (Google AI Overviews, ChatGPT, Perplexity).",
                 "Manage email marketing campaigns via Mailchimp, achieving an <b>18% open rate</b>.",
                 "Oversee WordPress website: blog publishing, internal linking, metadata, and on-page SEO.",
                 "Run Google Ads and Meta Ads campaigns to support lead generation alongside organic efforts.",
@@ -148,7 +149,7 @@ def build_cv(output_path):
     story.append(Spacer(1, 6))
 
     skill_sections = [
-        ("SEO", "On-Page SEO · Technical SEO · Local SEO · Keyword Research · Backlink Building · Link Acquisition · Google Business Profile (GMB) Optimization · Schema Markup · Core Web Vitals · Competitor Analysis"),
+        ("SEO & AEO", "On-Page SEO · Technical SEO · Local SEO · Answer Engine Optimization (AEO) · Generative Engine Optimization (GEO) · AI Search Optimization · Keyword Research · Backlink Building · Google Business Profile (GMB) · Schema Markup (FAQ, LegalService, Attorney) · Core Web Vitals · E-E-A-T · Featured Snippets · Topical Authority Building"),
         ("Analytics & Tools", "Google Analytics (GA4) · Google Search Console · SEMrush · Ahrefs · Screaming Frog · Google Ads"),
         ("Content & Marketing", "Content Marketing · Blog Writing · Legal Content Creation · Email Marketing (Mailchimp) · Social Media Management · Meta Ads (Facebook/Instagram) · Video Editing (CapCut) · Canva"),
         ("Platforms & Tech", "WordPress · Notion · Claude AI · HeyGen · Adloop"),

@@ -23,6 +23,7 @@ Results-driven digital marketing and SEO specialist with 7+ years of experience 
 - Conduct technical SEO audits using Screaming Frog and Google Search Console, identifying and resolving site issues to improve crawlability and performance.
 - Perform keyword research and competitive analysis using SEMrush/Ahrefs to inform content strategy and on-page optimization.
 - Monitor and report on performance via Google Analytics (GA4) and Search Console, tracking KPIs and adjusting strategy accordingly.
+- Implement Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) strategies — including FAQ schema markup, E-E-A-T signals, and question-based content formats — to maximize visibility in AI-generated search results (Google AI Overviews, ChatGPT, Perplexity).
 - Manage Google Business Profile optimization, citation building, and local SEO initiatives to maximize visibility in Houston and surrounding areas.
 - Manage email marketing campaigns via Mailchimp, achieving an **18% open rate**.
 - Oversee WordPress website including blog publishing, internal linking, metadata updates, and on-page SEO improvements.
@@ -64,8 +65,8 @@ Results-driven digital marketing and SEO specialist with 7+ years of experience 
 
 ## SKILLS
 
-**SEO**
-On-Page SEO · Technical SEO · Local SEO · Keyword Research · Backlink Building · Link Acquisition · Google Business Profile (GMB) Optimization · Schema Markup · Core Web Vitals · Competitor Analysis
+**SEO & AEO**
+On-Page SEO · Technical SEO · Local SEO · Answer Engine Optimization (AEO) · Generative Engine Optimization (GEO) · AI Search Optimization · Keyword Research · Backlink Building · Link Acquisition · Google Business Profile (GMB) Optimization · Schema Markup (FAQ, LegalService, Attorney) · Core Web Vitals · E-E-A-T Optimization · Featured Snippets · Topical Authority Building · Competitor Analysis
 
 **Analytics & Tools**
 Google Analytics (GA4) · Google Search Console · SEMrush · Ahrefs · Screaming Frog · Google Ads
