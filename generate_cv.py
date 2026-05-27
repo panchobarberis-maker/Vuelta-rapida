@@ -64,7 +64,7 @@ def build_cv(output_path):
     story.append(Paragraph(
         'franciscobarberiss@gmail.com &nbsp;|&nbsp; +54 29444 538946 &nbsp;|&nbsp; '
         '<a href="https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC" '
-        'color="#1a56db">Portfolio</a>',
+        'color="#1a56db"><u>[Click here to view Portfolio]</u></a>',
         contact_style
     ))
     story.append(HRFlowable(width="100%", thickness=1.5, color=NAVY, spaceAfter=8, spaceBefore=6))
@@ -88,15 +88,17 @@ def build_cv(output_path):
 
     jobs = [
         {
-            "title": "Chief Marketing Officer — Lange Firm (Employment Law Firm)",
+            "title": "Chief Marketing Officer — Lange Firm (Employment Law Firm) · Houston, TX",
             "date": "Nov 2024 – Present",
             "bullets": [
-                "Coordinated digital marketing initiatives including content creation and scheduling, email campaigns, website updates, and Google Business Profile optimization.",
-                "Managed SEO and website improvements by overseeing blog publishing, internal linking, metadata updates, and performance tracking.",
-                "Conducted backlink outreach, reporting, and competitor monitoring.",
-                "Collaborated with attorneys and internal stakeholders to align marketing content with firm messaging and client needs.",
-                "Managed email marketing campaigns via Mailchimp, achieving an 18% open rate.",
-                "Produced and edited video content using CapCut for social media and firm promotion.",
+                "Serve as the sole marketing professional for the firm, owning all digital marketing initiatives end-to-end.",
+                "Lead full SEO strategy including on-page optimization, keyword research, blog publishing, internal linking, and metadata updates — driving organic traffic and lead generation.",
+                "Manage Google Business Profile optimization and migration, improving local search visibility and map pack rankings for the firm.",
+                "Oversee content creation and scheduling across website, social media, and email channels, ensuring consistent brand messaging aligned with attorney guidelines.",
+                "Manage email marketing campaigns via Mailchimp, achieving an 18% open rate.",
+                "Conduct backlink outreach, competitor monitoring, and monthly performance reporting.",
+                "Produce and edit video content using CapCut for social media promotion and client-facing materials.",
+                "Collaborate directly with attorneys to align all marketing efforts with client acquisition goals and firm positioning.",
             ],
         },
         {
@@ -119,23 +121,9 @@ def build_cv(output_path):
             ],
         },
         {
-            "title": "Contract Development Analyst — MetLife Chile & Uruguay",
-            "date": "2021 – 2022",
-            "bullets": [
-                "Drafted and negotiated contracts and amendments with vendors.",
-                "Streamlined contract processes and implemented workflow improvements.",
-                "Managed procurement operations via ARIBA and produced daily reports.",
-            ],
-        },
-        {
-            "title": "Business Support & Contract Analyst — Roche Argentina",
+            "title": "Contract Analyst — Roche Argentina & MetLife",
             "date": "2018 – 2022",
-            "bullets": [
-                "Joined as intern and advanced to main contract touchpoint owner for the Diagnostics division.",
-                "Drafted and negotiated contracts with clients and provided legal advice on contract matters.",
-                "Led Agiloft implementation for contract lifecycle management.",
-                "Managed commercial procurement in SAP and produced monthly performance reports.",
-            ],
+            "bullets": [],
         },
     ]
 

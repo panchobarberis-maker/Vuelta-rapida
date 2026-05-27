@@ -13,15 +13,17 @@ Marketing professional with 7+ years of hands-on experience driving digital grow
 
 ## WORK EXPERIENCE
 
-### Chief Marketing Officer — Lange Firm (Employment Law Firm)
+### Chief Marketing Officer — Lange Firm (Employment Law Firm) · Houston, TX
 **Nov 2024 – Present**
 
-- Coordinated digital marketing initiatives including content creation and scheduling, email campaigns, website updates, and Google Business Profile optimization.
-- Managed SEO and website improvements by overseeing blog publishing, internal linking, metadata updates, and performance tracking.
-- Conducted backlink outreach, reporting, and competitor monitoring.
-- Collaborated with attorneys and internal stakeholders to align marketing content with firm messaging and client needs.
-- Managed email marketing campaigns via Mailchimp, achieving an 18% open rate.
-- Produced and edited video content using CapCut for social media and firm promotion.
+- Serve as the sole marketing professional for the firm, owning all digital marketing initiatives end-to-end.
+- Lead full SEO strategy including on-page optimization, keyword research, blog publishing, internal linking, and metadata updates — driving organic traffic and lead generation.
+- Manage Google Business Profile optimization and migration, improving local search visibility and map pack rankings for the firm.
+- Oversee content creation and scheduling across website, social media, and email channels, ensuring consistent brand messaging aligned with attorney guidelines.
+- Manage email marketing campaigns via Mailchimp, achieving an 18% open rate.
+- Conduct backlink outreach, competitor monitoring, and monthly performance reporting.
+- Produce and edit video content using CapCut for social media promotion and client-facing materials.
+- Collaborate directly with attorneys to align all marketing efforts with client acquisition goals and firm positioning.
 
 ---
 
@@ -44,23 +46,8 @@ Marketing professional with 7+ years of hands-on experience driving digital grow
 
 ---
 
-### Contract Development Analyst — MetLife Chile & Uruguay
-**2021 – 2022**
-
-- Drafted and negotiated contracts and amendments with vendors.
-- Streamlined contract processes and implemented workflow improvements.
-- Managed procurement operations via ARIBA and produced daily reports.
-
----
-
-### Business Support & Contract Analyst — Roche Argentina
+### Contract Analyst — Roche Argentina & MetLife
 **2018 – 2022**
-
-- Joined as intern at the Business Support team and advanced to main contract touchpoint owner for the Diagnostics division.
-- Drafted and negotiated contracts with clients.
-- Led Agiloft implementation for contract lifecycle management.
-- Managed commercial procurement in SAP and provided legal advice on contract matters.
-- Produced monthly performance reports.
 
 ---
 
