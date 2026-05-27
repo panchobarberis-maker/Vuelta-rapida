@@ -4,11 +4,9 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, Table, TableStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
-from reportlab.platypus.flowables import AnchorFlowable
 
 NAVY = colors.HexColor("#1a2e4a")
-LIGHT_GRAY = colors.HexColor("#f5f5f5")
-MID_GRAY = colors.HexColor("#666666")
+MID_GRAY = colors.HexColor("#555555")
 LINK_COLOR = colors.HexColor("#1a56db")
 
 def build_cv(output_path):
@@ -21,14 +19,12 @@ def build_cv(output_path):
         bottomMargin=0.6 * inch,
     )
 
-    styles = getSampleStyleSheet()
-
     name_style = ParagraphStyle("name", fontSize=26, textColor=NAVY, fontName="Helvetica-Bold",
                                 spaceAfter=2, leading=30)
     title_style = ParagraphStyle("title", fontSize=11, textColor=MID_GRAY, fontName="Helvetica",
-                                 spaceAfter=4, leading=14, letterSpacing=1.5)
-    contact_style = ParagraphStyle("contact", fontSize=9, textColor=MID_GRAY, fontName="Helvetica",
-                                   spaceAfter=2, leading=12)
+                                 spaceAfter=4, leading=14)
+    contact_style = ParagraphStyle("contact", fontSize=9.5, textColor=MID_GRAY, fontName="Helvetica",
+                                   spaceAfter=2, leading=13)
     section_style = ParagraphStyle("section", fontSize=10, textColor=colors.white, fontName="Helvetica-Bold",
                                    spaceAfter=0, leading=14, leftIndent=4)
     job_title_style = ParagraphStyle("job_title", fontSize=11, textColor=NAVY, fontName="Helvetica-Bold",
@@ -45,6 +41,8 @@ def build_cv(output_path):
                                spaceAfter=1, leading=13)
     edu_sub_style = ParagraphStyle("edu_sub", fontSize=9.5, textColor=MID_GRAY, fontName="Helvetica",
                                    spaceAfter=0, leading=12)
+    summary_style = ParagraphStyle("summary", fontSize=9.5, textColor=colors.black, fontName="Helvetica",
+                                   spaceAfter=10, leading=14)
 
     def section_header(text):
         table = Table([[Paragraph(text, section_style)]], colWidths=[doc.width])
@@ -58,29 +56,29 @@ def build_cv(output_path):
 
     story = []
 
-    # Header block
+    # Header
     story.append(Paragraph("FRANCISCO BARBERIS", name_style))
-    story.append(Paragraph("LAW FIRM SEO SPECIALIST", title_style))
+    story.append(Paragraph("Law Firm SEO &amp; Digital Marketing Specialist", title_style))
     story.append(Paragraph(
         'franciscobarberiss@gmail.com &nbsp;|&nbsp; +54 29444 538946 &nbsp;|&nbsp; '
         '<a href="https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC" '
-        'color="#1a56db"><u>[Click here to view Portfolio]</u></a>',
+        'color="#1a56db"><u>[ Click here to view Portfolio ]</u></a>',
         contact_style
     ))
     story.append(HRFlowable(width="100%", thickness=1.5, color=NAVY, spaceAfter=8, spaceBefore=6))
 
     # Summary
-    summary_text = (
-        "Marketing professional with 7+ years of hands-on experience driving digital growth for e-commerce brands "
-        "and law firms. Skilled in legal SEO strategy, content planning, keyword research, link acquisition, technical "
-        "optimization, and local visibility initiatives for attorneys. Proven success improving organic traffic and lead "
-        "generation through high-quality legal content, on-page optimization, and GMB/local SEO improvements. Founder "
-        "of a successful mountain-inspired clothing brand with 2,500+ online sales and 30K followers, with additional "
-        "expertise in paid ads, email marketing, brand management, and cross-team collaboration."
-    )
-    summary_style = ParagraphStyle("summary", fontSize=9.5, textColor=colors.black, fontName="Helvetica",
-                                   spaceAfter=10, leading=14)
-    story.append(Paragraph(summary_text, summary_style))
+    story.append(Paragraph(
+        "Results-driven digital marketing and SEO specialist with 7+ years of experience driving measurable growth "
+        "for law firms and e-commerce brands. Proven track record in legal SEO strategy, content marketing, local "
+        "search optimization, and full-funnel digital marketing execution. Grew a law firm's organic traffic from "
+        "zero to <b>9,000+ monthly visits</b> and elevated its Google Business Profile ranking to <b>top-ranked "
+        "employment law firm in the region</b>. Adept at managing all aspects of digital marketing independently — "
+        "from technical SEO audits and content strategy to paid media, email campaigns, and social media. "
+        "Hands-on experience with AI-powered content automation tools and a strong foundation in legal terminology "
+        "from a Law degree.",
+        summary_style
+    ))
 
     # Work Experience
     story.append(section_header("WORK EXPERIENCE"))
@@ -91,33 +89,37 @@ def build_cv(output_path):
             "title": "Chief Marketing Officer — Lange Firm (Employment Law Firm) · Houston, TX",
             "date": "Nov 2024 – Present",
             "bullets": [
-                "Serve as the sole marketing professional for the firm, owning all digital marketing initiatives end-to-end.",
-                "Lead full SEO strategy including on-page optimization, keyword research, blog publishing, internal linking, and metadata updates — driving organic traffic and lead generation.",
-                "Manage Google Business Profile optimization and migration, improving local search visibility and map pack rankings for the firm.",
-                "Oversee content creation and scheduling across website, social media, and email channels, ensuring consistent brand messaging aligned with attorney guidelines.",
-                "Manage email marketing campaigns via Mailchimp, achieving an 18% open rate.",
-                "Conduct backlink outreach, competitor monitoring, and monthly performance reporting.",
-                "Produce and edit video content using CapCut for social media promotion and client-facing materials.",
-                "Collaborate directly with attorneys to align all marketing efforts with client acquisition goals and firm positioning.",
+                "<b>Grew organic traffic from 0 to 9,000+ monthly visits</b> by building and executing a full content marketing and blog strategy from scratch, targeting high-intent legal keywords.",
+                "<b>Elevated the firm to the top-ranked employment law firm in Sugar Land, TX</b> on Google Maps through a comprehensive GMB optimization and migration strategy.",
+                "<b>Built the firm's Google review presence from the ground up</b>, implementing a structured review generation strategy that significantly increased local authority and credibility.",
+                "Serve as the sole marketing professional for the firm, owning all digital marketing operations end-to-end: SEO, content, email, social media, paid ads, and video.",
+                "Conduct technical SEO audits using Screaming Frog and Google Search Console, identifying and resolving site issues to improve crawlability and Core Web Vitals.",
+                "Perform keyword research and competitive analysis using SEMrush/Ahrefs to inform content strategy and on-page optimization.",
+                "Monitor and report on performance via Google Analytics (GA4) and Search Console, tracking KPIs and adjusting strategy accordingly.",
+                "Manage email marketing campaigns via Mailchimp, achieving an <b>18% open rate</b>.",
+                "Oversee WordPress website: blog publishing, internal linking, metadata, and on-page SEO.",
+                "Run Google Ads and Meta Ads campaigns to support lead generation alongside organic efforts.",
+                "Produce and edit video content using CapCut and design assets in Canva for social media and firm promotion.",
+                "Collaborate directly with attorneys to ensure all content aligns with legal accuracy and client acquisition goals.",
             ],
         },
         {
             "title": "Project Manager — Claura AI",
             "date": "Nov 2025 – Present",
             "bullets": [
-                "Managed client onboarding and end-to-end project coordination for AI-powered content services.",
-                "Automated content generation and scheduling workflows for clients using Claude AI, HeyGen, Adloop, and Notion — producing assets ranging from stories to Reels.",
-                "Served as primary client contact, ensuring delivery timelines and content quality standards were met.",
+                "Manage client onboarding and end-to-end project coordination for AI-powered content services.",
+                "Automate content generation and scheduling workflows using Claude AI, HeyGen, Adloop, and Notion — producing high-volume assets including stories and Reels at scale.",
+                "Serve as primary client contact, ensuring delivery timelines, quality standards, and campaign goals are consistently met.",
             ],
         },
         {
-            "title": 'Director — "Bonacera" Mountain-Inspired Clothing Brand',
+            "title": '"Bonacera" Mountain-Inspired Clothing Brand — Founder & Director',
             "date": "Jan 2022 – Present",
             "bullets": [
-                "Built and scaled a mountain-inspired e-commerce brand to 30,000+ social media followers and 2,500+ online sales.",
-                "Managed social media content planning, posting schedules, and brand messaging.",
-                "Coordinated and executed Meta Ads campaigns, promotions, and product launches.",
-                "Oversaw website updates, product listings, customer communication, and analytics tracking.",
+                "Built and scaled an e-commerce brand to <b>30,000+ social media followers and 2,500+ online sales</b>.",
+                "Developed and executed full digital marketing strategy: content planning, social media, and brand identity.",
+                "Ran Meta Ads campaigns, promotions, and product launches driving consistent revenue growth.",
+                "Managed website operations, product listings, customer communication, and analytics tracking.",
             ],
         },
         {
@@ -146,10 +148,11 @@ def build_cv(output_path):
     story.append(Spacer(1, 6))
 
     skill_sections = [
-        ("SEO & Content", "On-Page Optimization · Backlink Building · Technical SEO · Keyword Research · Blog & Legal Content Creation · Google Business Profile Optimization · Local SEO"),
-        ("Digital Marketing", "Email Marketing (Mailchimp) · Paid Ads (Meta/Facebook) · Social Media Management · Website Content Management · Reporting & Performance Tracking"),
-        ("Tools & Technology", "Claude AI · HeyGen · Adloop · Notion · CapCut · SAP · ARIBA · Agiloft"),
-        ("Other", "Project Management · Client Onboarding · Cross-team Collaboration · Brand Management"),
+        ("SEO", "On-Page SEO · Technical SEO · Local SEO · Keyword Research · Backlink Building · Link Acquisition · Google Business Profile (GMB) Optimization · Schema Markup · Core Web Vitals · Competitor Analysis"),
+        ("Analytics & Tools", "Google Analytics (GA4) · Google Search Console · SEMrush · Ahrefs · Screaming Frog · Google Ads"),
+        ("Content & Marketing", "Content Marketing · Blog Writing · Legal Content Creation · Email Marketing (Mailchimp) · Social Media Management · Meta Ads (Facebook/Instagram) · Video Editing (CapCut) · Canva"),
+        ("Platforms & Tech", "WordPress · Notion · Claude AI · HeyGen · Adloop"),
+        ("Other", "Independent Work · Client Communication · Project Management · Reporting & KPI Tracking · Cross-team Collaboration"),
     ]
 
     for label, val in skill_sections:
