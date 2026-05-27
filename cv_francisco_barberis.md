@@ -1,7 +1,7 @@
 # FRANCISCO BARBERIS
 **Law Firm SEO Specialist**
 
-franciscobarberiss@gmail.com | franciscobarberis.com | +54 29444 538946
+franciscobarberiss@gmail.com | +54 29444 538946
 
 ---
 
@@ -83,11 +83,6 @@ Claude AI · HeyGen · Adloop · Notion · CapCut · SAP · ARIBA · Agiloft
 
 **Other**
 Project Management · Client Onboarding · Cross-team Collaboration · Brand Management
-
----
-
-## PORTFOLIO
-franciscobarberis.com
 
 ---
 
