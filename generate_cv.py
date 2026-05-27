@@ -119,7 +119,7 @@ def build_cv(output_path):
             "title": '"Bonacera" Mountain-Inspired Clothing Brand — Founder & Director',
             "date": "Jan 2022 – Present",
             "bullets": [
-                "Built and scaled an e-commerce brand to <b>30,000+ social media followers and 2,500+ online sales</b>.",
+                "Built and scaled an e-commerce brand to <b>30,000+ social media followers and 3,000+ online sales</b>.",
                 "Developed and executed full digital marketing strategy: content planning, social media, and brand identity.",
                 "Ran Meta Ads campaigns, promotions, and product launches driving consistent revenue growth.",
                 "Managed website operations, product listings, customer communication, and analytics tracking.",

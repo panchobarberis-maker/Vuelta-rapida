@@ -45,7 +45,7 @@ Results-driven digital marketing and SEO specialist with 7+ years of experience 
 ### Director — "Bonacera" Mountain-Inspired Clothing Brand
 **Jan 2022 – Present**
 
-- Built and scaled a mountain-inspired e-commerce brand to **30,000+ social media followers and 2,500+ online sales**.
+- Built and scaled a mountain-inspired e-commerce brand to **30,000+ social media followers and 3,000+ online sales**.
 - Developed and executed full digital marketing strategy including content planning, social media management, and brand identity.
 - Coordinated and ran Meta Ads campaigns, promotions, and product launches driving consistent revenue growth.
 - Managed website operations, product listings, customer communication, and analytics tracking.
