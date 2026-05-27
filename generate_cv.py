@@ -61,6 +61,8 @@ def build_cv(output_path):
     story.append(Paragraph("Law Firm SEO &amp; Digital Marketing Specialist", title_style))
     story.append(Paragraph(
         'franciscobarberiss@gmail.com &nbsp;|&nbsp; '
+        '<a href="https://www.linkedin.com/in/franciscobarberis/" color="#1a56db"><u>LinkedIn</u></a>'
+        ' &nbsp;|&nbsp; '
         '<a href="https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC" '
         'color="#1a56db"><u>[ Click here to view Portfolio ]</u></a>',
         contact_style
@@ -137,6 +139,13 @@ def build_cv(output_path):
             story.append(Paragraph(f"• {b}", bullet_style))
         story.append(Spacer(1, 8))
 
+    # Certifications
+    story.append(section_header("CERTIFICATIONS"))
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("Meta Ads Certified", edu_style))
+    story.append(Paragraph("Meta Blueprint", edu_sub_style))
+    story.append(Spacer(1, 10))
+
     # Education
     story.append(section_header("EDUCATION"))
     story.append(Spacer(1, 6))
@@ -153,6 +162,7 @@ def build_cv(output_path):
         ("Analytics & Tools", "Google Analytics (GA4) · Google Search Console · SEMrush · Ahrefs · Screaming Frog · Google Ads"),
         ("Content & Marketing", "Content Marketing · Blog Writing · Legal Content Creation · Email Marketing (Mailchimp) · Social Media Management · Meta Ads (Facebook/Instagram) · Video Editing (CapCut) · Canva"),
         ("Platforms & Tech", "WordPress · Notion · Claude AI · HeyGen · Adloop"),
+        ("Languages", "English (Fluent) · Spanish (Native)"),
         ("Other", "Independent Work · Client Communication · Project Management · Reporting & KPI Tracking · Cross-team Collaboration"),
     ]
 

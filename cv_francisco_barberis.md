@@ -1,7 +1,7 @@
 # FRANCISCO BARBERIS
 **Law Firm SEO & Digital Marketing Specialist**
 
-franciscobarberiss@gmail.com | [View Portfolio →](https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC)
+franciscobarberiss@gmail.com | [LinkedIn](https://www.linkedin.com/in/franciscobarberis/) | [View Portfolio →](https://drive.google.com/drive/u/3/folders/1os-ZbsK1CI9UUji8tLAUt1wGCrk-cbKC)
 
 ---
 
@@ -57,6 +57,12 @@ Results-driven digital marketing and SEO specialist with 7+ years of experience 
 
 ---
 
+## CERTIFICATIONS
+
+**Meta Ads Certified** — Meta Blueprint
+
+---
+
 ## EDUCATION
 
 **Law Degree** — University of Buenos Aires (UBA)
@@ -76,6 +82,9 @@ Content Marketing · Blog Writing · Legal Content Creation · Email Marketing (
 
 **Platforms & Tech**
 WordPress · Notion · Claude AI · HeyGen · Adloop · Mailchimp
+
+**Languages**
+English (Fluent) · Spanish (Native)
 
 **Soft Skills**
 Independent Work · Cross-team Collaboration · Client Communication · Project Management · Reporting & KPI Tracking
