@@ -26,7 +26,7 @@ Marketing professional with 7+ years of hands-on experience driving digital grow
 ---
 
 ### Project Manager — Claura AI
-**[MES] 2025 – Present**
+**Nov 2025 – Present**
 
 - Managed client onboarding and end-to-end project coordination for AI-powered content services.
 - Automated content generation and scheduling workflows for clients using Claude AI, HeyGen, Adloop, and Notion — producing assets ranging from stories to Reels.
