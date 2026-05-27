@@ -60,6 +60,7 @@ Results-driven digital marketing and SEO specialist with 7+ years of experience 
 ## CERTIFICATIONS
 
 **Meta Ads Certified** — Meta Blueprint
+**Google Analytics Certified (GA4)** — Google Skillshop
 
 ---
 

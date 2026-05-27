@@ -144,6 +144,9 @@ def build_cv(output_path):
     story.append(Spacer(1, 6))
     story.append(Paragraph("Meta Ads Certified", edu_style))
     story.append(Paragraph("Meta Blueprint", edu_sub_style))
+    story.append(Spacer(1, 4))
+    story.append(Paragraph("Google Analytics Certified (GA4)", edu_style))
+    story.append(Paragraph("Google Skillshop", edu_sub_style))
     story.append(Spacer(1, 10))
 
     # Education
