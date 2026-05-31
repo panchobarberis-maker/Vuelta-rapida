@@ -6,6 +6,8 @@
 
 ## Layout
 - **Logo siempre abajo a la derecha** — posición absoluta, bottom: 36px, right: 40px
+- El logo muestra: "VUELTA RÁPIDA" (16px) / "CLUB" (14px, blanco visible) / "www.vueltarapida.store" (11px, rojo #e10600)
+- Siempre incluir www.vueltarapida.store debajo del logo
 - **Márgenes**: padding de al menos 48px en todos los lados. El contenido de texto no debe superar el 70% del ancho de la card.
 - **Texto en un solo renglón siempre que sea posible** — usar `white-space: nowrap` en títulos y ajustar font-size si hace falta. Evitar que el texto se parta en dos líneas innecesariamente.
 
