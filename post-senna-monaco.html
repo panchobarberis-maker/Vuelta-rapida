@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senna Mónaco — Vuelta Rápida Club</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    /* ─── CARD 1080x1080 escalada ─── */
+    .card {
+      position: relative;
+      width: 540px;
+      height: 540px;
+      background: #0d0d0d;
+      overflow: hidden;
+    }
+
+    /* Líneas diagonales rojas de fondo — estilo VR */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          -55deg,
+          transparent,
+          transparent 38px,
+          rgba(200,0,0,0.09) 38px,
+          rgba(200,0,0,0.09) 40px
+        );
+      z-index: 0;
+    }
+
+    /* Gradiente lateral derecho — para que entre la foto */
+    .photo-layer {
+      position: absolute;
+      right: -20px;
+      bottom: 0;
+      height: 100%;
+      width: 55%;
+      z-index: 1;
+    }
+
+    .photo-layer img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* máscara que desvanece la foto hacia la izquierda */
+    .photo-layer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #0d0d0d 0%, #0d0d0d 10%, transparent 60%);
+    }
+
+    /* Gradiente inferior oscuro */
+    .bottom-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      z-index: 2;
+    }
+
+    /* ─── CONTENIDO ─── */
+    .content {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 22px;
+    }
+
+    /* Header: logo */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: auto;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo-text .main {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .logo-text .sub {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 9px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 4px;
+    }
+
+    /* Número grande decorativo */
+    .big-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 160px;
+      line-height: 0.85;
+      color: rgba(220,0,0,0.18);
+      margin-bottom: -18px;
+      margin-left: -4px;
+      letter-spacing: -4px;
+      pointer-events: none;
+    }
+
+    /* Título principal */
+    .pre-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #e10600;
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      line-height: 0.9;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    h1 span {
+      color: #e10600;
+    }
+
+    .h1-sub {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    /* Línea roja separadora */
+    .red-bar {
+      width: 50px;
+      height: 3px;
+      background: #e10600;
+      margin-bottom: 14px;
+    }
+
+    /* Cuerpo del dato */
+    .body-text {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      max-width: 260px;
+      margin-bottom: 14px;
+    }
+
+    .body-text em {
+      color: #fff;
+      font-style: italic;
+    }
+
+    /* Tag años */
+    .years {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .year-tag {
+      background: rgba(225,6,0,0.15);
+      border: 1px solid rgba(225,6,0,0.5);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .gp-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+    }
+
+    .dato-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Foto fondo derecha -->
+    <div class="photo-layer">
+      <img src="refe.jpg" alt="Colapinto" />
+    </div>
+
+    <div class="bottom-fade"></div>
+
+    <div class="content">
+
+      <!-- Logo -->
+      <div class="header">
+        <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 75 A45 45 0 1 1 90 75" stroke="#e10600" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <line x1="50" y1="70" x2="75" y2="38" stroke="#e10600" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="50" cy="70" r="6" fill="#e10600"/>
+          <!-- banderín -->
+          <rect x="58" y="55" width="14" height="9" fill="#e10600" rx="1"/>
+          <rect x="72" y="55" width="14" height="9" fill="#fff" rx="1"/>
+          <rect x="58" y="64" width="14" height="9" fill="#fff" rx="1"/>
+          <rect x="72" y="64" width="14" height="9" fill="#e10600" rx="1"/>
+        </svg>
+        <div class="logo-text">
+          <span class="main">VUELTA RÁPIDA</span>
+          <span class="sub">C L U B</span>
+        </div>
+      </div>
+
+      <!-- Número decorativo -->
+      <div class="big-number">6</div>
+
+      <!-- Título -->
+      <div class="pre-label">Dato histórico · Mónaco</div>
+      <h1><span>6 VECES</span><br>EN</h1>
+      <div class="h1-sub">MONTECARLO</div>
+      <div class="red-bar"></div>
+
+      <!-- Tags años -->
+      <div class="years">
+        <span class="year-tag">1987</span>
+        <span class="year-tag">1989</span>
+        <span class="year-tag">1990</span>
+        <span class="year-tag">1991</span>
+        <span class="year-tag">1992</span>
+        <span class="year-tag">1993</span>
+      </div>
+
+      <!-- Cuerpo -->
+      <p class="body-text">
+        Ayrton Senna ganó 6 veces en Mónaco — más que ningún otro piloto en la historia de la F1.<br><br>
+        <em>"Si estás en Mónaco y no sos primero, no sos nada."</em>
+      </p>
+
+      <!-- Footer -->
+      <div class="footer">
+        <span class="gp-label">GP de Mónaco 2026</span>
+        <span class="dato-num">#DATO01</span>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
