@@ -39,6 +39,12 @@ background: repeating-linear-gradient(
 );
 ```
 
+## Contenido del post — regla fundamental
+- **Mínimo texto posible.** El post solo tiene que llamar la atención, no explicar nada.
+- El detalle, la historia y los datos van en la caption de Instagram, no en la imagen.
+- Estructura ideal: pre-label + título grande + dato corto (máx 1 línea) o nada más.
+- **Nunca párrafos, nunca bloques de texto largos.** Si tenés ganas de poner más de 2 líneas de cuerpo, es demasiado.
+
 ## Tipografía
 - **Títulos grandes**: Bebas Neue
 - **Texto cuerpo**: Barlow / Barlow Condensed
