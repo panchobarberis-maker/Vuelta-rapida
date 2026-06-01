@@ -6,6 +6,7 @@
 
 ## Layout
 - **Logo siempre abajo a la derecha** — posición absoluta, bottom: 36px, right: 40px
+- **Archivo de logo correcto**: `Otros/vuelta_rapida_club_vuelta_y_club_blanco.png` — es el único con fondo transparente. NUNCA usar `logo-final-crop.png` (fondo blanco) ni `logo-screen-ready.png`.
 - El logo muestra: "VUELTA RÁPIDA" (16px) / "CLUB" (14px, blanco visible) / "www.vueltarapida.store" (11px, rojo #e10600)
 - Siempre incluir www.vueltarapida.store debajo del logo
 - **Márgenes**: padding de al menos 48px en todos los lados. El contenido de texto no debe superar el 70% del ancho de la card.
