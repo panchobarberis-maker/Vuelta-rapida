@@ -6,7 +6,6 @@
 
 ## Layout
 - **Logo siempre abajo a la derecha** — posición absoluta, bottom: 36px, right: 40px
-- **Archivo de logo correcto**: `Otros/vuelta_rapida_club_vuelta_y_club_blanco.png` — es el único con fondo transparente. NUNCA usar `logo-final-crop.png` (fondo blanco) ni `logo-screen-ready.png`.
 - El logo muestra: "VUELTA RÁPIDA" (16px) / "CLUB" (14px, blanco visible) / "www.vueltarapida.store" (11px, rojo #e10600)
 - Siempre incluir www.vueltarapida.store debajo del logo
 - **Márgenes**: padding de al menos 48px en todos los lados. El contenido de texto no debe superar el 70% del ancho de la card.
@@ -39,12 +38,6 @@ background: repeating-linear-gradient(
   rgba(200,0,0,0.07) 50px
 );
 ```
-
-## Contenido del post — regla fundamental
-- **Mínimo texto posible.** El post solo tiene que llamar la atención, no explicar nada.
-- El detalle, la historia y los datos van en la caption de Instagram, no en la imagen.
-- Estructura ideal: pre-label + título grande + dato corto (máx 1 línea) o nada más.
-- **Nunca párrafos, nunca bloques de texto largos.** Si tenés ganas de poner más de 2 líneas de cuerpo, es demasiado.
 
 ## Tipografía
 - **Títulos grandes**: Bebas Neue
