@@ -1,20 +1,22 @@
 from PIL import Image, ImageDraw, ImageFont
-import os, textwrap
+import os
 
-W, H = 1080, 1350
-NAVY   = (26, 46, 74)
-CREAM  = (245, 239, 230)
-GOLD   = (194, 130, 40)
-WHITE  = (255, 255, 255)
-LGRAY  = (180, 170, 155)
+W, H  = 1080, 1350
+NAVY  = (26, 46, 74)
+CREAM = (240, 232, 218)
+GOLD  = (190, 128, 38)
+WHITE = (255, 255, 255)
+GRAY  = (155, 142, 122)
+PAD   = 88
 
-BOLD   = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
-REG    = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
-SERIF  = "/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf"
-SERIF_R= "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
+BOLD  = "/usr/share/fonts/truetype/freefont/FreeSerifBold.ttf"
+REG   = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf"
+ITAL  = "/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf"
+BDIT  = "/usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf"
+SANS  = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+SANSB = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
 
-def fnt(path, size):
-    return ImageFont.truetype(path, size)
+def f(path, size): return ImageFont.truetype(path, size)
 
 def wrap(text, font, draw, max_w):
     words = text.split()
@@ -29,287 +31,262 @@ def wrap(text, font, draw, max_w):
     if line: lines.append(line)
     return lines
 
-def draw_text_block(draw, lines, font, color, x, y, align="center", page_w=W, line_spacing=1.3):
+def put(draw, lines, font, color, y, gap=1.25):
     for line in lines:
         lw = draw.textlength(line, font=font)
-        lh = font.size
-        if align == "center":
-            draw.text(((page_w - lw) / 2, y), line, font=font, fill=color)
-        else:
-            draw.text((x, y), line, font=font, fill=color)
-        y += int(lh * line_spacing)
+        draw.text(((W - lw) / 2, y), line, font=font, fill=color)
+        y += int(font.size * gap)
     return y
 
-def logo(draw, bg):
-    text_color = GOLD if bg == NAVY else GOLD
-    f = fnt(BOLD, 32)
-    label = "MJ  TRUST LAW"
-    lw = draw.textlength(label, font=f)
+def logo(draw):
+    lf = f(SANSB, 28)
+    label = "MJ   TRUST LAW"
+    lw = draw.textlength(label, font=lf)
     x = (W - lw) / 2
-    draw.text((x, 60), label, font=f, fill=text_color)
-    draw.line([(x, 102), (x + lw, 102)], fill=GOLD, width=2)
+    draw.text((x, 55), label, font=lf, fill=GOLD)
+    draw.line([(x, 94), (x + lw, 94)], fill=GOLD, width=2)
 
-def footer(draw, bg, page_num):
-    y = H - 52
-    draw.line([(60, y - 14), (W - 60, y - 14)], fill=LGRAY if bg==CREAM else (80,100,130), width=1)
-    fc = LGRAY if bg == CREAM else (120, 140, 170)
-    f = fnt(REG, 22)
-    draw.text((60, y), "2026", font=f, fill=fc)
+def footer(draw, page_num):
+    y = H - 54
+    draw.line([(PAD, y - 16), (W - PAD, y - 16)], fill=GRAY, width=1)
+    sf = f(SANS, 22)
+    draw.text((PAD, y), "2026", font=sf, fill=GRAY)
     site = "MJTRUST LAW.COM"
-    sw = draw.textlength(site, font=f)
-    draw.text(((W - sw) / 2, y), site, font=f, fill=fc)
+    sw = draw.textlength(site, font=sf)
+    draw.text(((W - sw) / 2, y), site, font=sf, fill=GRAY)
     pn = f"PG0{page_num}"
-    pw = draw.textlength(pn, font=f)
-    draw.text((W - 60 - pw, y), pn, font=f, fill=fc)
+    pw = draw.textlength(pn, font=sf)
+    draw.text((W - PAD - pw, y), pn, font=sf, fill=GRAY)
 
-def new(bg): return Image.new("RGB", (W, H), bg)
+def divider(draw, y, color=GOLD):
+    draw.line([(PAD, y), (W - PAD, y)], fill=color, width=1)
+    return y
+
+def base(): return Image.new("RGB", (W, H), CREAM)
 
 OUT = "/home/user/Vuelta-rapida/carousel"
 os.makedirs(OUT, exist_ok=True)
-PAD = 90
 
-# ── SLIDE 1 ── Hook / Navy
-img = new(NAVY); d = ImageDraw.Draw(img)
-logo(d, NAVY)
+# ── SLIDE 1 — Hook
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
 
-# Gold top label
-label = "ESTATE PLANNING MISTAKE"
-lf = fnt(BOLD, 26)
+# Top label
+lf = f(SANS, 24); label = "ESTATE PLANNING ALERT"
 lw = d.textlength(label, font=lf)
-d.text(((W-lw)/2, 155), label, font=lf, fill=GOLD)
-d.line([(PAD, 192),(W-PAD, 192)], fill=GOLD, width=1)
+d.text(((W - lw) / 2, 122), label, font=lf, fill=GOLD)
+divider(d, 155)
 
-# Big serif quote
-q1 = fnt(SERIF, 68)
-q2 = fnt(SERIF, 62)
-lines1 = ["Most people think:", '"Worst case,', 'I forgot a small', 'account…', 'no big deal."']
-y = 225
-for i, line in enumerate(lines1):
-    lw2 = d.textlength(line, font=q1)
-    d.text(((W-lw2)/2, y), line, font=q1, fill=WHITE)
-    y += 82
+# Opening italic quote
+y = 185
+q = f(BDIT, 62)
+lines = wrap('Most people think:', q, d, W - PAD * 2)
+y = put(d, lines, q, NAVY, y, 1.2)
 
-# Gold subtext
-d.line([(PAD, y+18),(W-PAD, y+18)], fill=GOLD, width=1)
-y += 38
-sub = fnt(BOLD, 34)
-sub_lines = wrap("But in California, that tiny mistake can break your entire estate plan.", sub, d, W - PAD*2)
-y = draw_text_block(d, sub_lines, sub, GOLD, PAD, y, line_spacing=1.4)
+q2 = f(ITAL, 66)
+quote_lines = ['"Worst case,', 'I forgot a small', 'account…', 'no big deal."']
+for line in quote_lines:
+    lw2 = d.textlength(line, font=q2)
+    d.text(((W - lw2) / 2, y), line, font=q2, fill=NAVY)
+    y += 74
 
-# CTA arrow
+y += 12
+divider(d, y)
 y += 30
-cf = fnt(REG, 30)
-cw = d.textlength("Swipe to see how  →", font=cf)
-d.text(((W-cw)/2, y), "Swipe to see how  →", font=cf, fill=LGRAY)
 
-footer(d, NAVY, 1)
-img.save(f"{OUT}/slide_01.png")
-print("Slide 1 done")
+bf = f(BOLD, 36)
+sub = wrap("But in California, that tiny mistake can break your entire estate plan.", bf, d, W - PAD * 2)
+y = put(d, sub, bf, GOLD, y, 1.35)
 
-# ── SLIDE 2 ── Setup / Cream
-img = new(CREAM); d = ImageDraw.Draw(img)
-logo(d, CREAM)
+y += 20
+af = f(ITAL, 30)
+arr = "Swipe to see how  →"
+aw = d.textlength(arr, font=af)
+d.text(((W - aw) / 2, y), arr, font=af, fill=GRAY)
 
-hf = fnt(BOLD, 54)
-h_lines = wrap("LET'S SAY YOU HAVE A TRUST.", hf, d, W - PAD*2)
-y = 170
-y = draw_text_block(d, h_lines, hf, NAVY, PAD, y, line_spacing=1.25)
+footer(d, 1)
+img.save(f"{OUT}/slide_01.png"); print("Slide 1 done")
 
-d.line([(PAD, y+20),(W-PAD, y+20)], fill=GOLD, width=1)
-y += 50
+# ── SLIDE 2 — Setup
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
+divider(d, 150)
+y = 178
+
+hf = f(BOLD, 58)
+h = wrap("LET'S SAY YOU HAVE A TRUST.", hf, d, W - PAD * 2)
+y = put(d, h, hf, NAVY, y, 1.2)
+
+y += 16; divider(d, y); y += 40
 
 items = ["Your home is in it.", "Your beneficiaries are named.", "Everything looks perfect."]
-cf2 = fnt(REG, 38)
+cf = f(REG, 40)
 for item in items:
-    check_f = fnt(BOLD, 38)
-    d.text((PAD + 10, y), "✓", font=check_f, fill=GOLD)
-    d.text((PAD + 55, y), item, font=cf2, fill=NAVY)
-    y += 68
+    gf = f(BOLD, 38)
+    d.text((PAD + 8, y + 2), "✓", font=gf, fill=GOLD)
+    d.text((PAD + 56, y), item, font=cf, fill=NAVY)
+    y += 70
 
-d.line([(PAD, y+15),(W-PAD, y+15)], fill=GOLD, width=1)
-y += 50
+y += 10; divider(d, y); y += 40
 
-miss_f = fnt(SERIF, 52)
+mf = f(BDIT, 56)
 miss = "One thing gets missed…"
-mw = d.textlength(miss, font=miss_f)
-d.text(((W-mw)/2, y), miss, font=miss_f, fill=NAVY)
+mw = d.textlength(miss, font=mf)
+d.text(((W - mw) / 2, y), miss, font=mf, fill=NAVY)
 
-footer(d, CREAM, 2)
-img.save(f"{OUT}/slide_02.png")
-print("Slide 2 done")
+footer(d, 2)
+img.save(f"{OUT}/slide_02.png"); print("Slide 2 done")
 
-# ── SLIDE 3 ── Problem / Navy
-img = new(NAVY); d = ImageDraw.Draw(img)
-logo(d, NAVY)
+# ── SLIDE 3 — The $500
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
 
-label2 = "THE OVERLOOKED ASSET"
-lf2 = fnt(BOLD, 26)
-lw2 = d.textlength(label2, font=lf2)
-d.text(((W-lw2)/2, 155), label2, font=lf2, fill=GOLD)
-d.line([(PAD, 192),(W-PAD, 192)], fill=GOLD, width=1)
+lf3 = f(SANS, 24); label3 = "THE OVERLOOKED ASSET"
+lw3 = d.textlength(label3, font=lf3)
+d.text(((W - lw3) / 2, 122), label3, font=lf3, fill=GOLD)
+divider(d, 155)
 
-big_f = fnt(BOLD, 110)
-big = "$ 500"
-bw = d.textlength(big, font=big_f)
-d.text(((W-bw)/2, 215), big, font=big_f, fill=WHITE)
+bigf = f(BOLD, 118)
+big = "$500"
+bw = d.textlength(big, font=bigf)
+d.text(((W - bw) / 2, 175), big, font=bigf, fill=NAVY)
 
-sub2 = fnt(BOLD, 34)
-acc = "A bank account still in your individual name."
-aw = d.textlength(acc, font=sub2)
-d.text(((W-aw)/2, 355), acc, font=sub2, fill=GOLD)
+sf3 = f(BDIT, 36)
+sub3 = "A bank account still in your individual name."
+sw3 = d.textlength(sub3, font=sf3)
+d.text(((W - sw3) / 2, 325), sub3, font=sf3, fill=GOLD)
 
-d.line([(PAD, 415),(W-PAD, 415)], fill=(60,85,120), width=1)
+y = 380; divider(d, y); y += 36
 
-body_f = fnt(REG, 36)
-b1 = "On its own? Under California's small"
-b2 = "estate rules — no probate needed."
-for i, line in enumerate([b1, b2]):
-    lw3 = d.textlength(line, font=body_f)
-    d.text(((W-lw3)/2, 440 + i*52), line, font=body_f, fill=WHITE)
+bf3 = f(REG, 38)
+body3 = ["On its own? Under California's small", "estate rules — no probate needed."]
+y = put(d, body3, bf3, NAVY, y, 1.3)
 
-d.line([(PAD, 560),(W-PAD, 560)], fill=GOLD, width=2)
+y += 20; divider(d, y); y += 36
 
-warn_f = fnt(BOLD, 40)
-warn_lines = wrap("But here's where it gets risky…", warn_f, d, W - PAD*2)
-y = 590
-y = draw_text_block(d, warn_lines, warn_f, GOLD, PAD, y, line_spacing=1.3)
+wf3 = f(BOLD, 44)
+warn3 = wrap("But here's where it gets risky…", wf3, d, W - PAD * 2)
+put(d, warn3, wf3, GOLD, y, 1.3)
 
-footer(d, NAVY, 3)
-img.save(f"{OUT}/slide_03.png")
-print("Slide 3 done")
+footer(d, 3)
+img.save(f"{OUT}/slide_03.png"); print("Slide 3 done")
 
-# ── SLIDE 4 ── Escalation / Cream
-img = new(CREAM); d = ImageDraw.Draw(img)
-logo(d, CREAM)
+# ── SLIDE 4 — Escalation
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
+divider(d, 150); y = 178
 
-hf4 = fnt(BOLD, 46)
-h4 = wrap("THAT ONE ACCOUNT IS OFTEN A SIGN OF A BIGGER ISSUE.", hf4, d, W - PAD*2)
-y = 165
-y = draw_text_block(d, h4, hf4, NAVY, PAD, y, line_spacing=1.2)
+hf4 = f(BOLD, 48)
+h4 = wrap("THAT ONE ACCOUNT IS OFTEN A SIGN OF A BIGGER ISSUE.", hf4, d, W - PAD * 2)
+y = put(d, h4, hf4, NAVY, y, 1.2)
 
-d.line([(PAD, y+15),(W-PAD, y+15)], fill=GOLD, width=1)
-y += 45
+y += 16; divider(d, y); y += 36
 
-intro_f = fnt(SERIF_R, 36)
-intro = "Something else may have been missed too."
-iw = d.textlength(intro, font=intro_f)
-d.text(((W-iw)/2, y), intro, font=intro_f, fill=NAVY)
-y += 65
+if4 = f(ITAL, 38)
+intro4 = "Something else may have been missed too."
+iw4 = d.textlength(intro4, font=if4)
+d.text(((W - iw4) / 2, y), intro4, font=if4, fill=NAVY)
+y += 64
 
 items4 = ["An old retirement account.", "A second property.", "An investment account you forgot to transfer."]
-bf4 = fnt(REG, 36)
+rf4 = f(REG, 36)
 for item in items4:
-    iw2 = d.textlength("◆", font=fnt(BOLD, 30))
-    d.text((PAD + 10, y + 4), "◆", font=fnt(BOLD, 30), fill=GOLD)
-    d.text((PAD + 50, y), item, font=bf4, fill=NAVY)
-    y += 62
+    d.text((PAD + 8, y + 4), "◆", font=f(BOLD, 28), fill=GOLD)
+    d.text((PAD + 50, y), item, font=rf4, fill=NAVY)
+    y += 60
 
-d.line([(PAD, y+15),(W-PAD, y+15)], fill=GOLD, width=2)
-y += 40
+y += 12; divider(d, y); y += 36
 
-key_f = fnt(BOLD, 42)
+kf4 = f(BOLD, 44)
 k1 = "The $500 isn't the problem."
 k2 = "What it REVEALS is."
-for i, line in enumerate([k1, k2]):
-    lw4 = d.textlength(line, font=key_f)
-    col = NAVY if i == 0 else GOLD
-    d.text(((W-lw4)/2, y + i*60), line, font=key_f, fill=col)
+k1w = d.textlength(k1, font=kf4)
+k2w = d.textlength(k2, font=kf4)
+d.text(((W - k1w) / 2, y), k1, font=kf4, fill=NAVY); y += 58
+d.text(((W - k2w) / 2, y), k2, font=kf4, fill=GOLD)
 
-footer(d, CREAM, 4)
-img.save(f"{OUT}/slide_04.png")
-print("Slide 4 done")
+footer(d, 4)
+img.save(f"{OUT}/slide_04.png"); print("Slide 4 done")
 
-# ── SLIDE 5 ── Consequence / Navy
-img = new(NAVY); d = ImageDraw.Draw(img)
-logo(d, NAVY)
+# ── SLIDE 5 — Consequence
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
 
-label5 = "CALIFORNIA PROBATE LAW"
-lf5 = fnt(BOLD, 26)
+lf5 = f(SANS, 24); label5 = "CALIFORNIA PROBATE LAW"
 lw5 = d.textlength(label5, font=lf5)
-d.text(((W-lw5)/2, 155), label5, font=lf5, fill=GOLD)
-d.line([(PAD, 192),(W-PAD, 192)], fill=GOLD, width=1)
+d.text(((W - lw5) / 2, 122), label5, font=lf5, fill=GOLD)
+divider(d, 155); y = 182
 
-hf5 = fnt(BOLD, 52)
-h5 = wrap("PROBATE FEES ARE BASED ON THE GROSS VALUE OF THE ESTATE.", hf5, d, W - PAD*2)
-y = 220
-y = draw_text_block(d, h5, hf5, WHITE, PAD, y, line_spacing=1.2)
+hf5 = f(BOLD, 52)
+h5 = wrap("PROBATE FEES ARE BASED ON THE GROSS VALUE OF THE ESTATE.", hf5, d, W - PAD * 2)
+y = put(d, h5, hf5, NAVY, y, 1.2)
 
-d.line([(PAD, y+15),(W-PAD, y+15)], fill=(60,85,120), width=1)
-y += 40
+y += 16; divider(d, y); y += 36
 
-sub5_f = fnt(REG, 36)
-subs = ["Not the size of the mistake.", "Not just the $500 account."]
-for line in subs:
-    lw6 = d.textlength(line, font=sub5_f)
-    d.text(((W-lw6)/2, y), line, font=sub5_f, fill=LGRAY)
-    y += 55
+sf5 = f(ITAL, 36)
+subs5 = ["Not the size of the mistake.", "Not just the $500 account."]
+y = put(d, subs5, sf5, GRAY, y, 1.4)
 
-d.line([(PAD, y+10),(W-PAD, y+10)], fill=GOLD, width=2)
-y += 35
+y += 16; divider(d, y, GOLD); y += 36
 
-warn5_f = fnt(BOLD, 40)
-w5 = wrap("If ANY significant asset is outside the trust — real estate, accounts, property — probate is now on the table.", warn5_f, d, W - PAD*2)
-y = draw_text_block(d, w5, warn5_f, GOLD, PAD, y, line_spacing=1.3)
+wf5 = f(BOLD, 40)
+w5 = wrap("If ANY significant asset is outside the trust — real estate, accounts, property — probate is now on the table.", wf5, d, W - PAD * 2)
+put(d, w5, wf5, GOLD, y, 1.3)
 
-footer(d, NAVY, 5)
-img.save(f"{OUT}/slide_05.png")
-print("Slide 5 done")
+footer(d, 5)
+img.save(f"{OUT}/slide_05.png"); print("Slide 5 done")
 
-# ── SLIDE 6 ── CTA / Cream
-img = new(CREAM); d = ImageDraw.Draw(img)
-logo(d, CREAM)
+# ── SLIDE 6 — CTA
+img = base(); d = ImageDraw.Draw(img)
+logo(d)
+divider(d, 150); y = 178
 
-hf6 = fnt(BOLD, 52)
-h6 = wrap("THE REAL PROBLEM ISN'T THE $500.", hf6, d, W - PAD*2)
-y = 168
-y = draw_text_block(d, h6, hf6, NAVY, PAD, y, line_spacing=1.2)
+hf6 = f(BOLD, 52)
+h6 = wrap("THE REAL PROBLEM ISN'T THE $500.", hf6, d, W - PAD * 2)
+y = put(d, h6, hf6, NAVY, y, 1.2)
 
-d.line([(PAD, y+15),(W-PAD, y+15)], fill=GOLD, width=1)
-y += 42
+y += 16; divider(d, y); y += 36
 
-intro6 = fnt(SERIF_R, 36)
-iline = "It's what it reveals:"
-ilw = d.textlength(iline, font=intro6)
-d.text(((W-ilw)/2, y), iline, font=intro6, fill=NAVY)
-y += 62
+if6 = f(ITAL, 36)
+intro6 = "It's what it reveals:"
+iw6 = d.textlength(intro6, font=if6)
+d.text(((W - iw6) / 2, y), intro6, font=if6, fill=NAVY)
+y += 60
 
 items6 = ["An incomplete plan.", "Unfunded assets.", "A system that fails your family when it matters most."]
-bf6 = fnt(REG, 34)
+rf6 = f(REG, 34)
 for item in items6:
-    d.text((PAD + 10, y + 4), "◆", font=fnt(BOLD, 28), fill=GOLD)
-    lines_item = wrap(item, bf6, d, W - PAD*2 - 50)
-    for li in lines_item:
-        d.text((PAD + 50, y), li, font=bf6, fill=NAVY)
-        y += 50
+    d.text((PAD + 8, y + 4), "◆", font=f(BOLD, 28), fill=GOLD)
+    lines_i = wrap(item, rf6, d, W - PAD * 2 - 50)
+    for li in lines_i:
+        d.text((PAD + 50, y), li, font=rf6, fill=NAVY)
+        y += 48
     y += 8
 
-d.line([(PAD, y+10),(W-PAD, y+10)], fill=GOLD, width=2)
-y += 35
+y += 16; divider(d, y, GOLD); y += 36
 
-close_f = fnt(SERIF, 38)
+cf6 = f(BDIT, 38)
 c1 = "It's not the big things that break a plan."
 c2 = "It's the small ones that get overlooked."
-for i, line in enumerate([c1, c2]):
-    clw = d.textlength(line, font=close_f)
-    d.text(((W-clw)/2, y + i*56), line, font=close_f, fill=NAVY)
-y += 130
+for line in [c1, c2]:
+    lw6 = d.textlength(line, font=cf6)
+    d.text(((W - lw6) / 2, y), line, font=cf6, fill=NAVY)
+    y += 54
 
-cta_f = fnt(BOLD, 36)
-cta = "📅  Book a Free Consultation"
-ctaw = d.textlength(cta, font=cta_f)
-# CTA button
-btn_x = (W - ctaw - 60) // 2
-btn_y = y
-d.rounded_rectangle([btn_x, btn_y, btn_x + ctaw + 60, btn_y + 64], radius=8, fill=NAVY)
-d.text((btn_x + 30, btn_y + 14), cta, font=cta_f, fill=WHITE)
+y += 20
+btf = f(SANSB, 34)
+cta = "Book a Free Consultation"
+ctaw = d.textlength(cta, font=btf)
+bx = (W - ctaw - 60) // 2
+d.rounded_rectangle([bx, y, bx + ctaw + 60, y + 62], radius=6, fill=NAVY)
+d.text((bx + 30, y + 14), cta, font=btf, fill=WHITE)
 
-y += 85
-site_f = fnt(REG, 28)
+y += 80
+sitef = f(SANS, 26)
 site = "mjtrust law.com"
-sw = d.textlength(site, font=site_f)
-d.text(((W-sw)/2, y), site, font=site_f, fill=GOLD)
+sitew = d.textlength(site, font=sitef)
+d.text(((W - sitew) / 2, y), site, font=sitef, fill=GOLD)
 
-footer(d, CREAM, 6)
-img.save(f"{OUT}/slide_06.png")
-print("Slide 6 done")
+footer(d, 6)
+img.save(f"{OUT}/slide_06.png"); print("Slide 6 done")
 print(f"\nAll slides saved to {OUT}/")
