@@ -4,17 +4,18 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether
 from reportlab.lib.styles import ParagraphStyle
 
-NAVY  = colors.HexColor("#1a2e4a")
-GOLD  = colors.HexColor("#C2801A")
-CREAM = colors.HexColor("#F0E8DC")
-LGRAY = colors.HexColor("#f7f3ee")
-GRAY  = colors.HexColor("#777777")
-WHITE = colors.white
-RED   = colors.HexColor("#c0392b")
-GREEN = colors.HexColor("#1a7a4a")
-PURP  = colors.HexColor("#6d3a7a")
-BLUE  = colors.HexColor("#1a4a7a")
-ORG   = colors.HexColor("#d35400")
+NAVY     = colors.HexColor("#1a2e4a")
+GOLD     = colors.HexColor("#C2801A")
+CREAM    = colors.HexColor("#F0E8DC")
+LAVENDER = colors.HexColor("#ece0f0")
+LGRAY    = colors.HexColor("#f7f3ee")
+GRAY     = colors.HexColor("#777777")
+WHITE    = colors.white
+RED      = colors.HexColor("#c0392b")
+GREEN    = colors.HexColor("#1a7a4a")
+PURP     = colors.HexColor("#6d3a7a")
+BLUE     = colors.HexColor("#1a4a7a")
+ORG      = colors.HexColor("#d35400")
 
 FORMAT_COLORS = {
     "Carrusel":      colors.HexColor("#2e6da4"),
@@ -27,37 +28,49 @@ LANG_COLORS = {
     "EN":    BLUE,
     "ES/EN": PURP,
 }
+STORY_TYPE_COLORS = {
+    "Oficina":   colors.HexColor("#1a7a4a"),
+    "Review":    colors.HexColor("#c0392b"),
+    "Educativa": colors.HexColor("#7d3c98"),
+}
+STORY_TYPE_LABELS = {
+    "Oficina":   "Story: Oficina & Contacto",
+    "Review":    "Story: Review de Cliente",
+    "Educativa": "Story: Historia Educativa",
+}
+
 
 def build(output_path):
     doc = SimpleDocTemplate(output_path, pagesize=letter,
                             leftMargin=0.6*inch, rightMargin=0.6*inch,
                             topMargin=0.6*inch, bottomMargin=0.6*inch)
 
-    h1    = ParagraphStyle("h1", fontSize=22, textColor=NAVY, fontName="Helvetica-Bold", spaceAfter=2, leading=26)
-    h2    = ParagraphStyle("h2", fontSize=12, textColor=NAVY, fontName="Helvetica-Bold", spaceAfter=2, leading=15)
-    sub   = ParagraphStyle("sub", fontSize=9, textColor=GRAY, fontName="Helvetica", spaceAfter=4, leading=12)
-    body  = ParagraphStyle("body", fontSize=9.5, textColor=colors.black, fontName="Helvetica", spaceAfter=3, leading=13)
-    bold  = ParagraphStyle("bold", fontSize=9.5, textColor=NAVY, fontName="Helvetica-Bold", spaceAfter=2, leading=13)
-    copy_s= ParagraphStyle("copy", fontSize=9, textColor=colors.HexColor("#333333"), fontName="Helvetica-Oblique", spaceAfter=2, leading=13, leftIndent=8)
-    tag_s = ParagraphStyle("tag", fontSize=8, textColor=WHITE, fontName="Helvetica-Bold", leading=10)
-    wk_s  = ParagraphStyle("wk", fontSize=11, textColor=WHITE, fontName="Helvetica-Bold", leading=14)
-    cal_hdr= ParagraphStyle("calhdr", fontSize=8, textColor=WHITE, fontName="Helvetica-Bold", leading=10, alignment=1)
-    cal_day= ParagraphStyle("calday", fontSize=9, textColor=NAVY, fontName="Helvetica-Bold", leading=11, alignment=1)
-    cal_emp= ParagraphStyle("calemp", fontSize=8, textColor=GRAY, fontName="Helvetica", leading=10, alignment=1)
-    cal_ttl= ParagraphStyle("calttl", fontSize=7, textColor=NAVY, fontName="Helvetica", leading=9, alignment=1)
-    cal_sp = ParagraphStyle("calsp", fontSize=6.5, textColor=RED, fontName="Helvetica-Bold", leading=9, alignment=1)
+    h1     = ParagraphStyle("h1",   fontSize=22, textColor=NAVY,  fontName="Helvetica-Bold",    spaceAfter=2,  leading=26)
+    h2     = ParagraphStyle("h2",   fontSize=12, textColor=NAVY,  fontName="Helvetica-Bold",    spaceAfter=2,  leading=15)
+    sub    = ParagraphStyle("sub",  fontSize=9,  textColor=GRAY,  fontName="Helvetica",          spaceAfter=4,  leading=12)
+    body   = ParagraphStyle("body", fontSize=9.5,textColor=colors.black, fontName="Helvetica",  spaceAfter=3,  leading=13)
+    bold   = ParagraphStyle("bold", fontSize=9.5,textColor=NAVY,  fontName="Helvetica-Bold",    spaceAfter=2,  leading=13)
+    copy_s = ParagraphStyle("copy", fontSize=9,  textColor=colors.HexColor("#333333"),
+                            fontName="Helvetica-Oblique", spaceAfter=2, leading=13, leftIndent=8)
+    tag_s  = ParagraphStyle("tag",  fontSize=8,  textColor=WHITE, fontName="Helvetica-Bold",    leading=10)
+    wk_s   = ParagraphStyle("wk",   fontSize=11, textColor=WHITE, fontName="Helvetica-Bold",    leading=14)
+    cal_hdr= ParagraphStyle("calhdr",fontSize=8, textColor=WHITE, fontName="Helvetica-Bold",    leading=10, alignment=1)
+    cal_day= ParagraphStyle("calday",fontSize=9, textColor=NAVY,  fontName="Helvetica-Bold",    leading=11, alignment=1)
+    cal_emp= ParagraphStyle("calemp",fontSize=8, textColor=GRAY,  fontName="Helvetica",          leading=10, alignment=1)
+    cal_ttl= ParagraphStyle("calttl",fontSize=7, textColor=NAVY,  fontName="Helvetica",          leading=9,  alignment=1)
+    cal_sp = ParagraphStyle("calsp", fontSize=6.5,textColor=RED,  fontName="Helvetica-Bold",    leading=9,  alignment=1)
 
-    def sec_hdr(text):
+    def sec_hdr(text, bg=NAVY):
         t = Table([[Paragraph(text, wk_s)]], colWidths=[doc.width])
         t.setStyle(TableStyle([
-            ("BACKGROUND",(0,0),(-1,-1),NAVY),
+            ("BACKGROUND",(0,0),(-1,-1),bg),
             ("TOPPADDING",(0,0),(-1,-1),7),("BOTTOMPADDING",(0,0),(-1,-1),7),
             ("LEFTPADDING",(0,0),(-1,-1),10),
         ]))
         return t
 
-    def tag(label, color):
-        t = Table([[Paragraph(label, tag_s)]], colWidths=[1.2*inch])
+    def tag(label, color, width=1.2*inch):
+        t = Table([[Paragraph(label, tag_s)]], colWidths=[width])
         t.setStyle(TableStyle([
             ("BACKGROUND",(0,0),(-1,-1),color),
             ("TOPPADDING",(0,0),(-1,-1),3),("BOTTOMPADDING",(0,0),(-1,-1),3),
@@ -65,39 +78,53 @@ def build(output_path):
         ]))
         return t
 
-    # ── CALENDAR GRID ──────────────────────────────────────────────
-    # June 2026: starts Monday June 1
-    # Posts: Mon, Wed, Fri, Sun
+    # ── POST DATA ─────────────────────────────────────────────────
     POST_DAYS = {
-        1:  ("Contrast Hook", "Post Estático", "ES"),
-        3:  ("Caso: Cuenta olvidada", "Carrusel", "ES"),
-        5:  ("Reel: ¿Qué es un trust?", "Reel", "ES"),
-        7:  ("Mito #1: El testamento", "Carrusel", "EN"),
-        8:  ("Contrast Hook #2", "Post Estático", "ES"),
-        10: ("Caso: Bienes en 2 países", "Carrusel", "ES"),
-        12: ("Podcast Clip #1", "Podcast Clip", "ES/EN"),
-        14: ("3 activos sin testamento", "Post Estático", "EN"),
-        15: ("Reel: 3 errores comunes", "Reel", "ES"),
-        17: ("Mito #2: Solo para ricos", "Carrusel", "ES"),
-        19: ("Immigrant Heritage Month", "Post Estático", "ES/EN"),
-        21: ("Father's Day Reel", "Reel", "ES"),
-        22: ("Contrast Hook #3", "Post Estático", "ES"),
-        24: ("Podcast Clip #2", "Podcast Clip", "ES"),
-        26: ("Caso: Dueño de negocio", "Carrusel", "EN"),
-        28: ("Reel CTA: Consulta gratis", "Reel", "ES"),
+        1:  ("Contrast Hook",          "Post Estático", "ES"),
+        3:  ("Caso: Cuenta olvidada",  "Carrusel",      "ES"),
+        5:  ("Reel: ¿Qué es un trust?","Reel",          "ES"),
+        7:  ("Mito #1: El testamento", "Carrusel",      "EN"),
+        8:  ("Contrast Hook #2",       "Post Estático", "ES"),
+        10: ("Caso: Bienes en 2 países","Carrusel",     "ES"),
+        12: ("Podcast Clip #1",        "Podcast Clip",  "ES/EN"),
+        14: ("3 activos sin testamento","Post Estático","EN"),
+        15: ("Reel: 3 errores comunes","Reel",          "ES"),
+        17: ("Mito #2: Solo para ricos","Carrusel",     "ES"),
+        19: ("Immigrant Heritage Month","Post Estático","ES/EN"),
+        21: ("Father's Day Reel",      "Reel",          "ES"),
+        22: ("Contrast Hook #3",       "Post Estático", "ES"),
+        24: ("Podcast Clip #2",        "Podcast Clip",  "ES"),
+        26: ("Caso: Dueño de negocio", "Carrusel",      "EN"),
+        28: ("Reel CTA: Consulta gratis","Reel",        "ES"),
     }
     SPECIAL = {19: "Juneteenth", 21: "Father's Day"}
 
-    # June 2026: Mon=1, so weekday of June 1 = 0 (Mon)
-    days_row = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
-    cal_col_w = doc.width / 7
+    # ── STORY DATA ────────────────────────────────────────────────
+    # 3 stories/week: Oficina (Mon), Review (Wed/Tue), Educativa (Fri/Thu)
+    STORY_DAYS = {
+        1:  ("Oficina",   "ES"),   # Mon W1
+        3:  ("Review",    "ES"),   # Wed W1
+        5:  ("Educativa", "ES"),   # Fri W1
+        8:  ("Oficina",   "ES"),   # Mon W2
+        10: ("Review",    "ES"),   # Wed W2
+        11: ("Educativa", "ES"),   # Thu W2 (story-only)
+        15: ("Oficina",   "ES"),   # Mon W3
+        16: ("Review",    "ES"),   # Tue W3 (story-only)
+        18: ("Educativa", "ES"),   # Thu W3 (story-only)
+        22: ("Oficina",   "ES"),   # Mon W4
+        24: ("Review",    "ES"),   # Wed W4
+        26: ("Educativa", "ES"),   # Fri W4
+    }
+    story_only_days = [d for d in STORY_DAYS if d not in POST_DAYS]
 
-    # Build calendar rows
-    cal_rows = [[Paragraph(d, cal_hdr) for d in days_row]]
-    # June has 30 days, starts Monday
-    week = [None]*7
+    # ── CALENDAR GRID ──────────────────────────────────────────────
+    days_row   = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+    cal_col_w  = doc.width / 7
+    cal_rows   = [[Paragraph(d, cal_hdr) for d in days_row]]
+    week       = [None]*7
+
     for day in range(1, 31):
-        dow = (day - 1) % 7  # 0=Mon
+        dow     = (day - 1) % 7
         week[dow] = day
         if dow == 6 or day == 30:
             row = []
@@ -108,15 +135,32 @@ def build(output_path):
                 elif d in POST_DAYS:
                     title, fmt, lang = POST_DAYS[d]
                     fc = FORMAT_COLORS.get(fmt, NAVY)
-                    cell_content = [
+                    cell = [
                         Paragraph(str(d), cal_day),
                         Paragraph(title, cal_ttl),
                         Paragraph(fmt, ParagraphStyle("cf", fontSize=6.5, textColor=fc,
                                   fontName="Helvetica-Bold", leading=8, alignment=1)),
                     ]
                     if d in SPECIAL:
-                        cell_content.append(Paragraph(SPECIAL[d], cal_sp))
-                    row.append(cell_content)
+                        cell.append(Paragraph(SPECIAL[d], cal_sp))
+                    if d in STORY_DAYS:
+                        stype = STORY_DAYS[d][0]
+                        sc    = STORY_TYPE_COLORS.get(stype, PURP)
+                        cell.append(Paragraph(
+                            "▸ " + stype,
+                            ParagraphStyle("calsty", fontSize=6, textColor=sc,
+                                           fontName="Helvetica-Bold", leading=8, alignment=1)
+                        ))
+                    row.append(cell)
+                elif d in STORY_DAYS:
+                    stype = STORY_DAYS[d][0]
+                    sc    = STORY_TYPE_COLORS.get(stype, PURP)
+                    row.append([
+                        Paragraph(str(d), cal_day),
+                        Paragraph(STORY_TYPE_LABELS[stype],
+                                  ParagraphStyle("calsty2", fontSize=6.5, textColor=sc,
+                                                 fontName="Helvetica-Bold", leading=8, alignment=1)),
+                    ])
                 else:
                     row.append(Paragraph(str(d), cal_emp))
             cal_rows.append(row)
@@ -133,30 +177,33 @@ def build(output_path):
         ("LEFTPADDING",(0,0),(-1,-1),4),
         ("RIGHTPADDING",(0,0),(-1,-1),4),
     ])
-    # Highlight post days
     for day in POST_DAYS:
-        dow = (day - 1) % 7
+        dow     = (day - 1) % 7
         row_idx = (day - 1) // 7 + 1
-        cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),colors.HexColor("#f0e8dc"))
+        cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),CREAM)
+    for day in story_only_days:
+        dow     = (day - 1) % 7
+        row_idx = (day - 1) // 7 + 1
+        cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),LAVENDER)
     cal_table.setStyle(cal_style)
 
+    # ── BLOCK BUILDERS ─────────────────────────────────────────────
     def post_block(date, title, format_type, lang, objective, why_format, visual, copy_lines, special=None):
         elems = []
         hdr_cells = [
             Paragraph(f"<b>{date}</b>", ParagraphStyle("d", fontSize=9, textColor=GRAY,
                       fontName="Helvetica-Bold", leading=12)),
             tag(format_type, FORMAT_COLORS.get(format_type, NAVY)),
-            tag(lang, LANG_COLORS.get(lang, NAVY)),
+            tag(lang, LANG_COLORS.get(lang, NAVY), 0.7*inch),
         ]
         if special:
-            hdr_cells.append(tag(special, RED))
-        hdr_t = Table([hdr_cells], colWidths=[1.4*inch,1.3*inch,0.7*inch]+([1.6*inch] if special else []))
+            hdr_cells.append(tag(special, RED, 1.6*inch))
+        hdr_t = Table([hdr_cells],
+                      colWidths=[1.4*inch,1.3*inch,0.7*inch]+([1.6*inch] if special else []))
         hdr_t.setStyle(TableStyle([
             ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
-            ("LEFTPADDING",(0,0),(-1,-1),0),
-            ("RIGHTPADDING",(0,0),(-1,-1),6),
-            ("TOPPADDING",(0,0),(-1,-1),0),
-            ("BOTTOMPADDING",(0,0),(-1,-1),4),
+            ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),6),
+            ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),4),
         ]))
         block = [hdr_t, Paragraph(title, h2)]
         for lbl, val in [("Objetivo", objective), ("Por qué este formato", why_format), ("Visual", visual)]:
@@ -171,11 +218,38 @@ def build(output_path):
         elems += block[4:]
         return elems
 
+    def story_block(date, story_type, title, lang, lines):
+        elems = []
+        st_color   = STORY_TYPE_COLORS.get(story_type, PURP)
+        label_text = STORY_TYPE_LABELS.get(story_type, story_type)
+        hdr_cells  = [
+            Paragraph(f"<b>{date}</b>", ParagraphStyle("d", fontSize=9, textColor=GRAY,
+                      fontName="Helvetica-Bold", leading=12)),
+            tag(label_text, st_color, 1.7*inch),
+            tag(lang, LANG_COLORS.get(lang, NAVY), 0.7*inch),
+        ]
+        hdr_t = Table([hdr_cells], colWidths=[1.4*inch, 1.7*inch, 0.7*inch])
+        hdr_t.setStyle(TableStyle([
+            ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+            ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),6),
+            ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),4),
+        ]))
+        block = [hdr_t, Paragraph(title, h2)]
+        block.append(Paragraph("Contenido", bold))
+        for line in lines:
+            block.append(Paragraph(line, copy_s))
+        block.append(HRFlowable(width="100%", thickness=0.5,
+                     color=colors.HexColor("#e0d0f0"), spaceAfter=10, spaceBefore=6))
+        elems.append(KeepTogether(block[:3]))
+        elems += block[3:]
+        return elems
+
     story = []
 
     # ── TITLE ──────────────────────────────────────────────────────
     story.append(Paragraph("CONTENT CALENDAR — MJ TRUST LAW", h1))
-    story.append(Paragraph("June 2026  |  Instagram  |  4 posts/week  |  English & Spanish", sub))
+    story.append(Paragraph(
+        "June 2026  |  Instagram  |  4 posts/week  +  3 stories/week  |  English & Spanish", sub))
     story.append(HRFlowable(width="100%", thickness=2, color=GOLD, spaceAfter=10, spaceBefore=4))
 
     # ── CALENDAR VIEW ──────────────────────────────────────────────
@@ -184,26 +258,45 @@ def build(output_path):
     story.append(cal_table)
     story.append(Spacer(1, 6))
 
-    # Legend
-    legend_items = [
-        [tag("Carrusel", FORMAT_COLORS["Carrusel"]),
-         tag("Reel", FORMAT_COLORS["Reel"]),
-         tag("Post Estático", FORMAT_COLORS["Post Estático"]),
-         tag("Podcast Clip", FORMAT_COLORS["Podcast Clip"]),
-         tag("ES", LANG_COLORS["ES"]),
-         tag("EN", LANG_COLORS["EN"]),
-         tag("ES/EN", LANG_COLORS["ES/EN"])],
-    ]
-    leg_t = Table(legend_items, colWidths=[1.0*inch]*7)
+    # Legend — feed formats
+    legend_items = [[
+        tag("Carrusel",      FORMAT_COLORS["Carrusel"],      1.0*inch),
+        tag("Reel",          FORMAT_COLORS["Reel"],          0.75*inch),
+        tag("Post Estático", FORMAT_COLORS["Post Estático"], 1.1*inch),
+        tag("Podcast Clip",  FORMAT_COLORS["Podcast Clip"],  1.1*inch),
+        tag("ES",            LANG_COLORS["ES"],              0.5*inch),
+        tag("EN",            LANG_COLORS["EN"],              0.5*inch),
+        tag("ES/EN",         LANG_COLORS["ES/EN"],           0.65*inch),
+    ]]
+    leg_t = Table(legend_items, colWidths=[1.0*inch,0.75*inch,1.1*inch,1.1*inch,0.5*inch,0.5*inch,0.65*inch])
     leg_t.setStyle(TableStyle([
-        ("LEFTPADDING",(0,0),(-1,-1),0),
-        ("RIGHTPADDING",(0,0),(-1,-1),4),
-        ("TOPPADDING",(0,0),(-1,-1),0),
-        ("BOTTOMPADDING",(0,0),(-1,-1),0),
+        ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),4),
+        ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),2),
     ]))
     story.append(leg_t)
+    story.append(Spacer(1, 4))
+
+    # Legend — story types
+    story_legend_items = [[
+        tag("Story: Oficina & Contacto", STORY_TYPE_COLORS["Oficina"],   1.9*inch),
+        tag("Story: Review de Cliente",  STORY_TYPE_COLORS["Review"],    1.9*inch),
+        tag("Story: Historia Educativa", STORY_TYPE_COLORS["Educativa"], 1.9*inch),
+        Paragraph("(fondo lavanda = solo story, sin post ese día)", ParagraphStyle(
+            "ln", fontSize=7.5, textColor=GRAY, fontName="Helvetica-Oblique", leading=10)),
+    ]]
+    story_leg_t = Table(story_legend_items, colWidths=[1.9*inch, 1.9*inch, 1.9*inch, 2.5*inch])
+    story_leg_t.setStyle(TableStyle([
+        ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),4),
+        ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),0),
+        ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+    ]))
+    story.append(story_leg_t)
     story.append(Spacer(1, 16))
     story.append(HRFlowable(width="100%", thickness=1, color=GOLD, spaceAfter=14))
+
+    # ════════════════════════════════════════════════════════════════
+    # FEED POSTS
+    # ════════════════════════════════════════════════════════════════
 
     # ── WEEK 1 ─────────────────────────────────────────────────────
     story.append(sec_hdr("WEEK 1  —  June 1–7"))
@@ -344,9 +437,9 @@ def build(output_path):
         "Fondo navy. Texto blanco y dorado. Título grande: '3 ASSETS THAT DON'T PASS THROUGH YOUR WILL'. Lista numerada con íconos.",
         [
             "Most people don't know this — and it changes everything:",
-            "1. Life insurance proceeds → go directly to your named beneficiary. Your will doesn't touch them.",
-            "2. Retirement accounts (401k, IRA) → same. Beneficiary designation overrides your will entirely.",
-            "3. Joint tenancy property → passes automatically to the surviving owner.",
+            "1. Life insurance proceeds go directly to your named beneficiary. Your will doesn't touch them.",
+            "2. Retirement accounts (401k, IRA) — beneficiary designation overrides your will entirely.",
+            "3. Joint tenancy property passes automatically to the surviving owner.",
             "This means a big part of your estate may go somewhere you didn't intend — without you knowing.",
             "Estate planning isn't just a document. It's a complete strategy. Free consultation at the link in bio. 🔗",
             "#EstatePlanning #Will #TrustPlanning #CaliforniaLaw #MJTrustLaw",
@@ -505,8 +598,222 @@ def build(output_path):
         ]
     )
 
+    # ════════════════════════════════════════════════════════════════
+    # INSTAGRAM STORIES
+    # ════════════════════════════════════════════════════════════════
+    story.append(Spacer(1, 8))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=GOLD, spaceAfter=14, spaceBefore=4))
+    story.append(sec_hdr("INSTAGRAM STORIES — JUNE 2026", PURP))
+    story.append(Spacer(1, 4))
+    story.append(Paragraph(
+        "3 stories por semana: Oficina & Contacto (lunes) · Review de Cliente (miércoles/martes) · Historia Educativa (viernes/jueves)",
+        ParagraphStyle("stsubb", fontSize=9, textColor=PURP, fontName="Helvetica-Oblique",
+                       spaceAfter=10, leading=12)))
+
+    # ── STORIES WEEK 1 ─────────────────────────────────────────────
+    story.append(sec_hdr("STORIES — WEEK 1  (June 1–7)", colors.HexColor("#7d3c98")))
+    story.append(Spacer(1, 8))
+
+    story += story_block(
+        "Lunes 1 de junio",
+        "Oficina",
+        "Así nos encontrás esta semana",
+        "ES",
+        [
+            "📍 Chula Vista, CA — atendemos toda el área de San Diego",
+            "🕐 Lunes a viernes, 9am a 6pm",
+            "💻 Consultas en persona o por videollamada — sin moverse de tu casa",
+            "Primera consulta: GRATUITA y sin compromiso",
+            "👇 Agendá en el link de la bio",
+            "Tip de diseño: pin de ubicación animado, foto de la oficina o de la abogada. Fondo crema, texto navy. Sticker de link.",
+        ]
+    )
+
+    story += story_block(
+        "Miércoles 3 de junio",
+        "Review",
+        "Lo que dicen nuestras clientes",
+        "ES",
+        [
+            "★★★★★",
+            "'No entendía nada sobre trusts y me daba vergüenza preguntar. La abogada me explicó todo en español, sin apurarme, hasta que me fui con todo claro. Hoy tengo un plan de estate planning completo para mi familia.'",
+            "Cliente, Chula Vista",
+            "",
+            "¿Conocés a alguien que necesite escuchar esto? Compartí esta historia 👇",
+            "Tip de diseño: fondo crema cálido, tipografía grande para la quote, estrellas doradas en la parte superior. Sin foto del cliente.",
+        ]
+    )
+
+    story += story_block(
+        "Viernes 5 de junio",
+        "Educativa",
+        "Quick Fact: ¿Cuánto cuesta el probate en California?",
+        "ES",
+        [
+            "En California, los honorarios de probate se calculan sobre el valor BRUTO del estate.",
+            "Casa en Chula Vista valorada en $750,000:",
+            "Honorarios de probate: hasta $46,000",
+            "Con un trust: $0",
+            "¿Tu familia debería pagar eso?",
+            "Primera consulta gratuita. DM o link en bio 👇",
+            "Tip de diseño: slide tipo infographic. Número grande '$46,000' en rojo. Texto bold. Paleta navy y crema.",
+        ]
+    )
+
+    # ── STORIES WEEK 2 ─────────────────────────────────────────────
+    story.append(sec_hdr("STORIES — WEEK 2  (June 8–14)", colors.HexColor("#7d3c98")))
+    story.append(Spacer(1, 8))
+
+    story += story_block(
+        "Lunes 8 de junio",
+        "Oficina",
+        "¿Cuándo es el mejor momento para empezar tu estate plan?",
+        "ES",
+        [
+            "La respuesta es siempre la misma: antes de necesitarlo.",
+            "Esta semana tenemos disponibilidad para consultas en Chula Vista y por videollamada.",
+            "📍 Chula Vista, CA",
+            "🕐 Lunes a viernes, 9am a 6pm",
+            "Primera consulta: GRATUITA",
+            "Agendá en el link de la bio 👇",
+            "Tip de diseño: fondo crema. Texto en dos bloques. Ícono de calendario o reloj como elemento decorativo.",
+        ]
+    )
+
+    story += story_block(
+        "Miércoles 10 de junio",
+        "Review",
+        "De boca de nuestros clientes",
+        "ES",
+        [
+            "★★★★★",
+            "'Tenía una casa en San Diego y una propiedad en México que heredé de mis padres. No sabía que podía planear los dos al mismo tiempo. MJ Trust Law me ayudó a estructurar todo sin complicaciones.'",
+            "Cliente, San Diego",
+            "",
+            "Si tenés bienes en dos países, hay un plan para vos. Link en bio 👇",
+            "Tip de diseño: igual que review anterior. Consistencia visual semana a semana genera reconocimiento de marca.",
+        ]
+    )
+
+    story += story_block(
+        "Jueves 11 de junio",
+        "Educativa",
+        "Encuesta: ¿Ya tenés un plan de estate planning?",
+        "ES",
+        [
+            "Pregunta del día:",
+            "[Poll: Sí, tengo un trust / Tengo testamento / Todavía no]",
+            "",
+            "No importa tu respuesta — siempre hay un próximo paso.",
+            "Si elegiste 'Todavía no': DM para hablar sin compromiso 👇",
+            "Tip de diseño: usar la función de encuesta nativa de Instagram Stories. Fondo navy o crema según marca. El resultado de la encuesta se puede resharedear al día siguiente como segundo slide.",
+        ]
+    )
+
+    # ── STORIES WEEK 3 ─────────────────────────────────────────────
+    story.append(sec_hdr("STORIES — WEEK 3  (June 15–21)", colors.HexColor("#7d3c98")))
+    story.append(Spacer(1, 8))
+
+    story += story_block(
+        "Lunes 15 de junio",
+        "Oficina",
+        "Immigrant Heritage Month: Estamos aquí para vos",
+        "ES",
+        [
+            "Este mes celebramos a las familias que construyeron algo nuevo en este país.",
+            "En MJ Trust Law atendemos familias inmigrantes que quieren proteger lo que trabajaron para tener.",
+            "📍 Chula Vista, CA — a minutos de la frontera",
+            "🕐 Lunes a viernes, 9am a 6pm",
+            "Hablamos español. Primera consulta gratis.",
+            "Link en bio 👇",
+            "Tip de diseño: tono más cálido y emocional esta semana. Podés usar colores del Immigrant Heritage Month o simplemente mantener la paleta de marca con copy más personal.",
+        ]
+    )
+
+    story += story_block(
+        "Martes 16 de junio",
+        "Review",
+        "Lo que cambia cuando actuás a tiempo",
+        "ES",
+        [
+            "★★★★★",
+            "'Mi esposo y yo siempre postergábamos esto porque pensábamos que era para gente mayor o millonaria. Hoy tenemos un trust, un plan médico de emergencia y todo en orden. El proceso fue más fácil de lo que esperábamos.'",
+            "Cliente, National City",
+            "",
+            "No esperés a que sea urgente. Link en bio 👇",
+            "Tip de diseño: quote larga — podés dividirla en 2 slides consecutivos para que se lea bien en mobile.",
+        ]
+    )
+
+    story += story_block(
+        "Jueves 18 de junio",
+        "Educativa",
+        "¿Qué pasa en tu primera consulta con MJ Trust Law?",
+        "ES",
+        [
+            "¿No sabés qué esperar? Así funciona:",
+            "✓ 30 a 45 minutos, en persona o por videollamada",
+            "✓ Revisamos tu situación sin juzgar ni apurar",
+            "✓ Te explicamos qué documentos necesitás y por qué",
+            "✓ Te damos un presupuesto claro, sin letra chica",
+            "✓ Sin compromiso — si no te convence, sin problema",
+            "Agendá en el link de la bio 👇",
+            "Tip de diseño: checklist visual con tildas verdes. Fondo crema. Ideal para convertir a quienes tienen dudas sobre el proceso.",
+        ]
+    )
+
+    # ── STORIES WEEK 4 ─────────────────────────────────────────────
+    story.append(sec_hdr("STORIES — WEEK 4  (June 22–28)", colors.HexColor("#7d3c98")))
+    story.append(Spacer(1, 8))
+
+    story += story_block(
+        "Lunes 22 de junio",
+        "Oficina",
+        "Última semana de junio — ¿Todavía no agendaste?",
+        "ES",
+        [
+            "Junio casi termina.",
+            "Si lo venías postergando, esta semana es la señal.",
+            "📍 Chula Vista, CA",
+            "🕐 Lunes a viernes, 9am a 6pm",
+            "Primera consulta: GRATUITA y sin compromiso",
+            "Quedan lugares esta semana. Agendá en el link de la bio 👇",
+            "Tip de diseño: agregar un elemento de urgencia sutil — podés usar un contador de días del mes o simplemente el copy. No exagerar la urgencia, mantener el tono empático de la marca.",
+        ]
+    )
+
+    story += story_block(
+        "Miércoles 24 de junio",
+        "Review",
+        "Una llamada que cambió todo",
+        "ES",
+        [
+            "★★★★★",
+            "'Soy dueño de un negocio pequeño en Chula Vista. Nunca había pensado en estate planning porque creía que era para otra gente. Una llamada de 30 minutos cambió todo lo que pensaba sobre el tema.'",
+            "Cliente, Chula Vista",
+            "",
+            "Tu negocio también es parte de tu estate. Hablemos. Link en bio 👇",
+            "Tip de diseño: podés usar esta review para hacer un puente con el carrusel del caso del dueño de negocio del día 26.",
+        ]
+    )
+
+    story += story_block(
+        "Viernes 26 de junio",
+        "Educativa",
+        "Pregunta frecuente: ¿Necesito ser ciudadano para tener un trust?",
+        "ES",
+        [
+            "No.",
+            "Cualquier persona con bienes en California puede tener un estate plan, independientemente de su estatus migratorio.",
+            "Residentes permanentes, visas de trabajo, DACA, y más — todos tienen activos que proteger y derechos legales que usar.",
+            "¿Tenés más preguntas? DM o link en bio 👇",
+            "Tip de diseño: pregunta grande al inicio en formato bold. Respuesta directa debajo. Fondo navy con texto blanco para mayor contraste e impacto visual.",
+        ]
+    )
+
     doc.build(story)
     print(f"Saved: {output_path}")
+
 
 if __name__ == "__main__":
     build("/home/user/Vuelta-rapida/Content_Calendar_MJTrustLaw.pdf")
