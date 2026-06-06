@@ -67,7 +67,7 @@ def slide1():
     # Right panel: attorney photo — cover crop (no stretch), right 60%
     try:
         photo = load_img("10.webp")
-        pw = int(W * 0.60)
+        pw = int(W * 0.72)
         orig_w, orig_h = photo.size
         scale = max(pw / orig_w, H / orig_h)
         new_w = int(orig_w * scale)
