@@ -51,21 +51,18 @@ body {
      ══════════════════════════════════════════════════════ -->
 <div class="slide" id="s1">
 
-  <!-- foto lado derecho -->
-  <div style="position:absolute;right:0;top:0;width:57%;height:100%;">
+  <!-- foto lado derecho — ocupa el 60% derecho -->
+  <div style="position:absolute;right:0;top:0;width:60%;height:100%;">
     <div style="width:100%;height:100%;
       background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');
       background-size:cover;background-position:center top;"></div>
-    <div style="position:absolute;inset:0;
-      background:linear-gradient(to right,#F5EFE6 0%,rgba(245,239,230,0.25) 20%,transparent 50%);"></div>
   </div>
 
-  <!-- panel crema izquierdo -->
-  <div style="position:absolute;left:0;top:0;width:47%;height:100%;
-    background:#F5EFE6;z-index:5;display:flex;flex-direction:column;
+  <!-- panel crema izquierdo — gradiente hacia la derecha para mezclar con la foto -->
+  <div style="position:absolute;left:0;top:0;width:72%;height:100%;
+    background:linear-gradient(to right,#F5EFE6 0%,#F5EFE6 50%,rgba(245,239,230,0.85) 65%,rgba(245,239,230,0.4) 80%,rgba(245,239,230,0) 100%);
+    z-index:5;display:flex;flex-direction:column;
     justify-content:center;padding:72px 56px;">
-    <!-- línea vertical dorada -->
-    <div style="position:absolute;top:0;right:0;width:3px;height:100%;background:#C2801A;"></div>
     <!-- logo -->
     <div style="position:absolute;top:52px;left:56px;">
       <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" style="height:50px;">

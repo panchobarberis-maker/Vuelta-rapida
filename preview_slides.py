@@ -64,41 +64,36 @@ def slide1():
     img = Image.new("RGBA", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Right panel: attorney photo — cover crop (no stretch)
+    # Right panel: attorney photo — cover crop (no stretch), right 60%
     try:
         photo = load_img("10.webp")
-        pw = int(W * 0.57)
+        pw = int(W * 0.60)
         orig_w, orig_h = photo.size
-        # Scale so photo COVERS the panel (pw x H) without distorting
         scale = max(pw / orig_w, H / orig_h)
         new_w = int(orig_w * scale)
         new_h = int(orig_h * scale)
         photo = photo.resize((new_w, new_h), Image.LANCZOS)
-        # Center crop to panel size, bias towards top (face)
         cx = (new_w - pw) // 2
-        cy = 0  # anchor top so face stays visible
-        region = photo.crop((cx, cy, cx + pw, cy + H))
+        region = photo.crop((cx, 0, cx + pw, H))
         x_off = W - pw
         img.paste(region, (x_off, 0), region)
-
-        # Feather gradient from cream to transparent on left edge of photo
-        grad = Image.new("RGBA", (200, H), (0,0,0,0))
-        for i in range(200):
-            alpha = int(255 * (i / 200))
-            for row in range(H):
-                grad.putpixel((i, row), (0, 0, 0, alpha))
-        # blend
-        overlay = Image.new("RGBA", (W, H), (0,0,0,0))
-        cream_block = Image.new("RGBA", (200, H), CREAM + (255,))
-        grad_mask = Image.new("L", (200, H))
-        for i in range(200):
-            alpha = 255 - int(255 * (i / 200))
-            for row in range(H):
-                grad_mask.putpixel((i, row), alpha)
-        overlay.paste(cream_block, (x_off, 0), grad_mask)
-        img = Image.alpha_composite(img, overlay)
     except Exception as e:
         print(f"Slide 1 photo error: {e}")
+
+    # Cream gradient overlay: solid left → fade to transparent right
+    # Matches CSS: solid until 50%, then fades to nothing at 72% of W
+    blend_start = int(W * 0.50)
+    blend_end   = int(W * 0.72)
+    cream_overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    for x in range(blend_end):
+        if x <= blend_start:
+            a = 255
+        else:
+            t = (x - blend_start) / (blend_end - blend_start)
+            a = int(255 * (1 - t))
+        for y in range(H):
+            cream_overlay.putpixel((x, y), CREAM + (a,))
+    img = Image.alpha_composite(img, cream_overlay)
 
     draw = ImageDraw.Draw(img)
 
