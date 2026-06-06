@@ -147,9 +147,9 @@ def build(output_path):
                         stype = STORY_DAYS[d][0]
                         sc    = STORY_TYPE_COLORS.get(stype, PURP)
                         cell.append(Paragraph(
-                            "▸ " + stype,
-                            ParagraphStyle("calsty", fontSize=6, textColor=sc,
-                                           fontName="Helvetica-Bold", leading=8, alignment=1)
+                            "Story: " + stype,
+                            ParagraphStyle("calsty", fontSize=6.5, textColor=sc,
+                                           fontName="Helvetica-Bold", leading=9, alignment=1)
                         ))
                     row.append(cell)
                 elif d in STORY_DAYS:
@@ -181,7 +181,7 @@ def build(output_path):
         dow     = (day - 1) % 7
         row_idx = (day - 1) // 7 + 1
         cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),CREAM)
-    for day in story_only_days:
+    for day in STORY_DAYS:  # all 12 story days get lavender, overrides CREAM on shared days
         dow     = (day - 1) % 7
         row_idx = (day - 1) // 7 + 1
         cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),LAVENDER)
@@ -281,7 +281,7 @@ def build(output_path):
         tag("Story: Oficina & Contacto", STORY_TYPE_COLORS["Oficina"],   1.9*inch),
         tag("Story: Review de Cliente",  STORY_TYPE_COLORS["Review"],    1.9*inch),
         tag("Story: Historia Educativa", STORY_TYPE_COLORS["Educativa"], 1.9*inch),
-        Paragraph("(fondo lavanda = solo story, sin post ese día)", ParagraphStyle(
+        Paragraph("Fondo lavanda = día con Story (con o sin post de feed) — 12 stories en total", ParagraphStyle(
             "ln", fontSize=7.5, textColor=GRAY, fontName="Helvetica-Oblique", leading=10)),
     ]]
     story_leg_t = Table(story_legend_items, colWidths=[1.9*inch, 1.9*inch, 1.9*inch, 2.5*inch])
