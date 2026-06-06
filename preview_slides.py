@@ -95,7 +95,7 @@ def slide1():
         new_w = int(orig_w * scale)
         new_h = int(orig_h * scale)
         photo = photo.resize((new_w, new_h), Image.LANCZOS)
-        cx = (new_w - pw) // 2
+        cx = new_w - pw  # alinear al borde derecho de la foto
         region = photo.crop((cx, 0, cx + pw, H))
         x_off = W - pw
         img.paste(region, (x_off, 0), region)
