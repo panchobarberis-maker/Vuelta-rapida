@@ -41,6 +41,36 @@ body {
   z-index: 20;
 }
 .logo-badge-dark img { height: 50px; display: block; }
+
+/* ── Indicador de página (común a todos los slides) ── */
+.pg {
+  position: absolute;
+  bottom: 52px;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  z-index: 30;
+}
+.pg-bars { display: flex; gap: 10px; align-items: center; }
+.pg-bar {
+  width: 44px; height: 3px;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.pg-bar.on        { background: #C2801A; }
+.pg-bar.off-light { background: rgba(26,46,74,0.18); }
+.pg-bar.off-dark  { background: rgba(255,255,255,0.28); }
+.pg-num {
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.pg-num.light { color: #b09878; }
+.pg-num.dark  { color: rgba(255,255,255,0.48); }
 </style>
 </head>
 <body>
@@ -84,9 +114,18 @@ body {
       </p>
       <div style="width:64px;height:2px;background:#C2801A;margin-top:40px;"></div>
     </div>
-    <p style="position:absolute;bottom:52px;left:56px;
-      font-family:'Raleway',sans-serif;font-size:18px;font-weight:300;
-      color:#a08060;letter-spacing:3px;">01 / 06</p>
+  </div>
+
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar on"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+    </div>
+    <span class="pg-num light">01 / 06</span>
   </div>
 
 </div>
@@ -121,9 +160,6 @@ body {
   <div class="logo-badge-dark">
     <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
-  <p style="position:absolute;top:66px;right:56px;
-    font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
-    color:#a08060;letter-spacing:3px;z-index:20;">02 / 06</p>
 
   <!-- contenido principal -->
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;
@@ -146,6 +182,18 @@ body {
     </p>
 
     <div style="width:64px;height:2px;background:#C2801A;margin-top:48px;"></div>
+  </div>
+
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar on"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+    </div>
+    <span class="pg-num light">02 / 06</span>
   </div>
 
 </div>
@@ -171,9 +219,6 @@ body {
   <div class="logo-badge">
     <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
-  <p style="position:absolute;top:66px;right:56px;
-    font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
-    color:rgba(255,255,255,0.65);letter-spacing:3px;z-index:20;">03 / 06</p>
 
   <!-- texto en la parte baja -->
   <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 90px;z-index:10;">
@@ -192,6 +237,18 @@ body {
       color:rgba(255,255,255,0.8);letter-spacing:1px;">
       A su nombre. Sin incluir en el trust.
     </p>
+  </div>
+
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar on"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+    </div>
+    <span class="pg-num dark">03 / 06</span>
   </div>
 
 </div>
@@ -223,9 +280,6 @@ body {
   <div class="logo-badge-dark">
     <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
-  <p style="position:absolute;top:66px;right:56px;
-    font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
-    color:#a08060;letter-spacing:3px;z-index:20;">04 / 06</p>
 
   <!-- contenido centrado -->
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;
@@ -259,6 +313,18 @@ body {
     </p>
   </div>
 
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar on"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+    </div>
+    <span class="pg-num light">04 / 06</span>
+  </div>
+
 </div>
 
 
@@ -290,9 +356,6 @@ body {
   <div class="logo-badge-dark">
     <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
-  <p style="position:absolute;top:66px;right:56px;
-    font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
-    color:#a08060;letter-spacing:3px;z-index:20;">05 / 06</p>
 
   <!-- contenido centrado verticalmente -->
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;
@@ -318,6 +381,18 @@ body {
     </p>
   </div>
 
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar off-light"></div>
+      <div class="pg-bar on"></div>
+      <div class="pg-bar off-light"></div>
+    </div>
+    <span class="pg-num light">05 / 06</span>
+  </div>
+
 </div>
 
 
@@ -336,10 +411,6 @@ body {
       rgba(18,10,2,0.4) 35%,
       rgba(18,10,2,0.88) 65%,
       rgba(18,10,2,0.97) 100%);"></div>
-
-  <p style="position:absolute;top:66px;right:56px;
-    font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
-    color:rgba(255,255,255,0.5);letter-spacing:3px;z-index:20;">06 / 06</p>
 
   <div style="position:absolute;bottom:0;left:0;right:0;
     padding:0 72px 90px;z-index:10;text-align:center;">
@@ -372,6 +443,18 @@ body {
       color:#C2801A;letter-spacing:4px;text-transform:uppercase;">
       MJ Trust Law · Chula Vista, CA
     </p>
+  </div>
+
+  <div class="pg">
+    <div class="pg-bars">
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar off-dark"></div>
+      <div class="pg-bar on"></div>
+    </div>
+    <span class="pg-num dark">06 / 06</span>
   </div>
 
 </div>

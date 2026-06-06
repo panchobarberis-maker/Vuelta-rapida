@@ -59,6 +59,28 @@ def gold_bar(img, y, h=4):
     draw = ImageDraw.Draw(img)
     draw.rectangle([(80, y), (W - 80, y + h)], fill=GOLD)
 
+def page_indicator(img, current, total=6, dark=False):
+    """Draw elegant progress bars + 'XX / 06' centered at bottom."""
+    draw = ImageDraw.Draw(img)
+    bar_w, bar_h, gap = 44, 3, 10
+    total_w = total * bar_w + (total - 1) * gap
+    x0 = (W - total_w) // 2
+    y_bars = H - 72
+    active_col  = GOLD
+    inactive_col = (255, 255, 255, 71) if dark else (26, 46, 74, 46)
+    for i in range(total):
+        x = x0 + i * (bar_w + gap)
+        col = active_col if i == current - 1 else inactive_col[:3]
+        draw.rounded_rectangle([(x, y_bars), (x + bar_w, y_bars + bar_h)], radius=2, fill=col)
+    f_num = font(LIB, 20)
+    num_text = f"{current:02d} / {total:02d}"
+    bbox = draw.textbbox((0, 0), num_text, font=f_num)
+    tx = (W - (bbox[2] - bbox[0])) // 2
+    num_col = (255, 255, 255, 122) if dark else (176, 152, 120)
+    draw.text((tx, H - 52), num_text, fill=num_col if not dark else (200, 190, 175), font=f_num)
+    if dark:
+        draw.text((tx, H - 52), num_text, fill=(200, 190, 175), font=f_num)
+
 # ── SLIDE 1: Split layout - cream left + attorney photo right ─────────────────
 def slide1():
     img = Image.new("RGBA", (W, H), CREAM)
@@ -135,6 +157,7 @@ def slide1():
         y += 38
 
     img = img.convert("RGB")
+    page_indicator(img, 1, dark=False)
     img.save(OUT_DIR + "slide1.jpg", quality=90)
     print("Slide 1 saved")
 
@@ -182,11 +205,7 @@ def slide2():
     f_bold = font(LIB_BOLD, 32)
     draw.text((80, y), "Entonces pasó algo inesperado.", fill=NAVY, font=f_bold)
 
-    # Slide number dot
-    draw.ellipse([(W//2 - 8, H-80), (W//2 + 8, H-64)], fill=NAVY)
-    for i in [-60, 60]:
-        draw.ellipse([(W//2 + i - 6, H-78), (W//2 + i + 6, H-66)], outline=NAVY, width=2)
-
+    page_indicator(img, 2, dark=False)
     img.save(OUT_DIR + "slide2.jpg", quality=90)
     print("Slide 2 saved")
 
@@ -251,6 +270,7 @@ def slide3():
         y += 44
 
     img = img.convert("RGB")
+    page_indicator(img, 3, dark=True)
     img.save(OUT_DIR + "slide3.jpg", quality=90)
     print("Slide 3 saved")
 
@@ -325,11 +345,7 @@ def slide4():
     # Dots
     for i, filled in enumerate([False, True, False, False, False]):
         cx = W//2 + (i - 2) * 28
-        if filled:
-            draw.ellipse([(cx-7, H-80), (cx+7, H-66)], fill=NAVY)
-        else:
-            draw.ellipse([(cx-6, H-79), (cx+6, H-67)], outline=NAVY, width=2)
-
+    page_indicator(img, 4, dark=False)
     img.save(OUT_DIR + "slide4.jpg", quality=90)
     print("Slide 4 saved")
 
@@ -384,14 +400,7 @@ def slide5():
     f_attr = font(LIB_BOLD, 26)
     draw.text((110, y), "MJ Trust Law — Chula Vista, CA", fill=GOLD, font=f_attr)
 
-    # Dots
-    for i, filled in enumerate([False, False, False, True, False]):
-        cx = W//2 + (i - 2) * 28
-        if filled:
-            draw.ellipse([(cx-7, H-80), (cx+7, H-66)], fill=NAVY)
-        else:
-            draw.ellipse([(cx-6, H-79), (cx+6, H-67)], outline=NAVY, width=2)
-
+    page_indicator(img, 5, dark=False)
     img.save(OUT_DIR + "slide5.jpg", quality=90)
     print("Slide 5 saved")
 
@@ -479,6 +488,7 @@ def slide6():
     draw.text(((W-(bbox[2]-bbox[0]))//2, y), contact, fill=(200, 190, 175), font=f_contact)
 
     img = img.convert("RGB")
+    page_indicator(img, 6, dark=True)
     img.save(OUT_DIR + "slide6.jpg", quality=90)
     print("Slide 6 saved")
 
