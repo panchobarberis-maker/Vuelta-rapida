@@ -303,42 +303,53 @@ def slide4():
 
 # ── SLIDE 5 ───────────────────────────────────────────────────────────────────
 def slide5():
-    img = Image.new("RGB", (W, H), NAVY)
+    # Cream with inner frame — same visual design as before, California Law content
+    img = Image.new("RGB", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Watermark PROBATE
-    draw.text((-30, H-320), "PROBATE", fill=(255,255,255,10), font=font(SANS_BOLD,220))
-    draw.ellipse([(W-600,-200),(W+200,600)], outline=(194,128,26,50), width=2)
+    # inner frame border
+    pad = 52
+    draw.rectangle([(pad,pad),(W-pad,H-pad)], outline=(*GOLD,64), width=2)
+    # big decorative quote mark
+    draw.text((86, 40), '"', fill=(194,128,26,28), font=font(SERIF_B,220))
+    # dot grid bottom-right
+    dotgrid(draw, W-250, H-280, 165, 165)
 
-    hdr_bar(img); draw = ImageDraw.Draw(img)
+    # logo
+    try:
+        logo = Image.open(IMG_DIR+"logo.jpg").convert("RGBA")
+        lw = 210; lh = int(logo.size[1]*(lw/logo.size[0]))
+        logo = logo.resize((lw,lh), Image.LANCZOS)
+        img.paste(logo, (80,72))
+    except:
+        draw.text((80,80), "MJ TRUST LAW", fill=NAVY, font=font(SANS_BOLD,28))
 
-    y = 120
+    draw = ImageDraw.Draw(img)
+    y = 210
     f_tag = font(SANS_BOLD, 22)
-    draw.text((72, y), "CALIFORNIA LAW", fill=GOLD, font=f_tag); y += 38
-    rule(draw, 72, y, W-144, col=GOLD); y += 30
-    f_h = font(SANS_BOLD, 54)
-    for line in wrap(draw, "Probate fees are based on the gross value of the estate.", f_h, W-144):
-        draw.text((72, y), line, fill=WHITE, font=f_h); y += 64
+    draw.text((96, y), "CALIFORNIA LAW", fill=GOLD, font=f_tag); y += 38
+    rule(draw, 96, y, 64); y += 32
+
+    f_h = font(SERIF_B, 56)
+    for line in wrap(draw, "Probate fees are based on the gross value of the estate.", f_h, W-192):
+        draw.text((96, y), line, fill=NAVY, font=f_h); y += 68
     y += 4
-    rule(draw, 72, y, W-144, col=GOLD); y += 28
-    f_it = font(SERIF_I, 28)
-    draw.text((72, y), "Not the size of the mistake.", fill=(255,255,255,190), font=f_it); y += 44
-    draw.text((72, y), "Not just the $500 account.", fill=(255,255,255,190), font=f_it); y += 50
-    rule(draw, 72, y, W-144, col=GOLD); y += 28
+    rule(draw, 96, y, 64); y += 28
 
-    f_bold = font(SANS_BOLD, 28)
-    for line in wrap(draw, "If ANY significant asset sits outside your trust — real estate, accounts, property — probate is on the table.", f_bold, W-144):
-        tw = draw.textbbox((0,0),line,font=f_bold)[2]
-        draw.text(((W-tw)//2, y), line, fill=GOLD, font=f_bold); y += 42
+    f_it = font(SERIF_I, 30)
+    draw.text((96, y), "Not the size of the mistake.", fill=(107,88,64), font=f_it); y += 44
+    draw.text((96, y), "Not just the $500 account.", fill=(107,88,64), font=f_it); y += 50
+    rule(draw, 96, y, 64); y += 28
+
+    f_bold = font(SANS_BOLD, 24)
+    for line in wrap(draw, "If ANY significant asset sits outside your trust — real estate, accounts, property — probate is on the table.", f_bold, W-192):
+        draw.text((96, y), line, fill=GOLD, font=f_bold); y += 36
     y += 8
+    f_body = font(SANS, 22)
+    for line in wrap(draw, "Probate in California means months of court process, public records, and fees that can reach 4–6% of your gross estate.", f_body, W-192):
+        draw.text((96, y), line, fill=(90,74,58), font=f_body); y += 34
 
-    f_body = font(SANS, 24)
-    for line in wrap(draw, "And probate in California means months of court process, public records, and fees that can reach 4–6% of your gross estate.", f_body, W-144):
-        tw = draw.textbbox((0,0),line,font=f_body)[2]
-        draw.text(((W-tw)//2, y), line, fill=(255,255,255,190), font=f_body); y += 38
-
-    page_indicator(img, 5, dark=True)
-    ftr_bar(img, 5, light=False)
+    page_indicator(img, 5, dark=False)
     img.save(OUT_DIR+"slide5.jpg", quality=90)
     print("Slide 5 saved")
 
