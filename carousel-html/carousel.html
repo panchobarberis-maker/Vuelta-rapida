@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MJ Trust Law — Carrusel Instagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 48px 0 80px;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ── reusable atoms ───────────────────────────── */
+.logo-badge {
+  position: absolute;
+  top: 50px;
+  left: 54px;
+  background: rgba(255,255,255,0.93);
+  border-radius: 6px;
+  padding: 11px 18px;
+  z-index: 20;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.18);
+}
+.logo-badge img { height: 50px; display: block; }
+
+.slide-num {
+  position: absolute;
+  top: 64px;
+  right: 54px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  z-index: 20;
+}
+
+.gold-bar { width: 72px; height: 2px; background: #C2801A; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 1 — COVER  (split: cream left / photo right)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s1">
+
+  <!-- right: attorney photo -->
+  <div style="position:absolute;right:0;top:0;width:58%;height:100%;">
+    <div style="width:100%;height:100%;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');background-size:cover;background-position:center top;"></div>
+    <!-- feather left edge into cream -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,#F5EFE6 0%,rgba(245,239,230,0.3) 18%,transparent 45%);"></div>
+  </div>
+
+  <!-- left: cream panel -->
+  <div style="position:absolute;left:0;top:0;width:46%;height:100%;background:#F5EFE6;z-index:5;display:flex;flex-direction:column;justify-content:center;padding:70px 54px;">
+
+    <!-- gold vertical accent -->
+    <div style="position:absolute;top:0;right:-1px;width:3px;height:100%;background:#C2801A;z-index:10;"></div>
+
+    <!-- logo -->
+    <div style="position:absolute;top:52px;left:54px;">
+      <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" style="height:50px;display:block;">
+    </div>
+
+    <!-- text content -->
+    <div style="margin-top:50px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:16px;font-weight:600;color:#C2801A;letter-spacing:4px;text-transform:uppercase;margin-bottom:26px;">Estate Planning</p>
+      <div class="gold-bar" style="margin-bottom:34px;"></div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:58px;font-weight:700;color:#1C1108;line-height:1.17;margin-bottom:30px;">¿Tu trust realmente protege a tu familia?</h1>
+      <p style="font-family:'Raleway',sans-serif;font-size:20px;font-weight:400;color:#6b5840;line-height:1.65;">La historia de una familia de Chula Vista que descubrió lo que faltaba.</p>
+      <div class="gold-bar" style="margin-top:38px;"></div>
+    </div>
+
+    <!-- slide number -->
+    <p style="position:absolute;bottom:52px;left:54px;font-family:'Raleway',sans-serif;font-size:19px;font-weight:300;color:#a08060;letter-spacing:3px;">01 / 06</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 2 — SETUP  (hispanic family bg)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s2">
+
+  <div style="position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/depositphotos_2348091-stock-photo-hispanic-family-portrait-in-the.jpg');background-size:cover;background-position:center;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(20,10,4,0.08) 0%,rgba(20,10,4,0.45) 45%,rgba(20,10,4,0.88) 100%);"></div>
+
+  <div class="logo-badge"><img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" alt="MJ Trust Law"></div>
+  <div class="slide-num" style="color:rgba(255,255,255,0.75);">02 / 06</div>
+
+  <!-- bottom text -->
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 88px;z-index:10;">
+    <div class="gold-bar" style="margin-bottom:28px;"></div>
+    <p style="font-family:'Raleway',sans-serif;font-size:17px;font-weight:600;color:#C2801A;letter-spacing:4px;text-transform:uppercase;margin-bottom:22px;">Su historia</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:70px;font-weight:700;color:#FFFFFF;line-height:1.08;margin-bottom:26px;">Tenían todo<br>en orden.</h2>
+    <p style="font-family:'Raleway',sans-serif;font-size:25px;font-weight:300;color:rgba(255,255,255,0.85);line-height:1.6;">Casa en Chula Vista. Un trust. Sus beneficiarios nombrados. Creían que su familia estaba completamente protegida.</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 3 — THE TWIST  (women + baby bg)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+
+  <div style="position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/unnamed.png');background-size:cover;background-position:center top;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(20,10,4,0.04) 30%,rgba(20,10,4,0.75) 62%,rgba(20,10,4,0.97) 100%);"></div>
+
+  <div class="logo-badge"><img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" alt="MJ Trust Law"></div>
+  <div class="slide-num" style="color:rgba(255,255,255,0.75);">03 / 06</div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 88px;z-index:10;">
+    <p style="font-family:'Raleway',sans-serif;font-size:16px;font-weight:600;color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:26px;">El giro</p>
+    <div class="gold-bar" style="margin-bottom:30px;"></div>
+    <h2 style="font-family:'Playfair Display',serif;font-style:italic;font-size:56px;font-weight:400;color:#FFFFFF;line-height:1.22;margin-bottom:36px;">Hasta que encontraron una cuenta fuera del trust.</h2>
+    <p style="font-family:'Playfair Display',serif;font-size:96px;font-weight:700;color:#C2801A;line-height:1;margin-bottom:14px;">$500</p>
+    <p style="font-family:'Raleway',sans-serif;font-size:23px;font-weight:400;color:rgba(255,255,255,0.78);letter-spacing:1px;">A su nombre. Sin incluir en el trust.</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 4 — THE NUMBERS  (diverse families bg)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s4">
+
+  <div style="position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/AdobeStock_70534505.webp');background-size:cover;background-position:center;"></div>
+  <div style="position:absolute;inset:0;background:rgba(18,10,2,0.78);"></div>
+
+  <div class="logo-badge"><img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" alt="MJ Trust Law"></div>
+  <div class="slide-num" style="color:rgba(255,255,255,0.6);">04 / 06</div>
+
+  <!-- centered content -->
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 72px;z-index:10;text-align:center;">
+    <p style="font-family:'Raleway',sans-serif;font-size:17px;font-weight:600;color:#C2801A;letter-spacing:4px;text-transform:uppercase;margin-bottom:44px;">Lo que costó</p>
+    <p style="font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:#C2801A;line-height:1;margin-bottom:-10px;">$</p>
+    <p style="font-family:'Playfair Display',serif;font-size:190px;font-weight:700;color:#FFFFFF;line-height:0.9;margin-bottom:24px;">45,000</p>
+    <p style="font-family:'Raleway',sans-serif;font-size:28px;font-weight:400;color:rgba(255,255,255,0.9);line-height:1.5;max-width:760px;margin-bottom:54px;">En honorarios de probate que su familia no tenía que pagar.</p>
+    <div style="width:100%;max-width:720px;border-top:1px solid rgba(194,128,26,0.45);padding-top:34px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:19px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;">En California, el probate se calcula sobre el valor bruto del estate. Una casa de $750,000 en Chula Vista puede generar más de $45,000 en costos legales.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 5 — THE LESSON  (family bg, cream overlay)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s5">
+
+  <div style="position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/NBLM3J7VO2WAWSGGZKSLPGERYA.jpg');background-size:cover;background-position:center top;"></div>
+  <!-- cream fade from bottom -->
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(245,239,230,0) 0%,rgba(245,239,230,0.88) 50%,rgba(245,239,230,1) 70%);"></div>
+
+  <div class="logo-badge"><img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" alt="MJ Trust Law"></div>
+  <div class="slide-num" style="color:rgba(28,17,8,0.5);">05 / 06</div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 88px;z-index:10;">
+    <div class="gold-bar" style="margin-bottom:34px;"></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1C1108;line-height:1.15;margin-bottom:30px;">Un trust incompleto es tan riesgoso como no tener trust.</h2>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:38px;font-weight:400;color:#6b5840;line-height:1.35;margin-bottom:40px;">¿El tuyo está verdaderamente completo?</p>
+    <div class="gold-bar" style="margin-bottom:26px;"></div>
+    <p style="font-family:'Raleway',sans-serif;font-size:18px;font-weight:600;color:#C2801A;letter-spacing:3px;text-transform:uppercase;">Siguiente →</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 6 — CTA  (attorney bg)
+     ═══════════════════════════════════════════════ -->
+<div class="slide" id="s6">
+
+  <div style="position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');background-size:cover;background-position:center top;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,10,2,0.08) 0%,rgba(18,10,2,0.45) 38%,rgba(18,10,2,0.92) 68%,rgba(18,10,2,0.98) 100%);"></div>
+
+  <div class="slide-num" style="color:rgba(255,255,255,0.55);">06 / 06</div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 88px;z-index:10;text-align:center;">
+
+    <!-- logo badge centered -->
+    <div style="display:flex;justify-content:center;margin-bottom:48px;">
+      <div style="background:rgba(255,255,255,0.92);border-radius:6px;padding:12px 20px;box-shadow:0 3px 18px rgba(0,0,0,0.22);">
+        <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" style="height:56px;display:block;">
+      </div>
+    </div>
+
+    <div style="width:80px;height:2px;background:#C2801A;margin:0 auto 44px;"></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#FFFFFF;line-height:1.08;margin-bottom:26px;">Primera consulta gratuita.</h2>
+    <p style="font-family:'Raleway',sans-serif;font-size:26px;font-weight:300;color:rgba(255,255,255,0.82);line-height:1.65;margin-bottom:52px;">Sin formularios. Sin compromiso.<br>Solo una conversación que puede cambiar el futuro de tu familia.</p>
+    <div style="width:80px;height:2px;background:#C2801A;margin:0 auto 36px;"></div>
+    <p style="font-family:'Raleway',sans-serif;font-size:19px;font-weight:500;color:#C2801A;letter-spacing:4px;text-transform:uppercase;">MJ Trust Law · Chula Vista, CA</p>
+  </div>
+
+</div>
+
+</body>
+</html>
