@@ -1,5 +1,5 @@
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
-import os, textwrap
+from PIL import Image, ImageDraw, ImageFont
+import os
 
 W, H = 1080, 1350
 NAVY   = (26, 46, 74)
@@ -8,17 +8,17 @@ CREAM  = (245, 239, 230)
 WHITE  = (255, 255, 255)
 DARK   = (10, 18, 30)
 GRAY   = (120, 120, 120)
+BROWN  = (90, 74, 58)
 
 IMG_DIR = "/home/user/Vuelta-rapida/mjtrust law/"
 OUT_DIR = "/home/user/Vuelta-rapida/carousel-html/previews/"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-SANS_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-SANS      = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+SANS_BOLD = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+SANS      = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
 SERIF_B   = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
+SERIF_I   = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf"
 SERIF     = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-LIB_BOLD  = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
-LIB       = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
 
 def font(path, size):
     try:
@@ -26,470 +26,375 @@ def font(path, size):
     except:
         return ImageFont.load_default()
 
-def wrap_text(draw, text, font_obj, max_width):
-    words = text.split()
-    lines = []
-    line = ""
-    for w in words:
-        test = (line + " " + w).strip()
-        bbox = draw.textbbox((0, 0), test, font=font_obj)
-        if bbox[2] - bbox[0] <= max_width:
-            line = test
-        else:
-            if line:
-                lines.append(line)
-            line = w
-    if line:
-        lines.append(line)
-    return lines
-
-def centered_text(draw, text, font_obj, y, color, max_width=W):
-    lines = wrap_text(draw, text, font_obj, max_width - 120)
-    for line in lines:
-        bbox = draw.textbbox((0, 0), line, font=font_obj)
-        x = (W - (bbox[2] - bbox[0])) // 2
-        draw.text((x, y), line, fill=color, font=font_obj)
-        y += (bbox[3] - bbox[1]) + 16
-    return y
-
 def load_img(filename):
     return Image.open(IMG_DIR + filename).convert("RGBA")
 
-def gold_bar(img, y, h=4):
+def wrap(draw, text, fnt, max_w):
+    words = text.split()
+    lines, line = [], ""
+    for w in words:
+        test = (line + " " + w).strip()
+        if draw.textbbox((0,0), test, font=fnt)[2] <= max_w:
+            line = test
+        else:
+            if line: lines.append(line)
+            line = w
+    if line: lines.append(line)
+    return lines
+
+def draw_text_block(draw, lines_data, x, y, gap=8):
+    """lines_data = list of (text, font, color, align='left')"""
+    for text, fnt, col, *args in lines_data:
+        align = args[0] if args else 'left'
+        bbox = draw.textbbox((0,0), text, font=fnt)
+        tw = bbox[2] - bbox[0]
+        tx = (W - tw) // 2 if align == 'center' else x
+        draw.text((tx, y), text, fill=col, font=fnt)
+        y += (bbox[3] - bbox[1]) + gap
+    return y
+
+def hdr_bar(img):
     draw = ImageDraw.Draw(img)
-    draw.rectangle([(80, y), (W - 80, y + h)], fill=GOLD)
+    draw.rectangle([(0,0),(W,86)], fill=NAVY)
+    f = font(SANS_BOLD, 28)
+    text = "MJ  /  TRUST LAW"
+    bbox = draw.textbbox((0,0), text, font=f)
+    tx = (W - (bbox[2]-bbox[0])) // 2
+    draw.text((tx, 28), text, fill=WHITE, font=f)
+
+def ftr_bar(img, pg, light=True):
+    draw = ImageDraw.Draw(img)
+    col = (138,122,106) if light else (255,255,255,100)
+    col_line = (*GOLD, 90)
+    draw.rectangle([(0, H-68),(W, H)], fill=(0,0,0,0))
+    draw.line([(0, H-68),(W, H-68)], fill=col_line if light else (255,255,255,40), width=1)
+    f = font(SANS, 22)
+    draw.text((56, H-44), "2026", fill=col, font=f)
+    label = "MJTRUST LAW.COM"
+    bbox = draw.textbbox((0,0), label, font=f)
+    draw.text(((W-(bbox[2]-bbox[0]))//2, H-44), label, fill=col, font=f)
+    draw.text((W-120, H-44), f"PG{pg:02d}", fill=col, font=f)
+
+def rule(draw, x, y, w, col=GOLD, h=2):
+    draw.rectangle([(x, y),(x+w, y+h)], fill=col)
 
 def page_indicator(img, current, total=6, dark=False):
-    """Draw elegant progress bars + 'XX / 06' centered at bottom."""
     draw = ImageDraw.Draw(img)
     bar_w, bar_h, gap = 44, 3, 10
     total_w = total * bar_w + (total - 1) * gap
     x0 = (W - total_w) // 2
-    y_bars = H - 72
-    active_col  = GOLD
-    inactive_col = (255, 255, 255, 71) if dark else (26, 46, 74, 46)
+    y_bars = H - 102
     for i in range(total):
         x = x0 + i * (bar_w + gap)
-        col = active_col if i == current - 1 else inactive_col[:3]
-        draw.rounded_rectangle([(x, y_bars), (x + bar_w, y_bars + bar_h)], radius=2, fill=col)
-    f_num = font(LIB, 20)
+        col = GOLD if i == current - 1 else ((255,255,255) if dark else (26,46,74,46))
+        if i != current - 1 and not dark:
+            col = (180, 165, 140)
+        draw.rounded_rectangle([(x, y_bars),(x+bar_w, y_bars+bar_h)], radius=2, fill=col)
+    f_num = font(SANS, 18)
     num_text = f"{current:02d} / {total:02d}"
-    bbox = draw.textbbox((0, 0), num_text, font=f_num)
-    tx = (W - (bbox[2] - bbox[0])) // 2
-    num_col = (255, 255, 255, 122) if dark else (176, 152, 120)
-    draw.text((tx, H - 52), num_text, fill=num_col if not dark else (200, 190, 175), font=f_num)
-    if dark:
-        draw.text((tx, H - 52), num_text, fill=(200, 190, 175), font=f_num)
+    bbox = draw.textbbox((0,0), num_text, font=f_num)
+    num_col = (200,190,175) if dark else (176,152,120)
+    draw.text(((W-(bbox[2]-bbox[0]))//2, H-86), num_text, fill=num_col, font=f_num)
 
-# ── SLIDE 1: Split layout - cream left + attorney photo right ─────────────────
+def dotgrid(draw, x, y, w, h, col=(194,128,26,80)):
+    for gx in range(x, x+w, 24):
+        for gy in range(y, y+h, 24):
+            draw.ellipse([(gx-1,gy-1),(gx+1,gy+1)], fill=col[:3])
+
+# ── SLIDE 1 ───────────────────────────────────────────────────────────────────
 def slide1():
     img = Image.new("RGBA", (W, H), CREAM)
-    draw = ImageDraw.Draw(img)
 
-    # Right panel: attorney photo — cover crop (no stretch), right 60%
+    # Photo right 72%, cover crop at 35%
     try:
         photo = load_img("10.webp")
         pw = int(W * 0.72)
-        orig_w, orig_h = photo.size
-        scale = max(pw / orig_w, H / orig_h)
-        new_w = int(orig_w * scale)
-        new_h = int(orig_h * scale)
-        photo = photo.resize((new_w, new_h), Image.LANCZOS)
-        cx = int((new_w - pw) * 0.35)  # 35% desde la izquierda — cara centrada visible
-        region = photo.crop((cx, 0, cx + pw, H))
-        x_off = W - pw
-        img.paste(region, (x_off, 0), region)
+        ow, oh = photo.size
+        scale = max(pw/ow, H/oh)
+        nw, nh = int(ow*scale), int(oh*scale)
+        photo = photo.resize((nw, nh), Image.LANCZOS)
+        cx = int((nw - pw) * 0.35)
+        region = photo.crop((cx, 0, cx+pw, H))
+        img.paste(region, (W-pw, 0), region)
     except Exception as e:
-        print(f"Slide 1 photo error: {e}")
+        print(f"Photo error: {e}")
 
-    # Cream gradient: sólido hasta 36% del panel, desaparece al 78%
+    # Cream gradient overlay
     panel_w = int(W * 0.72)
-    blend_start = int(panel_w * 0.36)   # 36% del panel = ~20% del slide
-    blend_end   = int(panel_w * 0.78)   # 78% del panel = ~56% del slide
-    cream_overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    blend_start = int(panel_w * 0.36)
+    blend_end   = int(panel_w * 0.78)
+    overlay = Image.new("RGBA", (W, H), (0,0,0,0))
     for x in range(blend_end):
-        if x <= blend_start:
-            a = 255
-        else:
-            t = (x - blend_start) / (blend_end - blend_start)
-            a = int(255 * (1 - t))
+        a = 255 if x <= blend_start else int(255 * (1 - (x-blend_start)/(blend_end-blend_start)))
         for y in range(H):
-            cream_overlay.putpixel((x, y), CREAM + (a,))
-    img = Image.alpha_composite(img, cream_overlay)
-
+            overlay.putpixel((x, y), CREAM+(a,))
+    img = Image.alpha_composite(img, overlay)
     draw = ImageDraw.Draw(img)
-
-    # Left panel content
-    lw = int(W * 0.50)
 
     # Logo
     try:
-        logo = Image.open(IMG_DIR + "logo.jpg").convert("RGBA")
-        logo_w = 220
-        logo_h = int(logo.size[1] * (logo_w / logo.size[0]))
-        logo = logo.resize((logo_w, logo_h), Image.LANCZOS)
-        img.paste(logo, (80, 80), logo if logo.mode == 'RGBA' else None)
+        logo = Image.open(IMG_DIR+"logo.jpg").convert("RGBA")
+        lw = 210; lh = int(logo.size[1]*(lw/logo.size[0]))
+        logo = logo.resize((lw,lh), Image.LANCZOS)
+        img.paste(logo, (80,72))
     except:
-        f = font(SANS_BOLD, 28)
-        draw.text((80, 80), "MJ TRUST LAW", fill=NAVY, font=f)
+        draw.text((80,80), "MJ TRUST LAW", fill=NAVY, font=font(SANS_BOLD,28))
 
-    # Gold line
-    draw.rectangle([(80, 220), (lw - 40, 224)], fill=GOLD)
+    # Content
+    y = 290
+    f_tag = font(SANS_BOLD, 22)
+    draw.text((80, y), "ESTATE PLANNING", fill=GOLD, font=f_tag); y += 36
+    rule(draw, 80, y, 64); y += 28
 
-    # Tag
-    f_tag = font(LIB, 22)
-    draw.text((80, 244), "ESTATE PLANNING", fill=GOLD, font=f_tag)
+    f_italic = font(SERIF_I, 40)
+    draw.text((80, y), "Most people think:", fill=GRAY, font=f_italic); y += 56
 
-    # Main headline
-    f_h = font(SERIF_B, 62)
-    y = 300
-    lines = ["Proteger", "lo que", "construiste", "es posible."]
-    for line in lines:
-        draw.text((80, y), line, fill=NAVY, font=f_h)
-        y += 74
+    f_h = font(SERIF_B, 80)
+    draw.text((80, y), '"No big', fill=NAVY, font=f_h); y += 90
+    draw.text((80, y), 'deal."', fill=NAVY, font=f_h); y += 100
 
-    # Subheading
-    f_sub = font(LIB, 28)
-    y += 20
-    sub_lines = wrap_text(draw, "Planes de estate planning para familias en California.", f_sub, lw - 100)
-    for line in sub_lines:
-        draw.text((80, y), line, fill=GRAY, font=f_sub)
-        y += 38
+    rule(draw, 80, y, 64); y += 28
+    f_body = font(SANS_BOLD, 26)
+    for line in wrap(draw, "In California, that 'small' mistake can break your entire estate plan.", f_body, 480):
+        draw.text((80, y), line, fill=NAVY, font=f_body); y += 38
+    y += 16
+    f_cta = font(SERIF_I, 26)
+    draw.text((80, y), "Swipe to see how  →", fill=GOLD, font=f_cta)
 
     img = img.convert("RGB")
     page_indicator(img, 1, dark=False)
-    img.save(OUT_DIR + "slide1.jpg", quality=90)
+    img.save(OUT_DIR+"slide1.jpg", quality=90)
     print("Slide 1 saved")
 
-# ── SLIDE 2: Cream design - big typography ────────────────────────────────────
+# ── SLIDE 2 ───────────────────────────────────────────────────────────────────
 def slide2():
     img = Image.new("RGB", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Large decorative circles
-    for cx, cy, r in [(820, 180, 260), (900, 1200, 320), (160, 900, 180)]:
-        draw.ellipse([(cx-r, cy-r), (cx+r, cy+r)], outline=GOLD + (0,), width=2)
-    # dot grid (subtle)
-    for x in range(80, W-80, 44):
-        for y in range(80, H-80, 44):
-            draw.ellipse([(x-1, y-1), (x+1, y+1)], fill=(194, 128, 26, 40))
+    hdr_bar(img); draw = ImageDraw.Draw(img)
+    dotgrid(draw, W-240, H-300, 200, 200)
+    draw.ellipse([(W-380,-260),(W+260,380)], outline=(*GOLD,40), width=2)
 
-    # Gold accent top
-    draw.rectangle([(80, 80), (200, 84)], fill=GOLD)
+    # watermark number
+    draw.text((W-300, 110), "2", fill=(26,46,74,18), font=font(SERIF_B,240))
 
-    # Tag
-    f_tag = font(LIB, 22)
-    draw.text((80, 102), "SITUACIÓN REAL", fill=GOLD, font=f_tag)
+    y = 140
+    f_tag = font(SANS_BOLD, 22); draw.text((72, y), "THE SCENARIO", fill=GOLD, font=f_tag); y += 38
+    f_h = font(SERIF_B, 80)
+    draw.text((72, y), "Let's say", fill=NAVY, font=f_h); y += 90
+    draw.text((72, y), "you have", fill=NAVY, font=f_h); y += 90
+    f_hi = font(SERIF_I, 80)
+    draw.text((72, y), "a Trust.", fill=GOLD, font=f_hi); y += 100
+    rule(draw, 72, y, W-144); y += 32
 
-    # Big quote text
-    f_big = font(SERIF_B, 88)
-    y = 320
-    for line in ["Tenían", "todo en", "orden."]:
-        bbox = draw.textbbox((0,0), line, font=f_big)
-        draw.text((80, y), line, fill=NAVY, font=f_big)
-        y += 102
+    f_check = font(SANS_BOLD, 28)
+    f_item  = font(SERIF, 30)
+    for item in ["Your home is in it.", "Your beneficiaries are named.", "Everything looks perfect."]:
+        draw.text((72, y), "✓", fill=GOLD, font=f_check)
+        draw.text((120, y+2), item, fill=NAVY, font=f_item)
+        y += 50
 
-    # Underline
-    draw.rectangle([(80, y + 10), (420, y + 16)], fill=GOLD)
-    y += 50
-
-    # Body text
-    f_body = font(LIB, 32)
-    body = "Una casa. Una cuenta de retiro. La intención de armar su trust el año que viene."
-    body_lines = wrap_text(draw, body, f_body, W - 160)
-    for line in body_lines:
-        draw.text((80, y), line, fill=(60, 60, 60), font=f_body)
-        y += 46
-
-    y += 20
-    f_bold = font(LIB_BOLD, 32)
-    draw.text((80, y), "Entonces pasó algo inesperado.", fill=NAVY, font=f_bold)
+    rule(draw, 72, y, W-144); y += 32
+    f_end = font(SERIF_I, 52)
+    draw.text((72, y), "One thing", fill=NAVY, font=f_end); y += 64
+    draw.text((72, y), "gets missed…", fill=NAVY, font=f_end)
 
     page_indicator(img, 2, dark=False)
-    img.save(OUT_DIR + "slide2.jpg", quality=90)
+    ftr_bar(img, 2)
+    img.save(OUT_DIR+"slide2.jpg", quality=90)
     print("Slide 2 saved")
 
-# ── SLIDE 3: Hispanic family photo with overlay ───────────────────────────────
+# ── SLIDE 3 ───────────────────────────────────────────────────────────────────
 def slide3():
-    try:
-        photo = load_img("depositphotos_2348091-stock-photo-hispanic-family-portrait-in-the.jpg")
-    except:
-        photo = Image.new("RGBA", (W, H), (100, 80, 60, 255))
-
-    pw, ph = photo.size
-    scale = max(W/pw, H/ph)
-    new_w, new_h = int(pw * scale), int(ph * scale)
-    photo = photo.resize((new_w, new_h), Image.LANCZOS)
-    x_off = (new_w - W) // 2
-    y_off = (new_h - H) // 2
-    photo = photo.crop((x_off, y_off, x_off + W, y_off + H))
-
-    img = photo.copy()
-
-    # Warm gradient overlay: cream top -> transparent middle -> dark bottom
-    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    for y in range(H):
-        if y < H * 0.35:
-            alpha = int(200 * (1 - y / (H * 0.35)))
-            r, g, b = 245, 235, 215
-        elif y > H * 0.55:
-            t = (y - H * 0.55) / (H * 0.45)
-            alpha = int(210 * t)
-            r, g, b = 10, 18, 30
-        else:
-            alpha = 0
-            r, g, b = 0, 0, 0
-        for x in range(W):
-            overlay.putpixel((x, y), (r, g, b, alpha))
-    img = Image.alpha_composite(img, overlay)
-
+    img = Image.new("RGB", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Top content
-    f_tag = font(LIB, 24)
-    draw.text((80, 90), "LO QUE NO PLANEARON", fill=GOLD, font=f_tag)
-    draw.rectangle([(80, 122), (340, 126)], fill=GOLD)
+    hdr_bar(img); draw = ImageDraw.Draw(img)
+    # big circle
+    r = 390; cx_c, cy_c = W//2, H//2+50
+    draw.ellipse([(cx_c-r,cy_c-r),(cx_c+r,cy_c+r)], outline=(*GOLD,40), width=2)
+    dotgrid(draw, W-230, 100, 190, 190)
 
-    # Bottom content
-    f_h = font(SERIF_B, 72)
-    y = H - 480
-    for line in ["Y sin un plan,"]:
-        bbox = draw.textbbox((0, 0), line, font=f_h)
-        draw.text((80, y), line, fill=WHITE, font=f_h)
-        y += 86
-    f_h2 = font(SERIF_B, 68)
-    for line in ["la familia tuvo", "que esperar."]:
-        draw.text((80, y), line, fill=WHITE, font=f_h2)
-        y += 80
+    y = 140
+    f_tag = font(SANS_BOLD, 22)
+    tw = draw.textbbox((0,0),"THE OVERLOOKED ASSET",font=f_tag)[2]
+    draw.text(((W-tw)//2, y), "THE OVERLOOKED ASSET", fill=GOLD, font=f_tag); y += 40
 
+    # giant $500
+    f_dollar = font(SERIF_B, 54)
+    f_num    = font(SERIF_B, 200)
+    bbox_d = draw.textbbox((0,0),"$",font=f_dollar)
+    bbox_n = draw.textbbox((0,0),"500",font=f_num)
+    total_w = (bbox_d[2]-bbox_d[0]) + (bbox_n[2]-bbox_n[0])
+    sx = (W - total_w) // 2
+    draw.text((sx, y+30), "$", fill=NAVY, font=f_dollar)
+    draw.text((sx + bbox_d[2]-bbox_d[0], y-10), "500", fill=NAVY, font=f_num)
+    y += 220
+
+    rule(draw, (W-520)//2, y, 520); y += 28
+
+    f_italic = font(SERIF_I, 36)
+    tw2 = draw.textbbox((0,0),"Still in your individual name.",font=f_italic)[2]
+    draw.text(((W-tw2)//2, y), "Still in your individual name.", fill=NAVY, font=f_italic); y += 52
+
+    f_body = font(SANS, 26)
+    for line in wrap(draw, "Under California's small estate rules, on its own — no probate needed.", f_body, 760):
+        tw3 = draw.textbbox((0,0),line,font=f_body)[2]
+        draw.text(((W-tw3)//2, y), line, fill=BROWN, font=f_body); y += 40
     y += 16
-    f_body = font(LIB, 30)
-    body_lines = wrap_text(draw, "Probate en California: meses de proceso y miles en honorarios.", f_body, W - 160)
-    for line in body_lines:
-        draw.text((80, y), line, fill=(220, 210, 195), font=f_body)
-        y += 44
 
-    img = img.convert("RGB")
-    page_indicator(img, 3, dark=True)
-    img.save(OUT_DIR + "slide3.jpg", quality=90)
+    rule(draw, (W-520)//2, y, 520); y += 28
+
+    f_risky = font(SANS_BOLD, 30)
+    tw4 = draw.textbbox((0,0),"But here's where it gets risky…",font=f_risky)[2]
+    draw.text(((W-tw4)//2, y), "But here's where it gets risky…", fill=GOLD, font=f_risky); y += 48
+
+    for line in wrap(draw, "One forgotten account is all it takes to expose your entire estate to probate court.", f_body, 760):
+        tw5 = draw.textbbox((0,0),line,font=f_body)[2]
+        draw.text(((W-tw5)//2, y), line, fill=BROWN, font=f_body); y += 38
+
+    page_indicator(img, 3, dark=False)
+    ftr_bar(img, 3)
+    img.save(OUT_DIR+"slide3.jpg", quality=90)
     print("Slide 3 saved")
 
-# ── SLIDE 4: Cream - $45,000 as visual element ───────────────────────────────
+# ── SLIDE 4 ───────────────────────────────────────────────────────────────────
 def slide4():
     img = Image.new("RGB", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Gold corner brackets
-    bw, bl = 60, 4  # bracket width, line thickness
-    pad = 70
-    for (x1, y1, x2, y2) in [(pad, pad, pad+bw, pad+bw), (W-pad-bw, pad, W-pad, pad+bw),
-                               (pad, H-pad-bw, pad+bw, H-pad), (W-pad-bw, H-pad-bw, W-pad, H-pad)]:
-        # top-left
-        if x1 == pad and y1 == pad:
-            draw.rectangle([(x1, y1), (x1+bw, y1+bl)], fill=GOLD)
-            draw.rectangle([(x1, y1), (x1+bl, y1+bw)], fill=GOLD)
-        elif x1 == W-pad-bw and y1 == pad:
-            draw.rectangle([(x1, y1), (x2, y1+bl)], fill=GOLD)
-            draw.rectangle([(x2-bl, y1), (x2, y2)], fill=GOLD)
-        elif y1 == H-pad-bw:
-            if x1 == pad:
-                draw.rectangle([(x1, y2-bl), (x1+bw, y2)], fill=GOLD)
-                draw.rectangle([(x1, y1), (x1+bl, y2)], fill=GOLD)
-            else:
-                draw.rectangle([(x1, y2-bl), (x2, y2)], fill=GOLD)
-                draw.rectangle([(x2-bl, y1), (x2, y2)], fill=GOLD)
+    hdr_bar(img); draw = ImageDraw.Draw(img)
+    dotgrid(draw, 30, 220, 160, 400)
+    draw.ellipse([(-80,-80),(420,420)], outline=(*GOLD,35), width=2)
 
-    # Tag
-    f_tag = font(LIB, 24)
-    draw.text((80, 130), "EL COSTO REAL", fill=GOLD, font=f_tag)
-    draw.rectangle([(80, 162), (280, 166)], fill=GOLD)
+    y = 130
+    f_tag = font(SANS_BOLD, 22)
+    draw.text((72, y), "THE BIGGER PICTURE", fill=GOLD, font=f_tag); y += 40
+    f_h = font(SANS_BOLD, 52)
+    for line in wrap(draw, "That one account is often a sign of a bigger issue.", f_h, W-144):
+        draw.text((72, y), line, fill=NAVY, font=f_h); y += 62
+    y += 4
 
-    # Huge number as design element
-    f_huge = font(SERIF_B, 180)
-    num_text = "$45,000"
-    bbox = draw.textbbox((0, 0), num_text, font=f_huge)
-    tw = bbox[2] - bbox[0]
-    x = (W - tw) // 2
-    draw.text((x, 220), num_text, fill=NAVY, font=f_huge)
+    rule(draw, 72, y, W-144); y += 30
+    f_it = font(SERIF_I, 28)
+    draw.text((72, y), "Something else may have been missed too.", fill=BROWN, font=f_it); y += 46
 
-    # Subtitle under number
-    f_sub = font(LIB, 28)
-    sub = "en honorarios de probate"
-    bbox = draw.textbbox((0, 0), sub, font=f_sub)
-    draw.text(((W - (bbox[2]-bbox[0])) // 2, 430), sub, fill=GRAY, font=f_sub)
+    f_item = font(SERIF, 30)
+    for item in ["An old retirement account.", "A second property.", "An investment account you forgot to transfer."]:
+        draw.text((72, y), "◆", fill=GOLD, font=font(SANS_BOLD,24))
+        draw.text((118, y), item, fill=NAVY, font=f_item); y += 50
+    y += 8
 
-    # Gold divider
-    draw.rectangle([(W//2 - 120, 490), (W//2 + 120, 494)], fill=GOLD)
+    rule(draw, 72, y, W-144); y += 30
+    f_reveal1 = font(SANS_BOLD, 38)
+    tw = draw.textbbox((0,0),"The $500 isn't the problem.",font=f_reveal1)[2]
+    draw.text(((W-tw)//2, y), "The $500 isn't the problem.", fill=NAVY, font=f_reveal1); y += 52
+    f_reveal2 = font(SANS_BOLD, 38)
+    tw2 = draw.textbbox((0,0),"What it REVEALS is.",font=f_reveal2)[2]
+    draw.text(((W-tw2)//2, y), "What it REVEALS is.", fill=GOLD, font=f_reveal2); y += 52
+    f_pattern = font(SERIF_I, 26)
+    tw3 = draw.textbbox((0,0),"It's a pattern. And patterns need fixing.",font=f_pattern)[2]
+    draw.text(((W-tw3)//2, y), "It's a pattern. And patterns need fixing.", fill=BROWN, font=f_pattern)
 
-    # Body
-    f_body = font(LIB, 32)
-    y = 530
-    lines = [
-        "Para una propiedad de $700,000 en",
-        "el área de San Diego, los honorarios",
-        "legales obligatorios pueden superar",
-        "esa cifra.",
-    ]
-    for line in lines:
-        bbox = draw.textbbox((0, 0), line, font=f_body)
-        draw.text(((W - (bbox[2]-bbox[0])) // 2, y), line, fill=(60, 60, 60), font=f_body)
-        y += 46
-
-    # Bold kicker
-    y += 30
-    f_bold = font(LIB_BOLD, 34)
-    kicker = "Un trust evita todo eso."
-    bbox = draw.textbbox((0, 0), kicker, font=f_bold)
-    draw.text(((W - (bbox[2]-bbox[0])) // 2, y), kicker, fill=NAVY, font=f_bold)
-
-    # Dots
-    for i, filled in enumerate([False, True, False, False, False]):
-        cx = W//2 + (i - 2) * 28
     page_indicator(img, 4, dark=False)
-    img.save(OUT_DIR + "slide4.jpg", quality=90)
+    ftr_bar(img, 4)
+    img.save(OUT_DIR+"slide4.jpg", quality=90)
     print("Slide 4 saved")
 
-# ── SLIDE 5: Cream - quote design ────────────────────────────────────────────
+# ── SLIDE 5 ───────────────────────────────────────────────────────────────────
 def slide5():
+    img = Image.new("RGB", (W, H), NAVY)
+    draw = ImageDraw.Draw(img)
+
+    # Watermark PROBATE
+    draw.text((-30, H-320), "PROBATE", fill=(255,255,255,10), font=font(SANS_BOLD,220))
+    draw.ellipse([(W-600,-200),(W+200,600)], outline=(194,128,26,50), width=2)
+
+    hdr_bar(img); draw = ImageDraw.Draw(img)
+
+    y = 120
+    f_tag = font(SANS_BOLD, 22)
+    draw.text((72, y), "CALIFORNIA LAW", fill=GOLD, font=f_tag); y += 38
+    rule(draw, 72, y, W-144, col=GOLD); y += 30
+    f_h = font(SANS_BOLD, 54)
+    for line in wrap(draw, "Probate fees are based on the gross value of the estate.", f_h, W-144):
+        draw.text((72, y), line, fill=WHITE, font=f_h); y += 64
+    y += 4
+    rule(draw, 72, y, W-144, col=GOLD); y += 28
+    f_it = font(SERIF_I, 28)
+    draw.text((72, y), "Not the size of the mistake.", fill=(255,255,255,190), font=f_it); y += 44
+    draw.text((72, y), "Not just the $500 account.", fill=(255,255,255,190), font=f_it); y += 50
+    rule(draw, 72, y, W-144, col=GOLD); y += 28
+
+    f_bold = font(SANS_BOLD, 28)
+    for line in wrap(draw, "If ANY significant asset sits outside your trust — real estate, accounts, property — probate is on the table.", f_bold, W-144):
+        tw = draw.textbbox((0,0),line,font=f_bold)[2]
+        draw.text(((W-tw)//2, y), line, fill=GOLD, font=f_bold); y += 42
+    y += 8
+
+    f_body = font(SANS, 24)
+    for line in wrap(draw, "And probate in California means months of court process, public records, and fees that can reach 4–6% of your gross estate.", f_body, W-144):
+        tw = draw.textbbox((0,0),line,font=f_body)[2]
+        draw.text(((W-tw)//2, y), line, fill=(255,255,255,190), font=f_body); y += 38
+
+    page_indicator(img, 5, dark=True)
+    ftr_bar(img, 5, light=False)
+    img.save(OUT_DIR+"slide5.jpg", quality=90)
+    print("Slide 5 saved")
+
+# ── SLIDE 6 ───────────────────────────────────────────────────────────────────
+def slide6():
     img = Image.new("RGB", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Inner frame border
-    pad = 55
-    draw.rectangle([(pad, pad), (W-pad, H-pad)], outline=GOLD, width=2)
+    hdr_bar(img); draw = ImageDraw.Draw(img)
+    r = 400; cx_c, cy_c = W//2, H//2+60
+    draw.ellipse([(cx_c-r,cy_c-r),(cx_c+r,cy_c+r)], outline=(*GOLD,40), width=2)
+    dotgrid(draw, W-230, H-300, 190, 200)
 
-    # Dot grid accent (top-right corner area)
-    for x in range(W - 300, W - 80, 36):
-        for y in range(90, 320, 36):
-            draw.ellipse([(x-1, y-1), (x+1, y+1)], fill=(*GOLD, 60))
+    y = 130
+    f_h = font(SANS_BOLD, 54)
+    tw1 = draw.textbbox((0,0),"THE REAL PROBLEM",font=f_h)[2]
+    draw.text(((W-tw1)//2, y), "THE REAL PROBLEM", fill=NAVY, font=f_h); y += 64
+    tw2 = draw.textbbox((0,0),"ISN'T THE $500.",font=f_h)[2]
+    draw.text(((W-tw2)//2, y), "ISN'T THE $500.", fill=NAVY, font=f_h); y += 72
 
-    # Big decorative quote marks
-    f_quote = font(SERIF_B, 240)
-    draw.text((90, 60), "“", fill=(*GOLD, 30), font=f_quote)
-    # Use a simple approach - draw giant quote marks
-    f_q = font(SERIF_B, 220)
-    draw.text((80, 40), '"', fill=(194, 128, 26), font=f_q)
+    rule(draw, (W-520)//2, y, 520); y += 30
 
-    # Section tag
-    f_tag = font(LIB, 22)
-    draw.text((110, 330), "LA SOLUCIÓN", fill=GOLD, font=f_tag)
-    draw.rectangle([(110, 360), (310, 364)], fill=GOLD)
+    f_it = font(SERIF_I, 30)
+    tw3 = draw.textbbox((0,0),"It's what it reveals:",font=f_it)[2]
+    draw.text(((W-tw3)//2, y), "It's what it reveals:", fill=BROWN, font=f_it); y += 52
 
-    # Quote text
-    f_h = font(SERIF_B, 54)
-    y = 400
-    lines = ["No hace falta tener", "todo claro para dar", "el primer paso."]
-    for line in lines:
-        draw.text((110, y), line, fill=NAVY, font=f_h)
-        y += 68
+    f_item = font(SERIF, 30)
+    for item in ["An incomplete plan.", "Unfunded assets.", "A system that fails your family when it matters most."]:
+        draw.text((W//2-340, y), "◆", fill=GOLD, font=font(SANS_BOLD,24))
+        for line in wrap(draw, item, f_item, 580):
+            draw.text((W//2-290, y), line, fill=NAVY, font=f_item); y += 44
 
-    # Gold line
-    draw.rectangle([(110, y + 10), (450, y + 14)], fill=GOLD)
-    y += 50
+    y += 8; rule(draw, (W-520)//2, y, 520); y += 28
 
-    # Body
-    f_body = font(LIB, 30)
-    body = "En una consulta gratuita de 30 minutos revisamos tu situación y te damos un presupuesto concreto."
-    body_lines = wrap_text(draw, body, f_body, W - 220)
-    for line in body_lines:
-        draw.text((110, y), line, fill=(70, 70, 70), font=f_body)
-        y += 46
-
-    # Author attribution style
-    y += 20
-    f_attr = font(LIB_BOLD, 26)
-    draw.text((110, y), "MJ Trust Law — Chula Vista, CA", fill=GOLD, font=f_attr)
-
-    page_indicator(img, 5, dark=False)
-    img.save(OUT_DIR + "slide5.jpg", quality=90)
-    print("Slide 5 saved")
-
-# ── SLIDE 6: Attorney photo + dark overlay + CTA ─────────────────────────────
-def slide6():
-    try:
-        photo = load_img("10.webp")
-    except:
-        photo = Image.new("RGBA", (W, H), (40, 60, 80, 255))
-
-    orig_w, orig_h = photo.size
-    # Cover crop maintaining aspect ratio, anchor top for face
-    scale = max(W / orig_w, H / orig_h)
-    new_w, new_h = int(orig_w * scale), int(orig_h * scale)
-    photo = photo.resize((new_w, new_h), Image.LANCZOS)
-    x_off = (new_w - W) // 2
-    y_off = 0  # top anchor keeps face in frame
-    photo = photo.crop((x_off, y_off, x_off + W, y_off + H))
-
-    img = photo.copy()
-
-    # Dark gradient overlay top and bottom
-    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    for y in range(H):
-        if y < H * 0.5:
-            t = 1 - (y / (H * 0.5))
-            alpha = int(180 * t)
-        else:
-            t = (y - H * 0.5) / (H * 0.5)
-            alpha = int(220 * t)
-        r, g, b = DARK
-        for x in range(W):
-            overlay.putpixel((x, y), (r, g, b, alpha))
-    img = Image.alpha_composite(img, overlay)
-
-    draw = ImageDraw.Draw(img)
-
-    # Logo top
-    try:
-        logo = Image.open(IMG_DIR + "logo.jpg").convert("RGBA")
-        # Make logo visible on dark: apply white tint
-        logo_w = 200
-        logo_h = int(logo.size[1] * (logo_w / logo.size[0]))
-        logo = logo.resize((logo_w, logo_h), Image.LANCZOS)
-        x_logo = (W - logo_w) // 2
-        img.paste(logo, (x_logo, 70), logo if logo.mode == 'RGBA' else None)
-    except:
-        f_logo = font(SANS_BOLD, 30)
-        bbox = draw.textbbox((0,0), "MJ TRUST LAW", font=f_logo)
-        draw.text(((W-(bbox[2]-bbox[0]))//2, 80), "MJ TRUST LAW", fill=WHITE, font=f_logo)
-
-    # CTA block - centered bottom
-    y = H - 560
-
-    f_tag = font(LIB, 24)
-    tag = "PRIMER PASO SIN COSTO"
-    bbox = draw.textbbox((0, 0), tag, font=f_tag)
-    draw.text(((W-(bbox[2]-bbox[0]))//2, y), tag, fill=GOLD, font=f_tag)
-    y += 40
-    draw.rectangle([(W//2-100, y), (W//2+100, y+3)], fill=GOLD)
+    f_bold_it = font(SERIF_I, 28)
+    for line in ["It's not the big things that break a plan.", "It's the small ones that get overlooked."]:
+        tw = draw.textbbox((0,0),line,font=f_bold_it)[2]
+        draw.text(((W-tw)//2, y), line, fill=NAVY, font=f_bold_it); y += 44
     y += 24
 
-    f_h = font(SERIF_B, 66)
-    for line in ["Consultá gratis.", "Sin formularios,", "sin compromiso."]:
-        bbox = draw.textbbox((0, 0), line, font=f_h)
-        draw.text(((W-(bbox[2]-bbox[0]))//2, y), line, fill=WHITE, font=f_h)
-        y += 78
-
-    y += 20
     # CTA button
-    btn_w, btn_h = 680, 86
-    bx = (W - btn_w) // 2
-    draw.rectangle([(bx, y), (bx + btn_w, y + btn_h)], fill=GOLD)
-    f_btn = font(LIB_BOLD, 30)
-    btn_text = "Agendar consulta gratuita"
-    bbox = draw.textbbox((0, 0), btn_text, font=f_btn)
-    tx = bx + (btn_w - (bbox[2]-bbox[0])) // 2
-    ty = y + (btn_h - (bbox[3]-bbox[1])) // 2
-    draw.text((tx, ty), btn_text, fill=DARK, font=f_btn)
+    btn_w, btn_h = 680, 80; bx = (W-btn_w)//2
+    draw.rectangle([(bx, y),(bx+btn_w, y+btn_h)], fill=NAVY)
+    f_btn = font(SANS_BOLD, 26)
+    btn_text = "Book a Free Consultation"
+    bbox = draw.textbbox((0,0),btn_text,font=f_btn)
+    tx = bx + (btn_w-(bbox[2]-bbox[0]))//2; ty = y + (btn_h-(bbox[3]-bbox[1]))//2
+    draw.text((tx,ty), btn_text, fill=WHITE, font=f_btn); y += btn_h + 22
 
-    y += btn_h + 28
-    f_contact = font(LIB, 26)
-    contact = "mjtrust.law  |  Chula Vista, CA"
-    bbox = draw.textbbox((0, 0), contact, font=f_contact)
-    draw.text(((W-(bbox[2]-bbox[0]))//2, y), contact, fill=(200, 190, 175), font=f_contact)
+    f_url = font(SANS_BOLD, 24)
+    tw_url = draw.textbbox((0,0),"mjtrust law.com",font=f_url)[2]
+    draw.text(((W-tw_url)//2, y), "mjtrust law.com", fill=GOLD, font=f_url)
 
-    img = img.convert("RGB")
-    page_indicator(img, 6, dark=True)
-    img.save(OUT_DIR + "slide6.jpg", quality=90)
+    page_indicator(img, 6, dark=False)
+    ftr_bar(img, 6)
+    img.save(OUT_DIR+"slide6.jpg", quality=90)
     print("Slide 6 saved")
 
 
