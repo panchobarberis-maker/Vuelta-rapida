@@ -95,17 +95,17 @@ def slide1():
         new_w = int(orig_w * scale)
         new_h = int(orig_h * scale)
         photo = photo.resize((new_w, new_h), Image.LANCZOS)
-        cx = new_w - pw  # alinear al borde derecho de la foto
+        cx = int((new_w - pw) * 0.35)  # 35% desde la izquierda — cara centrada visible
         region = photo.crop((cx, 0, cx + pw, H))
         x_off = W - pw
         img.paste(region, (x_off, 0), region)
     except Exception as e:
         print(f"Slide 1 photo error: {e}")
 
-    # Cream gradient overlay: solid left → fade to transparent right
-    # Matches CSS: solid until 50%, then fades to nothing at 72% of W
-    blend_start = int(W * 0.50)
-    blend_end   = int(W * 0.72)
+    # Cream gradient: sólido hasta 36% del panel, desaparece al 78%
+    panel_w = int(W * 0.72)
+    blend_start = int(panel_w * 0.36)   # 36% del panel = ~20% del slide
+    blend_end   = int(panel_w * 0.78)   # 78% del panel = ~56% del slide
     cream_overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     for x in range(blend_end):
         if x <= blend_start:
