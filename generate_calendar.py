@@ -187,6 +187,12 @@ def build(output_path):
         cal_style.add("BACKGROUND",(dow,row_idx),(dow,row_idx),LAVENDER)
     cal_table.setStyle(cal_style)
 
+    STORY_TYPE_DESC = {
+        "Oficina":   "Recordatorio semanal con ubicación, horarios y vías de contacto. Pin de ubicación animado, foto de la oficina o de la abogada. Sticker de link. Fondo crema, texto navy.",
+        "Review":    "Historia mostrando una reseña de cliente. Quote en tipografía grande, estrellas doradas en la parte superior. Sin foto del cliente. Fondo crema cálido.",
+        "Educativa": "Historia educativa semanal. El formato rota cada semana: quick fact de probate / encuesta interactiva / BTS de la consulta gratuita / pregunta frecuente respondida.",
+    }
+
     # ── BLOCK BUILDERS ─────────────────────────────────────────────
     def post_block(date, title, format_type, lang, objective, why_format, visual, copy_lines, special=None):
         elems = []
@@ -209,9 +215,6 @@ def build(output_path):
         for lbl, val in [("Objetivo", objective), ("Por qué este formato", why_format), ("Visual", visual)]:
             block.append(Paragraph(lbl, bold))
             block.append(Paragraph(val, body))
-        block.append(Paragraph("Copy", bold))
-        for line in copy_lines:
-            block.append(Paragraph(line, copy_s))
         block.append(HRFlowable(width="100%", thickness=0.5,
                      color=colors.HexColor("#dddddd"), spaceAfter=10, spaceBefore=6))
         elems.append(KeepTogether(block[:4]))
@@ -234,14 +237,12 @@ def build(output_path):
             ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),6),
             ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),4),
         ]))
-        block = [hdr_t, Paragraph(title, h2)]
-        block.append(Paragraph("Contenido", bold))
-        for line in lines:
-            block.append(Paragraph(line, copy_s))
+        desc = STORY_TYPE_DESC.get(story_type, "")
+        block = [hdr_t, Paragraph(title, h2), Paragraph("Descripción", bold), Paragraph(desc, body)]
         block.append(HRFlowable(width="100%", thickness=0.5,
                      color=colors.HexColor("#e0d0f0"), spaceAfter=10, spaceBefore=6))
-        elems.append(KeepTogether(block[:3]))
-        elems += block[3:]
+        elems.append(KeepTogether(block[:4]))
+        elems += block[4:]
         return elems
 
     story = []
