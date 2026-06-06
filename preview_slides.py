@@ -64,17 +64,21 @@ def slide1():
     img = Image.new("RGBA", (W, H), CREAM)
     draw = ImageDraw.Draw(img)
 
-    # Right panel: attorney photo
+    # Right panel: attorney photo — cover crop (no stretch)
     try:
         photo = load_img("10.webp")
         pw = int(W * 0.57)
-        ph_ratio = photo.size[1] / photo.size[0]
-        photo = photo.resize((pw, int(pw * ph_ratio)), Image.LANCZOS)
-        if photo.size[1] < H:
-            photo = photo.resize((pw, H), Image.LANCZOS)
-        # Crop to right 57%
+        orig_w, orig_h = photo.size
+        # Scale so photo COVERS the panel (pw x H) without distorting
+        scale = max(pw / orig_w, H / orig_h)
+        new_w = int(orig_w * scale)
+        new_h = int(orig_h * scale)
+        photo = photo.resize((new_w, new_h), Image.LANCZOS)
+        # Center crop to panel size, bias towards top (face)
+        cx = (new_w - pw) // 2
+        cy = 0  # anchor top so face stays visible
+        region = photo.crop((cx, cy, cx + pw, cy + H))
         x_off = W - pw
-        region = photo.crop((0, 0, pw, H))
         img.paste(region, (x_off, 0), region)
 
         # Feather gradient from cream to transparent on left edge of photo
@@ -403,12 +407,13 @@ def slide6():
     except:
         photo = Image.new("RGBA", (W, H), (40, 60, 80, 255))
 
-    pw, ph = photo.size
-    scale = max(W/pw, H/ph)
-    new_w, new_h = int(pw * scale), int(ph * scale)
+    orig_w, orig_h = photo.size
+    # Cover crop maintaining aspect ratio, anchor top for face
+    scale = max(W / orig_w, H / orig_h)
+    new_w, new_h = int(orig_w * scale), int(orig_h * scale)
     photo = photo.resize((new_w, new_h), Image.LANCZOS)
     x_off = (new_w - W) // 2
-    y_off = (new_h - H) // 2
+    y_off = 0  # top anchor keeps face in frame
     photo = photo.crop((x_off, y_off, x_off + W, y_off + H))
 
     img = photo.copy()
