@@ -4,417 +4,437 @@
 <meta charset="UTF-8">
 <title>MJ Trust Law — Carousel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
-  background: #1a1a1a;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 48px;
-  padding: 48px 0 80px;
+  background:#111;
+  display:flex; flex-direction:column;
+  align-items:center; gap:56px;
+  padding:56px 0 100px;
 }
+
+/* ── Base slide ── */
 .slide {
-  width: 1080px; height: 1350px;
-  position: relative; overflow: hidden; flex-shrink: 0;
+  width:1080px; height:1350px;
+  position:relative; overflow:hidden; flex-shrink:0;
 }
-.logo-badge {
-  position: absolute; top: 52px; left: 56px;
-  background: rgba(255,255,255,0.93); border-radius: 6px;
-  padding: 11px 18px; z-index: 20;
-  box-shadow: 0 3px 18px rgba(0,0,0,0.15);
+
+/* ── Shared: gold top stripe ── */
+.top-stripe {
+  position:absolute; top:0; left:0; right:0;
+  height:6px; background:#C2801A; z-index:30;
 }
-.logo-badge img { height: 50px; display: block; }
-.logo-badge-dark { position: absolute; top: 52px; left: 56px; z-index: 20; }
-.logo-badge-dark img { height: 50px; display: block; }
-.pg {
-  position: absolute; bottom: 52px; left: 0; right: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 13px; z-index: 30;
+
+/* ── Shared: page counter bottom-right ── */
+.counter {
+  position:absolute; bottom:48px; right:60px;
+  display:flex; align-items:center; gap:14px; z-index:30;
 }
-.pg-bars { display: flex; gap: 10px; }
-.pg-bar { width: 44px; height: 3px; border-radius: 2px; }
-.pg-bar.on        { background: #C2801A; }
-.pg-bar.off-light { background: rgba(26,46,74,0.18); }
-.pg-bar.off-dark  { background: rgba(255,255,255,0.28); }
-.pg-num {
-  font-family: 'Raleway', sans-serif; font-size: 12px;
-  font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
+.counter-line {
+  width:36px; height:1px;
 }
-.pg-num.light { color: #b09878; }
-.pg-num.dark  { color: rgba(255,255,255,0.48); }
+.counter-text {
+  font-family:'Raleway',sans-serif;
+  font-size:13px; font-weight:600;
+  letter-spacing:4px; text-transform:uppercase;
+}
+
+/* ── Shared: logo top-left ── */
+.logo-wrap {
+  position:absolute; top:38px; left:56px; z-index:30;
+}
+.logo-wrap img { height:44px; display:block; }
+.logo-wrap-light {
+  position:absolute; top:38px; left:56px; z-index:30;
+  background:rgba(255,255,255,0.92);
+  border-radius:4px; padding:8px 16px;
+}
+.logo-wrap-light img { height:40px; display:block; }
 </style>
 </head>
 <body>
 
 
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 1 — COVER: foto abogada + panel crema
-     "Most people think: No big deal."
-     ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     S1 — COVER
+     Layout: full-bleed attorney photo, dark vignette,
+     text anchored bottom-left, tag top-left
+     ══════════════════════════════════════════════════ -->
 <div class="slide" id="s1">
 
-  <div style="position:absolute;right:0;top:0;width:72%;height:100%;">
-    <div style="width:100%;height:100%;
-      background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');
-      background-size:cover;background-position:35% top;"></div>
+  <!-- full-bleed photo -->
+  <div style="position:absolute;inset:0;
+    background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');
+    background-size:cover;background-position:center top;"></div>
+
+  <!-- vignette: dark left + dark bottom -->
+  <div style="position:absolute;inset:0;
+    background:linear-gradient(to right,rgba(10,18,30,0.85) 0%,rgba(10,18,30,0.5) 45%,rgba(10,18,30,0) 75%);"></div>
+  <div style="position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(10,18,30,0.7) 0%,transparent 50%);"></div>
+
+  <!-- top stripe -->
+  <div class="top-stripe"></div>
+
+  <!-- logo -->
+  <div class="logo-wrap-light">
+    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
 
-  <div style="position:absolute;left:0;top:0;width:72%;height:100%;
-    background:linear-gradient(to right,#F5EFE6 0%,#F5EFE6 36%,rgba(245,239,230,0.7) 50%,rgba(245,239,230,0.15) 65%,rgba(245,239,230,0) 78%);
-    z-index:5;display:flex;flex-direction:column;justify-content:center;padding:72px 56px;">
+  <!-- main text — bottom left -->
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 64px 100px;z-index:10;">
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:20px;">
+      Estate Planning · Chula Vista
+    </p>
 
-    <div style="position:absolute;top:52px;left:56px;">
-      <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg" style="height:52px;">
-    </div>
+    <h1 style="font-family:'Playfair Display',serif;font-size:96px;font-weight:400;
+      font-style:italic;color:#fff;line-height:1.0;margin-bottom:8px;">
+      "No big
+    </h1>
+    <h1 style="font-family:'Playfair Display',serif;font-size:96px;font-weight:700;
+      color:#fff;line-height:1.0;margin-bottom:36px;">
+      deal."
+    </h1>
 
-    <div style="margin-top:30px;">
-      <p style="font-family:'Raleway',sans-serif;font-size:14px;font-weight:700;
-        color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:24px;">
-        Estate Planning
-      </p>
-      <div style="width:64px;height:2px;background:#C2801A;margin-bottom:36px;"></div>
+    <div style="width:56px;height:2px;background:#C2801A;margin-bottom:26px;"></div>
 
-      <p style="font-family:'Playfair Display',serif;font-size:34px;font-style:italic;
-        font-weight:400;color:#6b5840;line-height:1.3;margin-bottom:14px;">
-        Most people think:
-      </p>
-      <h1 style="font-family:'Playfair Display',serif;font-size:72px;font-weight:700;
-        color:#1a2e4a;line-height:1.04;margin-bottom:34px;">
-        "No big<br>deal."
-      </h1>
-      <div style="width:64px;height:2px;background:#C2801A;margin-bottom:28px;"></div>
-      <p style="font-family:'Raleway',sans-serif;font-size:20px;font-weight:600;
-        color:#1a2e4a;line-height:1.6;margin-bottom:28px;">
-        In California, that 'small' mistake can break your entire estate plan.
-      </p>
-      <p style="font-family:'Playfair Display',serif;font-size:21px;font-style:italic;color:#C2801A;">
-        Swipe to see how &nbsp;→
-      </p>
-    </div>
+    <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:400;
+      color:rgba(255,255,255,0.85);line-height:1.65;max-width:560px;margin-bottom:32px;">
+      In California, that 'small' mistake can break your entire estate plan.
+    </p>
+
+    <p style="font-family:'Raleway',sans-serif;font-size:16px;font-weight:600;
+      color:#C2801A;letter-spacing:3px;text-transform:uppercase;">
+      Swipe to see how &nbsp;→
+    </p>
   </div>
 
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar on"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar off-light"></div>
-    </div>
-    <span class="pg-num light">01 / 06</span>
+  <!-- counter -->
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(255,255,255,0.3);"></div>
+    <span class="counter-text" style="color:rgba(255,255,255,0.45);">01 / 06</span>
   </div>
 
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 2 — CREMA / big typography
-     "Let's say you have a Trust."
-     ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     S2 — THE SETUP
+     Layout: clean cream, checklist, big italic close
+     ══════════════════════════════════════════════════ -->
 <div class="slide" id="s2">
 
   <div style="position:absolute;inset:0;background:#F5EFE6;"></div>
+  <div class="top-stripe"></div>
 
-  <div style="position:absolute;top:-180px;right:-180px;width:680px;height:680px;
-    border-radius:50%;border:2px solid rgba(194,128,26,0.18);z-index:1;"></div>
-  <div style="position:absolute;bottom:-120px;left:-120px;width:420px;height:420px;
-    border-radius:50%;border:2px solid rgba(194,128,26,0.13);z-index:1;"></div>
-  <div style="position:absolute;bottom:100px;right:60px;width:200px;height:200px;z-index:1;
-    background-image:radial-gradient(circle,rgba(194,128,26,0.35) 1.5px,transparent 1.5px);
-    background-size:24px 24px;"></div>
+  <!-- left accent bar -->
+  <div style="position:absolute;top:0;left:0;width:6px;height:100%;background:#C2801A;z-index:5;"></div>
 
-  <div class="logo-badge-dark">
+  <!-- large background number -->
+  <div style="position:absolute;bottom:-40px;right:-20px;
+    font-family:'Playfair Display',serif;font-size:480px;font-weight:700;
+    color:rgba(194,128,26,0.06);line-height:1;user-select:none;z-index:1;">2</div>
+
+  <div class="logo-wrap">
+    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
+  </div>
+
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:center;padding:80px 72px 80px 86px;z-index:10;">
+
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:36px;">
+      Let's say you have a trust
+    </p>
+
+    <!-- checklist -->
+    <div style="border-left:3px solid #C2801A;padding-left:32px;margin-bottom:52px;">
+      <div style="margin-bottom:28px;">
+        <p style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;
+          color:#1a2e4a;line-height:1.2;">Your home is in it.</p>
+      </div>
+      <div style="margin-bottom:28px;">
+        <p style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;
+          color:#1a2e4a;line-height:1.2;">Your beneficiaries<br>are named.</p>
+      </div>
+      <div>
+        <p style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;
+          color:#1a2e4a;line-height:1.2;">Everything<br>looks perfect.</p>
+      </div>
+    </div>
+
+    <div style="width:100%;height:1px;background:rgba(194,128,26,0.35);margin-bottom:48px;"></div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:62px;font-style:italic;
+      font-weight:400;color:#1a2e4a;line-height:1.1;">
+      One thing<br>gets missed…
+    </p>
+  </div>
+
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(26,46,74,0.2);"></div>
+    <span class="counter-text" style="color:rgba(26,46,74,0.35);">02 / 06</span>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     S3 — THE REVEAL
+     Layout: family photo background, bold $500 center
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+
+  <!-- photo -->
+  <div style="position:absolute;inset:0;
+    background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/depositphotos_2348091-stock-photo-hispanic-family-portrait-in-the.jpg');
+    background-size:cover;background-position:center 30%;"></div>
+
+  <!-- uniform dark overlay -->
+  <div style="position:absolute;inset:0;background:rgba(10,18,30,0.72);"></div>
+
+  <div class="top-stripe"></div>
+
+  <div class="logo-wrap-light">
+    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
+  </div>
+
+  <!-- centered content -->
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:80px 64px;z-index:10;text-align:center;">
+
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:48px;">
+      The overlooked asset
+    </p>
+
+    <!-- $500 — massive -->
+    <p style="font-family:'Playfair Display',serif;font-size:240px;font-weight:700;
+      color:#ffffff;line-height:0.9;margin-bottom:36px;">$500</p>
+
+    <div style="width:80px;height:2px;background:#C2801A;margin-bottom:36px;"></div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:36px;font-style:italic;
+      color:rgba(255,255,255,0.9);line-height:1.4;max-width:720px;margin-bottom:28px;">
+      Still in your individual name.
+    </p>
+
+    <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:400;
+      color:rgba(255,255,255,0.7);line-height:1.7;max-width:720px;">
+      Under California's small estate rules, on its own — no probate needed.
+      But here's where it gets risky…
+    </p>
+  </div>
+
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(255,255,255,0.25);"></div>
+    <span class="counter-text" style="color:rgba(255,255,255,0.35);">03 / 06</span>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     S4 — THE BIGGER PICTURE
+     Layout: cream, two-column feel, bold statement
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s4">
+
+  <div style="position:absolute;inset:0;background:#F5EFE6;"></div>
+  <div class="top-stripe"></div>
+
+  <!-- right accent bar -->
+  <div style="position:absolute;top:0;right:0;width:6px;height:100%;background:#C2801A;z-index:5;"></div>
+
+  <!-- background text -->
+  <div style="position:absolute;top:80px;right:-10px;
+    font-family:'Raleway',sans-serif;font-size:200px;font-weight:800;
+    color:rgba(26,46,74,0.04);line-height:1;user-select:none;z-index:1;
+    text-transform:uppercase;letter-spacing:-8px;">RISK</div>
+
+  <div class="logo-wrap">
+    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
+  </div>
+
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:center;padding:80px 72px 80px 72px;z-index:10;">
+
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:32px;">
+      The bigger picture
+    </p>
+
+    <h2 style="font-family:'Playfair Display',serif;font-size:58px;font-weight:700;
+      color:#1a2e4a;line-height:1.1;margin-bottom:40px;">
+      That one account is often a sign of a bigger issue.
+    </h2>
+
+    <div style="width:100%;height:1px;background:rgba(194,128,26,0.35);margin-bottom:40px;"></div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:26px;font-style:italic;
+      color:#6b5840;margin-bottom:32px;">
+      Something else may have been missed too.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;margin-bottom:48px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:600;color:#1a2e4a;
+        padding-left:16px;border-left:3px solid #C2801A;">
+        An old retirement account
+      </p>
+      <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:600;color:#1a2e4a;
+        padding-left:16px;border-left:3px solid #C2801A;">
+        A second property
+      </p>
+      <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:600;color:#1a2e4a;
+        padding-left:16px;border-left:3px solid #C2801A;">
+        An investment account you forgot to transfer
+      </p>
+      <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:600;color:#1a2e4a;
+        padding-left:16px;border-left:3px solid #C2801A;">
+        A joint account not retitled
+      </p>
+    </div>
+
+    <div style="background:#1a2e4a;padding:28px 32px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:26px;font-weight:700;
+        color:#fff;line-height:1.45;">
+        The $500 isn't the problem.<br>
+        <span style="color:#C2801A;">What it REVEALS is.</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(26,46,74,0.2);"></div>
+    <span class="counter-text" style="color:rgba(26,46,74,0.35);">04 / 06</span>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     S5 — CALIFORNIA LAW
+     Layout: dark navy, bold law statement, gold detail
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s5">
+
+  <div style="position:absolute;inset:0;background:#1a2e4a;"></div>
+  <div class="top-stripe"></div>
+
+  <!-- subtle texture lines -->
+  <div style="position:absolute;inset:0;
+    background-image:repeating-linear-gradient(
+      0deg, transparent, transparent 59px,
+      rgba(255,255,255,0.025) 59px, rgba(255,255,255,0.025) 60px
+    );z-index:1;"></div>
+
+  <div class="logo-wrap-light">
     <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
   </div>
 
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;
     justify-content:center;padding:80px 72px;z-index:10;">
 
-    <p style="font-family:'Raleway',sans-serif;font-size:14px;font-weight:700;
-      color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:24px;">
-      The Scenario
-    </p>
-    <div style="width:64px;height:2px;background:#C2801A;margin-bottom:36px;"></div>
-
-    <h2 style="font-family:'Playfair Display',serif;font-size:90px;font-weight:700;
-      color:#1a2e4a;line-height:1.06;margin-bottom:36px;">
-      Let's say<br>you have<br><em style="color:#C2801A;">a Trust.</em>
-    </h2>
-
-    <div style="width:100%;height:2px;background:#C2801A;margin-bottom:36px;"></div>
-
-    <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:18px;">
-      <span style="font-family:'Raleway',sans-serif;font-size:28px;font-weight:700;color:#C2801A;flex-shrink:0;line-height:1.3;">✓</span>
-      <p style="font-family:'Playfair Display',serif;font-size:30px;color:#1a2e4a;line-height:1.35;">Your home is in it.</p>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:18px;">
-      <span style="font-family:'Raleway',sans-serif;font-size:28px;font-weight:700;color:#C2801A;flex-shrink:0;line-height:1.3;">✓</span>
-      <p style="font-family:'Playfair Display',serif;font-size:30px;color:#1a2e4a;line-height:1.35;">Your beneficiaries are named.</p>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:36px;">
-      <span style="font-family:'Raleway',sans-serif;font-size:28px;font-weight:700;color:#C2801A;flex-shrink:0;line-height:1.3;">✓</span>
-      <p style="font-family:'Playfair Display',serif;font-size:30px;color:#1a2e4a;line-height:1.35;">Everything looks perfect.</p>
-    </div>
-
-    <p style="font-family:'Playfair Display',serif;font-size:46px;font-style:italic;
-      font-weight:600;color:#1a2e4a;line-height:1.2;">
-      One thing<br>gets missed…
-    </p>
-  </div>
-
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar off-light"></div><div class="pg-bar on"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-    </div>
-    <span class="pg-num light">02 / 06</span>
-  </div>
-
-</div>
-
-
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 3 — FOTO familia + overlay
-     "$500 / The overlooked asset"
-     ══════════════════════════════════════════════════════ -->
-<div class="slide" id="s3">
-
-  <div style="position:absolute;inset:0;
-    background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/depositphotos_2348091-stock-photo-hispanic-family-portrait-in-the.jpg');
-    background-size:cover;background-position:center;"></div>
-
-  <div style="position:absolute;inset:0;
-    background:linear-gradient(to bottom,
-      rgba(245,239,230,0.18) 0%,
-      rgba(20,10,4,0.42) 50%,
-      rgba(20,10,4,0.92) 100%);"></div>
-
-  <div class="logo-badge">
-    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
-  </div>
-
-  <div style="position:absolute;bottom:0;left:0;right:0;padding:0 72px 130px;z-index:10;">
-    <p style="font-family:'Raleway',sans-serif;font-size:14px;font-weight:700;
-      color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:20px;">
-      The Overlooked Asset
-    </p>
-    <div style="width:64px;height:2px;background:#C2801A;margin-bottom:24px;"></div>
-
-    <p style="font-family:'Playfair Display',serif;font-size:110px;font-weight:700;
-      color:#C2801A;line-height:0.95;margin-bottom:16px;">$500</p>
-
-    <p style="font-family:'Playfair Display',serif;font-style:italic;
-      font-size:36px;color:#FFFFFF;line-height:1.3;margin-bottom:20px;">
-      Still in your individual name.
-    </p>
-    <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:400;
-      color:rgba(255,255,255,0.82);line-height:1.65;">
-      One forgotten account is all it takes to expose your entire estate to probate court.
-    </p>
-  </div>
-
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar off-dark"></div><div class="pg-bar off-dark"></div>
-      <div class="pg-bar on"></div>
-      <div class="pg-bar off-dark"></div><div class="pg-bar off-dark"></div>
-      <div class="pg-bar off-dark"></div>
-    </div>
-    <span class="pg-num dark">03 / 06</span>
-  </div>
-
-</div>
-
-
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 4 — CREMA / número enorme como elemento visual
-     "$45,000" — el costo real del probate
-     ══════════════════════════════════════════════════════ -->
-<div class="slide" id="s4">
-
-  <div style="position:absolute;inset:0;
-    background:radial-gradient(ellipse at 30% 40%,#ede4d4 0%,#F5EFE6 60%,#f0e8dc 100%);"></div>
-
-  <div style="position:absolute;top:0;right:0;width:180px;height:6px;background:#C2801A;z-index:1;"></div>
-  <div style="position:absolute;top:0;right:0;width:6px;height:180px;background:#C2801A;z-index:1;"></div>
-  <div style="position:absolute;bottom:0;left:0;width:180px;height:6px;background:#C2801A;z-index:1;"></div>
-  <div style="position:absolute;bottom:0;left:0;width:6px;height:180px;background:#C2801A;z-index:1;"></div>
-
-  <div class="logo-badge-dark">
-    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
-  </div>
-
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
-    justify-content:center;align-items:center;padding:80px 72px;
-    z-index:10;text-align:center;">
-
-    <p style="font-family:'Raleway',sans-serif;font-size:14px;font-weight:700;
-      color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:36px;">
-      The Real Cost
-    </p>
-
-    <!-- huge number as visual element -->
-    <div style="margin-bottom:24px;">
-      <span style="font-family:'Playfair Display',serif;font-size:60px;font-weight:700;
-        color:#1a2e4a;vertical-align:super;line-height:1;">$</span><span
-        style="font-family:'Playfair Display',serif;font-size:200px;font-weight:700;
-        color:#1a2e4a;line-height:0.85;">45,000</span>
-    </div>
-
-    <div style="width:100px;height:2px;background:#C2801A;margin-bottom:28px;"></div>
-
-    <p style="font-family:'Raleway',sans-serif;font-size:26px;font-weight:400;
-      color:#3a2a1a;line-height:1.55;max-width:740px;margin-bottom:36px;">
-      In probate fees. That's what a $750,000 home in Chula Vista can trigger — just because one account was left outside the trust.
-    </p>
-
-    <p style="font-family:'Playfair Display',serif;font-size:28px;font-style:italic;
-      font-weight:600;color:#1a2e4a;
-      border-top:1px solid rgba(194,128,26,0.3);padding-top:28px;max-width:740px;">
-      The $500 account wasn't the problem.<br>What it revealed was.
-    </p>
-  </div>
-
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar on"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-    </div>
-    <span class="pg-num light">04 / 06</span>
-  </div>
-
-</div>
-
-
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 5 — CREMA / marco + comillas decorativas
-     "An incomplete trust is just as risky as no trust."
-     ══════════════════════════════════════════════════════ -->
-<div class="slide" id="s5">
-
-  <div style="position:absolute;inset:0;background:#F5EFE6;"></div>
-
-  <div style="position:absolute;top:52px;left:52px;right:52px;bottom:52px;
-    border:1.5px solid rgba(194,128,26,0.25);z-index:1;"></div>
-
-  <div style="position:absolute;top:110px;left:90px;
-    font-family:'Playfair Display',serif;font-size:240px;font-weight:700;
-    color:rgba(194,128,26,0.10);line-height:1;z-index:2;user-select:none;">"</div>
-
-  <div style="position:absolute;bottom:120px;right:90px;width:160px;height:160px;z-index:2;
-    background-image:radial-gradient(circle,rgba(194,128,26,0.3) 1.5px,transparent 1.5px);
-    background-size:22px 22px;"></div>
-
-  <div class="logo-badge-dark">
-    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg">
-  </div>
-
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
-    justify-content:center;padding:80px 96px;z-index:10;">
-
-    <p style="font-family:'Raleway',sans-serif;font-size:14px;font-weight:700;
-      color:#C2801A;letter-spacing:5px;text-transform:uppercase;margin-bottom:28px;">
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:28px;">
       California Law
     </p>
-    <div style="width:64px;height:2px;background:#C2801A;margin-bottom:36px;"></div>
 
-    <h2 style="font-family:'Playfair Display',serif;font-size:58px;font-weight:700;
-      color:#1a2e4a;line-height:1.15;margin-bottom:32px;">
-      An incomplete trust is just as risky as no trust at all.
+    <h2 style="font-family:'Playfair Display',serif;font-size:72px;font-weight:700;
+      color:#ffffff;line-height:1.05;margin-bottom:36px;">
+      Probate fees are based on the gross value of the estate.
     </h2>
 
-    <p style="font-family:'Playfair Display',serif;font-style:italic;
-      font-size:30px;font-weight:400;color:#6b5840;
-      line-height:1.5;margin-bottom:36px;">
-      Probate fees are based on the gross value of the estate — not the size of the mistake.
+    <div style="width:72px;height:3px;background:#C2801A;margin-bottom:36px;"></div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:30px;font-style:italic;
+      color:rgba(255,255,255,0.65);line-height:1.5;margin-bottom:40px;">
+      Not the size of the mistake.<br>
+      Not just the $500 account.
     </p>
 
-    <div style="width:64px;height:2px;background:#C2801A;margin-bottom:28px;"></div>
+    <div style="border:1px solid rgba(194,128,26,0.4);padding:32px 36px;margin-bottom:40px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:24px;font-weight:600;
+        color:#C2801A;line-height:1.6;">
+        If ANY significant asset sits outside your trust — real estate, accounts, property — probate is on the table.
+      </p>
+    </div>
 
-    <p style="font-family:'Raleway',sans-serif;font-size:20px;font-weight:600;
-      color:#C2801A;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;">
-      Is yours truly complete? →
-    </p>
-    <p style="font-family:'Raleway',sans-serif;font-size:19px;font-weight:300;
-      color:#8a7060;line-height:1.7;">
-      One free 30-minute review. We check every asset, every account, every gap.
+    <p style="font-family:'Raleway',sans-serif;font-size:20px;font-weight:300;
+      color:rgba(255,255,255,0.6);line-height:1.7;">
+      Months of court process. Public records. Fees that can reach 4–6% of your gross estate.
     </p>
   </div>
 
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar off-light"></div><div class="pg-bar off-light"></div>
-      <div class="pg-bar on"></div><div class="pg-bar off-light"></div>
-    </div>
-    <span class="pg-num light">05 / 06</span>
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(255,255,255,0.2);"></div>
+    <span class="counter-text" style="color:rgba(255,255,255,0.3);">05 / 06</span>
   </div>
 
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     SLIDE 6 — FOTO abogada / overlay oscuro / CTA
-     "Book a Free Consultation"
-     ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     S6 — CTA
+     Layout: cream, centered, strong CTA button
+     ══════════════════════════════════════════════════ -->
 <div class="slide" id="s6">
 
-  <div style="position:absolute;inset:0;
-    background-image:url('https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/10.webp');
-    background-size:cover;background-position:center top;"></div>
+  <div style="position:absolute;inset:0;background:#F5EFE6;"></div>
+  <div class="top-stripe"></div>
 
-  <div style="position:absolute;inset:0;
-    background:linear-gradient(to bottom,
-      rgba(18,10,2,0.06) 0%,
-      rgba(18,10,2,0.4) 35%,
-      rgba(18,10,2,0.88) 65%,
-      rgba(18,10,2,0.97) 100%);"></div>
+  <!-- top + bottom bars navy -->
+  <div style="position:absolute;top:0;left:0;right:0;height:120px;background:#1a2e4a;z-index:5;
+    display:flex;align-items:center;justify-content:center;padding-top:6px;">
+    <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg"
+      style="height:52px;filter:brightness(10);opacity:0.9;">
+  </div>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;
-    padding:0 72px 130px;z-index:10;text-align:center;">
+  <!-- centered CTA content -->
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:140px 80px 80px;z-index:10;text-align:center;">
 
-    <div style="display:flex;justify-content:center;margin-bottom:44px;">
-      <div style="background:rgba(255,255,255,0.93);border-radius:6px;
-        padding:12px 22px;box-shadow:0 4px 20px rgba(0,0,0,0.25);">
-        <img src="https://raw.githubusercontent.com/panchobarberis-maker/Vuelta-rapida/main/mjtrust%20law/logo.jpg"
-          style="height:56px;display:block;">
-      </div>
-    </div>
-
-    <div style="width:80px;height:2px;background:#C2801A;margin:0 auto 36px;"></div>
-
-    <h2 style="font-family:'Playfair Display',serif;font-size:64px;font-weight:700;
-      color:#FFFFFF;line-height:1.1;margin-bottom:20px;">
-      Don't wait to find out<br>what's missing.
-    </h2>
-    <p style="font-family:'Raleway',sans-serif;font-size:24px;font-weight:300;
-      color:rgba(255,255,255,0.82);line-height:1.65;margin-bottom:44px;">
-      No forms. No commitment.<br>Just a conversation that can protect your family.
+    <p style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
+      color:#C2801A;letter-spacing:6px;text-transform:uppercase;margin-bottom:28px;">
+      The Real Problem
     </p>
 
-    <div style="width:80px;height:2px;background:#C2801A;margin:0 auto 36px;"></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:68px;font-weight:700;
+      color:#1a2e4a;line-height:1.08;margin-bottom:24px;">
+      It's not the big things that break a plan.
+    </h2>
+    <h2 style="font-family:'Playfair Display',serif;font-size:68px;font-style:italic;
+      font-weight:400;color:#C2801A;line-height:1.08;margin-bottom:48px;">
+      It's the small ones.
+    </h2>
 
-    <!-- CTA button -->
-    <div style="display:inline-block;background:#C2801A;padding:22px 56px;border-radius:4px;margin-bottom:22px;">
-      <p style="font-family:'Raleway',sans-serif;font-size:24px;font-weight:700;
-        color:#fff;letter-spacing:2px;text-transform:uppercase;">
+    <div style="width:72px;height:2px;background:#C2801A;margin-bottom:48px;"></div>
+
+    <!-- CTA -->
+    <a style="display:block;background:#1a2e4a;padding:28px 0;width:100%;
+      max-width:680px;text-decoration:none;margin-bottom:24px;">
+      <p style="font-family:'Raleway',sans-serif;font-size:22px;font-weight:700;
+        color:#fff;letter-spacing:3px;text-transform:uppercase;text-align:center;">
         Book a Free Consultation
       </p>
-    </div>
-    <br>
-    <p style="font-family:'Raleway',sans-serif;font-size:19px;font-weight:600;
-      color:#C2801A;letter-spacing:3px;text-transform:uppercase;margin-top:14px;">
-      MJ Trust Law · Chula Vista, CA
+    </a>
+
+    <p style="font-family:'Raleway',sans-serif;font-size:18px;font-weight:400;
+      color:#8a7a6a;line-height:1.7;max-width:560px;margin-bottom:36px;">
+      No forms. No commitment. We review your trust, find the gaps, and tell you exactly what you need.
+    </p>
+
+    <p style="font-family:'Raleway',sans-serif;font-size:16px;font-weight:700;
+      color:#C2801A;letter-spacing:4px;text-transform:uppercase;">
+      mjtrust law.com
     </p>
   </div>
 
-  <div class="pg">
-    <div class="pg-bars">
-      <div class="pg-bar off-dark"></div><div class="pg-bar off-dark"></div>
-      <div class="pg-bar off-dark"></div><div class="pg-bar off-dark"></div>
-      <div class="pg-bar off-dark"></div><div class="pg-bar on"></div>
-    </div>
-    <span class="pg-num dark">06 / 06</span>
+  <div class="counter">
+    <div class="counter-line" style="background:rgba(26,46,74,0.2);"></div>
+    <span class="counter-text" style="color:rgba(26,46,74,0.35);">06 / 06</span>
   </div>
 
 </div>
