@@ -17,11 +17,11 @@ GRAY  = colors.HexColor("#999999")
 LGRAY = colors.HexColor("#f9f9f9")
 LCREAM= colors.HexColor("#fdf9f4")
 
-C_HIST = colors.HexColor("#27ae60")
-C_CARR = colors.HexColor("#C2801A")
-C_MITO = colors.HexColor("#8e44ad")
-C_POD  = colors.HexColor("#2980b9")
-C_UGC  = colors.HexColor("#e74c3c")
+C_HIST = colors.HexColor("#8B7355")   # warm brown - Historia
+C_CARR = colors.HexColor("#C2801A")   # gold       - Carrusel
+C_MITO = colors.HexColor("#1a2e4a")   # navy       - Mitos
+C_POD  = colors.HexColor("#6B5242")   # dark brown - Podcast
+C_UGC  = colors.HexColor("#A0896C")   # tan        - UGC
 
 YEAR, MONTH = 2026, 7
 MONTH_LABEL = "JULIO 2026"
@@ -50,11 +50,11 @@ DAY_CONTENT = {
 }
 
 CELL_BG = {
-    0: colors.HexColor("#edf7f0"),
-    1: colors.HexColor("#fff8e6"),
-    2: colors.HexColor("#edf7f0"),
-    3: colors.HexColor("#f2ebf9"),
-    6: colors.HexColor("#fdecea"),
+    0: colors.HexColor("#f5f0ea"),   # Mon - Historia
+    1: colors.HexColor("#fdf4e3"),   # Tue - Carrusel
+    2: colors.HexColor("#f5f0ea"),   # Wed - Historia Review
+    3: colors.HexColor("#eceef2"),   # Thu - Mitos
+    6: colors.HexColor("#f0ece6"),   # Sun - Podcast/UGC
 }
 
 # ── DETAILED CONTENT ────────────────────────────────────────────────────────
@@ -203,16 +203,24 @@ def build_pdf():
     # ────────────────────────────────────────────────────────────────────────
     # PAGE 1: CALENDAR GRID
     # ────────────────────────────────────────────────────────────────────────
-    title_st = make_st("Helvetica-Bold", 20, NAVY, space_after=2)
-    sub_st   = make_st("Helvetica",       9, GRAY, space_after=2)
-    ov_st    = make_st("Helvetica-Bold", 11, NAVY, leading=14, space_after=5)
+    ov_st = make_st("Helvetica-Bold", 11, NAVY, leading=14, space_after=5)
 
-    elements.append(Paragraph("CONTENT CALENDAR  MJ TRUST LAW", title_st))
-    elements.append(Paragraph(
-        f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
-        sub_st))
+    # Title banner: two rows, title + subtitle clearly separated
+    hdr_banner = Table([
+        [Paragraph("CONTENT CALENDAR  |  MJ TRUST LAW",
+                   make_st("Helvetica-Bold", 20, NAVY))],
+        [Paragraph(
+            f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
+            make_st("Helvetica", 9, GRAY))],
+    ], colWidths=[pw - 2.2*cm])
+    hdr_banner.setStyle(TableStyle([
+        ("TOPPADDING",    (0,0),(-1,-1), 2),
+        ("BOTTOMPADDING", (0,0),(-1,-1), 2),
+        ("LEFTPADDING",   (0,0),(-1,-1), 0),
+    ]))
+    elements.append(hdr_banner)
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=6))
-    elements.append(Paragraph(f"{MONTH_LABEL} — OVERVIEW", ov_st))
+    elements.append(Paragraph(f"{MONTH_LABEL} - OVERVIEW", ov_st))
 
     first_wd, num_days = cal.monthrange(YEAR, MONTH)
     avail_w  = pw - 2.2*cm
@@ -314,10 +322,18 @@ def build_pdf():
     # ────────────────────────────────────────────────────────────────────────
     elements.append(PageBreak())
 
-    pg2_title = make_st("Helvetica-Bold", 18, NAVY, space_after=2)
-    pg2_sub   = make_st("Helvetica",       9, GRAY, space_after=0)
-    elements.append(Paragraph("ESTRATEGIA DE CONTENIDO", pg2_title))
-    elements.append(Paragraph("Por que publicamos cada formato en ese dia de la semana", pg2_sub))
+    pg2_banner = Table([
+        [Paragraph("ESTRATEGIA DE CONTENIDO",
+                   make_st("Helvetica-Bold", 18, NAVY))],
+        [Paragraph("Por que publicamos cada formato en ese dia de la semana",
+                   make_st("Helvetica", 9, GRAY))],
+    ], colWidths=[pw - 2.2*cm])
+    pg2_banner.setStyle(TableStyle([
+        ("TOPPADDING",    (0,0),(-1,-1), 2),
+        ("BOTTOMPADDING", (0,0),(-1,-1), 2),
+        ("LEFTPADDING",   (0,0),(-1,-1), 0),
+    ]))
+    elements.append(pg2_banner)
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=14))
 
     avail_w2 = pw - 2.2*cm
