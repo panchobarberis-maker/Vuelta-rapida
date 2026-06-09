@@ -207,9 +207,9 @@ def build_pdf():
     sub_st   = make_st("Helvetica",       9, GRAY, space_after=2)
     ov_st    = make_st("Helvetica-Bold", 11, NAVY, leading=14, space_after=5)
 
-    elements.append(Paragraph("CONTENT CALENDAR — MJ TRUST LAW", title_st))
+    elements.append(Paragraph("CONTENT CALENDAR  MJ TRUST LAW", title_st))
     elements.append(Paragraph(
-        f"{MONTH_LABEL} | Instagram | 4 posts/week + 3 stories/week | English &amp; Spanish",
+        f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
         sub_st))
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=6))
     elements.append(Paragraph(f"{MONTH_LABEL} — OVERVIEW", ov_st))
@@ -310,119 +310,70 @@ def build_pdf():
     elements.append(leg_tbl)
 
     # ────────────────────────────────────────────────────────────────────────
-    # PAGE 2: CONTENT DETAIL
+    # PAGE 2: STRATEGY RATIONALE (why each day / format)
     # ────────────────────────────────────────────────────────────────────────
     elements.append(PageBreak())
 
     pg2_title = make_st("Helvetica-Bold", 18, NAVY, space_after=2)
     pg2_sub   = make_st("Helvetica",       9, GRAY, space_after=0)
-    elements.append(Paragraph("DESARROLLO DE CONTENIDO — JULIO 2026", pg2_title))
-    elements.append(Paragraph("Descripcion de cada post: que se publica, por que y como enfocarlo", pg2_sub))
-    elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=10))
+    elements.append(Paragraph("ESTRATEGIA DE CONTENIDO", pg2_title))
+    elements.append(Paragraph("Por que publicamos cada formato en ese dia de la semana", pg2_sub))
+    elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=14))
 
-    # Group detail items by format
-    groups = {
-        "Historia": ("HISTORIAS",  C_HIST, []),
-        "Carrusel": ("CARRUSELES", C_CARR, []),
-        "Mito y Verdad": ("MITOS Y VERDADES", C_MITO, []),
-        "UGC Video": ("UGC VIDEO", C_UGC, []),
-        "Podcast":   ("PODCAST",   C_POD, []),
-    }
-    order = ["Historia", "Carrusel", "Mito y Verdad", "UGC Video", "Podcast"]
-    for item in DETAIL:
-        date_lbl, fmt, col, title, desc = item
-        for key in groups:
-            if fmt.startswith(key.split()[0]):
-                groups[key][2].append(item)
-                break
-
-    # 2-column layout for detail
     avail_w2 = pw - 2.2*cm
-    left_w  = 3.5*cm
-    right_w = avail_w2 - left_w - 0.4*cm
 
-    sec_hdr_st  = make_st("Helvetica-Bold", 9, WHITE, leading=12)
-    date_lbl_st = make_st("Helvetica-Bold", 8, GRAY,  leading=11)
-    card_ttl_st = make_st("Helvetica-Bold", 9, NAVY,  leading=12, space_after=2)
-    card_dsc_st = make_st("Helvetica",      8, colors.HexColor("#444444"), leading=11)
+    rationale = [
+        ("LUNES  |  Historia de horarios", C_HIST,
+         "Lunes es el primer punto de contacto de la semana. Publicar los horarios de atencion ese dia "
+         "asegura que cualquier persona que quiera consultar sepa exactamente cuando puede llamar o escribir. "
+         "Es simple, util y construye habito en la audiencia."),
 
-    for key in order:
-        label, col, items = groups[key]
-        if not items:
-            continue
+        ("MARTES  |  Carrusel educativo", C_CARR,
+         "El martes es uno de los dias con mayor engagement organico en Instagram. "
+         "Los carruseles con casos hipoteticos funcionan porque la gente se identifica con las historias reales: "
+         "no les estamos dando una clase de derecho, les estamos mostrando lo que le puede pasar a alguien como ellos. "
+         "Formato educativo sin aburrir."),
 
-        # Section header bar
-        hdr_tbl = Table(
-            [[Paragraph(label, sec_hdr_st)]],
-            colWidths=[avail_w2]
-        )
+        ("MIERCOLES  |  Historia de reviews", C_HIST,
+         "Mitad de semana, la gente esta mas receptiva al contenido emocional. "
+         "Las historias de clientes reales generan confianza sin necesidad de hacer publicidad directa. "
+         "Un testimonio breve y autentico vale mas que cualquier texto legal."),
+
+        ("JUEVES  |  Mitos y Verdades", C_MITO,
+         "El jueves genera conversacion. Los mitos provocan reaccion: la gente comenta, comparte, "
+         "etiqueta a alguien que cree lo mismo. Es el formato ideal para derribar creencias erroneas "
+         "que frenan a las familias de tomar accion, sin sonar condescendiente."),
+
+        ("DOMINGO  |  Podcast y UGC (alternado)", C_POD,
+         "El domingo la gente tiene mas tiempo para consumir contenido largo y reflexivo. "
+         "El podcast posiciona a MJ Trust Law como referente del tema en la comunidad latina. "
+         "El UGC (video de un cliente real) aporta credibilidad social autentica. "
+         "Alternarlos mantiene variedad sin perder profundidad."),
+    ]
+
+    sec_hdr_st = make_st("Helvetica-Bold", 10, WHITE, leading=13)
+    body_st    = make_st("Helvetica",       9, colors.HexColor("#333333"), leading=13)
+
+    for heading, col, body in rationale:
+        hdr_tbl = Table([[Paragraph(heading, sec_hdr_st)]], colWidths=[avail_w2])
         hdr_tbl.setStyle(TableStyle([
             ("BACKGROUND",    (0,0),(-1,-1), col),
-            ("TOPPADDING",    (0,0),(-1,-1), 5),
-            ("BOTTOMPADDING", (0,0),(-1,-1), 5),
-            ("LEFTPADDING",   (0,0),(-1,-1), 10),
+            ("TOPPADDING",    (0,0),(-1,-1), 7),
+            ("BOTTOMPADDING", (0,0),(-1,-1), 7),
+            ("LEFTPADDING",   (0,0),(-1,-1), 12),
+        ]))
+        body_tbl = Table([[Paragraph(body, body_st)]], colWidths=[avail_w2])
+        body_tbl.setStyle(TableStyle([
+            ("BACKGROUND",    (0,0),(-1,-1), colors.HexColor("#fafafa")),
+            ("TOPPADDING",    (0,0),(-1,-1), 9),
+            ("BOTTOMPADDING", (0,0),(-1,-1), 9),
+            ("LEFTPADDING",   (0,0),(-1,-1), 12),
+            ("RIGHTPADDING",  (0,0),(-1,-1), 12),
+            ("LINEBELOW",     (0,0),(-1,-1), 0.5, colors.HexColor("#e0dbd4")),
         ]))
         elements.append(hdr_tbl)
-        elements.append(Spacer(1, 0.1*cm))
-
-        # Cards: 2 per row
-        cards_per_row = 2
-        card_w = (avail_w2 - (cards_per_row - 1) * 0.3*cm) / cards_per_row
-
-        row_cards = []
-        for i, (date_lbl, fmt, c, title, desc) in enumerate(items):
-            card_inner = Table([
-                [Paragraph(date_lbl.upper(), date_lbl_st)],
-                [Paragraph(title, card_ttl_st)],
-                [Paragraph(desc,  card_dsc_st)],
-            ], colWidths=[card_w - 0.5*cm])
-            card_inner.setStyle(TableStyle([
-                ("VALIGN",        (0,0),(-1,-1), "TOP"),
-                ("TOPPADDING",    (0,0),(-1,-1), 0),
-                ("BOTTOMPADDING", (0,0),(-1,-1), 2),
-                ("LEFTPADDING",   (0,0),(-1,-1), 0),
-                ("RIGHTPADDING",  (0,0),(-1,-1), 0),
-            ]))
-
-            card = Table([[card_inner]], colWidths=[card_w])
-            card.setStyle(TableStyle([
-                ("BACKGROUND",    (0,0),(-1,-1), colors.HexColor("#fafafa")),
-                ("BOX",           (0,0),(-1,-1), 0.5, colors.HexColor("#e0dbd4")),
-                ("LEFTBORDER",    (0,0),(0,-1), 3, col),
-                ("TOPPADDING",    (0,0),(-1,-1), 8),
-                ("BOTTOMPADDING", (0,0),(-1,-1), 8),
-                ("LEFTPADDING",   (0,0),(-1,-1), 8),
-                ("RIGHTPADDING",  (0,0),(-1,-1), 8),
-            ]))
-            # accent left border via background trick
-            accent = Table([[""],[""]], colWidths=[3], rowHeights=[None, None])
-            accent.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,-1),col)]))
-
-            row_cards.append(card)
-            if len(row_cards) == cards_per_row:
-                row_tbl = Table([row_cards], colWidths=[card_w + 0.15*cm] * cards_per_row)
-                row_tbl.setStyle(TableStyle([
-                    ("VALIGN",      (0,0),(-1,-1), "TOP"),
-                    ("LEFTPADDING", (0,0),(-1,-1), 0),
-                    ("RIGHTPADDING",(0,0),(-1,-1), 3),
-                ]))
-                elements.append(row_tbl)
-                elements.append(Spacer(1, 0.15*cm))
-                row_cards = []
-
-        if row_cards:
-            # pad to full row
-            while len(row_cards) < cards_per_row:
-                row_cards.append("")
-            row_tbl = Table([row_cards], colWidths=[card_w + 0.15*cm] * cards_per_row)
-            row_tbl.setStyle(TableStyle([
-                ("VALIGN",      (0,0),(-1,-1), "TOP"),
-                ("LEFTPADDING", (0,0),(-1,-1), 0),
-                ("RIGHTPADDING",(0,0),(-1,-1), 3),
-            ]))
-            elements.append(row_tbl)
-
-        elements.append(Spacer(1, 0.25*cm))
+        elements.append(body_tbl)
+        elements.append(Spacer(1, 0.3*cm))
 
     doc.build(elements)
     print(f"PDF generado: {OUT}")
