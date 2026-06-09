@@ -19,7 +19,7 @@ LCREAM= colors.HexColor("#fdf9f4")
 
 C_HIST = colors.HexColor("#8B7355")   # warm brown - Historia
 C_CARR = colors.HexColor("#C2801A")   # gold       - Carrusel
-C_MITO = colors.HexColor("#1a2e4a")   # navy       - Mitos
+C_MITO = colors.HexColor("#4A3728")   # dark brown - Mitos
 C_POD  = colors.HexColor("#6B5242")   # dark brown - Podcast
 C_UGC  = colors.HexColor("#A0896C")   # tan        - UGC
 
@@ -205,20 +205,12 @@ def build_pdf():
     # ────────────────────────────────────────────────────────────────────────
     ov_st = make_st("Helvetica-Bold", 11, NAVY, leading=14, space_after=5)
 
-    # Title banner: two rows, title + subtitle clearly separated
-    hdr_banner = Table([
-        [Paragraph("CONTENT CALENDAR  |  MJ TRUST LAW",
-                   make_st("Helvetica-Bold", 20, NAVY))],
-        [Paragraph(
-            f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
-            make_st("Helvetica", 9, GRAY))],
-    ], colWidths=[pw - 2.2*cm])
-    hdr_banner.setStyle(TableStyle([
-        ("TOPPADDING",    (0,0),(-1,-1), 2),
-        ("BOTTOMPADDING", (0,0),(-1,-1), 2),
-        ("LEFTPADDING",   (0,0),(-1,-1), 0),
-    ]))
-    elements.append(hdr_banner)
+    elements.append(Paragraph(
+        "CONTENT CALENDAR  |  MJ TRUST LAW",
+        make_st("Helvetica-Bold", 20, NAVY, space_after=4)))
+    elements.append(Paragraph(
+        f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
+        make_st("Helvetica", 9, GRAY, space_after=6)))
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=6))
     elements.append(Paragraph(f"{MONTH_LABEL} - OVERVIEW", ov_st))
 
@@ -322,18 +314,12 @@ def build_pdf():
     # ────────────────────────────────────────────────────────────────────────
     elements.append(PageBreak())
 
-    pg2_banner = Table([
-        [Paragraph("ESTRATEGIA DE CONTENIDO",
-                   make_st("Helvetica-Bold", 18, NAVY))],
-        [Paragraph("Por que publicamos cada formato en ese dia de la semana",
-                   make_st("Helvetica", 9, GRAY))],
-    ], colWidths=[pw - 2.2*cm])
-    pg2_banner.setStyle(TableStyle([
-        ("TOPPADDING",    (0,0),(-1,-1), 2),
-        ("BOTTOMPADDING", (0,0),(-1,-1), 2),
-        ("LEFTPADDING",   (0,0),(-1,-1), 0),
-    ]))
-    elements.append(pg2_banner)
+    elements.append(Paragraph(
+        "ESTRATEGIA DE CONTENIDO",
+        make_st("Helvetica-Bold", 18, NAVY, space_after=4)))
+    elements.append(Paragraph(
+        "Por que publicamos cada formato en ese dia de la semana",
+        make_st("Helvetica", 9, GRAY, space_after=6)))
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=14))
 
     avail_w2 = pw - 2.2*cm
