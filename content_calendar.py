@@ -207,10 +207,12 @@ def build_pdf():
 
     elements.append(Paragraph(
         "CONTENT CALENDAR  |  MJ TRUST LAW",
-        make_st("Helvetica-Bold", 20, NAVY, space_after=4)))
+        make_st("Helvetica-Bold", 20, NAVY)))
+    elements.append(Spacer(1, 0.25*cm))
     elements.append(Paragraph(
         f"{MONTH_LABEL}  |  Instagram  |  4 posts/week + 3 stories/week  |  English &amp; Spanish",
-        make_st("Helvetica", 9, GRAY, space_after=6)))
+        make_st("Helvetica", 9, GRAY)))
+    elements.append(Spacer(1, 0.15*cm))
     elements.append(HRFlowable(width="100%", thickness=2.5, color=GOLD, spaceAfter=6))
     elements.append(Paragraph(f"{MONTH_LABEL} - OVERVIEW", ov_st))
 
