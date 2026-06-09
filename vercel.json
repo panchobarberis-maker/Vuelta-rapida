@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/feed-preview/$1" }
+    { "source": "/", "destination": "/feed-preview/index.html" }
   ]
 }
