@@ -9,47 +9,75 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family: 'Barlow', Arial, sans-serif; background:#fff; color:#1b2a35; }
 
+  /* NAV */
   .nav {
     display:flex; align-items:center; justify-content:space-between;
-    padding:16px 20px; background:#1b2a35;
+    padding:16px 40px; background:#1b2a35;
     position:sticky; top:0; z-index:100;
   }
-  .nav .logo { font-weight:900; color:#fff; font-size:15px; letter-spacing:1px; }
-  .nav .logo small { display:block; font-size:9px; font-weight:normal; letter-spacing:2px; color:rgba(255,255,255,0.6); }
-  .nav .contact-btn { background:#b9986a; color:#fff; border-radius:20px; padding:8px 18px; font-size:12px; font-weight:bold; text-decoration:none; }
+  .nav .logo { font-weight:900; color:#fff; font-size:17px; letter-spacing:1px; }
+  .nav .logo small { display:block; font-size:10px; font-weight:normal; letter-spacing:2px; color:rgba(255,255,255,0.6); }
+  .nav .contact-btn { background:#b9986a; color:#fff; border-radius:20px; padding:10px 24px; font-size:13px; font-weight:bold; text-decoration:none; }
 
-  .hero { position:relative; height:380px; overflow:hidden; color:#fff; display:flex; flex-direction:column; justify-content:flex-end; padding:0 24px 32px; }
-  .hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; }
+  /* HERO */
+  .hero {
+    position:relative; height:520px; overflow:hidden;
+    color:#fff; display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 40px 48px;
+  }
+  @media(max-width:768px) {
+    .hero { height:380px; padding:0 24px 32px; }
+    .nav { padding:16px 20px; }
+  }
+  .hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 20%; }
   .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.15) 30%,rgba(0,0,0,0.65) 58%,rgba(0,0,0,0.90) 75%,rgba(0,0,0,0.96) 100%); }
-  .hero-content { position:relative; z-index:2; }
-  .section-label-hero { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#b9986a; font-weight:700; margin-bottom:8px; }
-  .hero h1 { font-family:'Barlow Condensed',sans-serif; font-size:28px; line-height:1.15; font-weight:900; margin-bottom:10px; text-shadow:2px 2px 12px rgba(0,0,0,0.9); }
-  .hero p.sub { font-size:14px; line-height:1.5; color:rgba(255,255,255,0.85); margin-bottom:20px; }
+  .hero-content { position:relative; z-index:2; max-width:700px; }
+  .section-label-hero { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#b9986a; font-weight:700; margin-bottom:10px; }
+  .hero h1 { font-family:'Barlow Condensed',sans-serif; font-size:48px; line-height:1.1; font-weight:900; margin-bottom:12px; text-shadow:2px 2px 12px rgba(0,0,0,0.9); }
+  @media(max-width:768px) { .hero h1 { font-size:28px; } }
+  .hero p.sub { font-size:16px; line-height:1.5; color:rgba(255,255,255,0.85); }
 
-  .audience-btns { display:flex; flex-direction:column; gap:10px; padding:24px; background:#f7f5f0; border-bottom:1px solid #e5e0d8; }
-  .audience-btn { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-radius:6px; font-weight:700; font-size:14px; text-decoration:none; }
+  /* WRAPPER */
+  .container { max-width:1100px; margin:0 auto; padding:0 40px; }
+  @media(max-width:768px) { .container { padding:0 24px; } }
+
+  /* AUDIENCE BTNS */
+  .audience-btns { background:#f7f5f0; border-bottom:1px solid #e5e0d8; padding:24px 40px; }
+  @media(max-width:768px) { .audience-btns { padding:20px 24px; } }
+  .audience-inner { max-width:1100px; margin:0 auto; display:flex; gap:16px; }
+  @media(max-width:768px) { .audience-inner { flex-direction:column; } }
+  .audience-btn { flex:1; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-radius:6px; font-weight:700; font-size:15px; text-decoration:none; cursor:pointer; }
   .audience-btn.employers { background:#1b2a35; color:#fff; }
   .audience-btn.employees { background:#fff; color:#1b2a35; border:2px solid #1b2a35; }
-  .audience-btn span { color:#b9986a; font-size:16px; }
+  .audience-btn span { color:#b9986a; font-size:18px; }
 
-  .lawsuits { padding:28px 24px; background:#fff; border-bottom:1px solid #eee; }
+  /* SECTIONS */
   .section-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#b9986a; font-weight:700; border-left:3px solid #b9986a; padding-left:8px; margin-bottom:12px; }
-  .lawsuits h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#1b2a35; text-transform:uppercase; margin-bottom:16px; }
+
+  /* TWO COL LAYOUT FOR DESKTOP */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; padding:56px 0; }
+  @media(max-width:768px) { .two-col { grid-template-columns:1fr; gap:0; padding:0; } }
+
+  .lawsuits { padding:48px 0; border-bottom:1px solid #eee; }
+  @media(max-width:768px) { .lawsuits { padding:28px 0; } }
+  .lawsuits h2 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; color:#1b2a35; text-transform:uppercase; margin-bottom:20px; }
   .lawsuits ul { list-style:none; }
-  .lawsuits ul li { padding:10px 0; border-bottom:1px solid #f0ece4; font-size:14px; color:#333; display:flex; align-items:center; gap:10px; }
+  .lawsuits ul li { padding:12px 0; border-bottom:1px solid #f0ece4; font-size:15px; color:#333; display:flex; align-items:center; gap:12px; }
   .lawsuits ul li:last-child { border-bottom:none; }
-  .lawsuits ul li::before { content:"✓"; color:#b9986a; font-weight:900; font-size:15px; }
+  .lawsuits ul li::before { content:"✓"; color:#b9986a; font-weight:900; font-size:16px; }
 
-  .employers-section { padding:28px 24px; background:#f7f5f0; border-bottom:1px solid #e5e0d8; }
-  .employers-section h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#1b2a35; text-transform:uppercase; margin-bottom:14px; }
-  .employers-section p { font-size:14px; line-height:1.65; color:#444; margin-bottom:16px; }
-  .employers-section h3 { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; color:#1b2a35; text-transform:uppercase; margin-bottom:10px; margin-top:4px; }
+  /* EMPLOYERS SECTION */
+  .employers-wrap { background:#f7f5f0; padding:56px 0; }
+  @media(max-width:768px) { .employers-wrap { padding:28px 0; } }
+  .employers-wrap h2 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; color:#1b2a35; text-transform:uppercase; margin-bottom:16px; }
+  .employers-wrap h3 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; color:#1b2a35; text-transform:uppercase; margin:24px 0 10px; }
+  .employers-wrap p { font-size:15px; line-height:1.7; color:#444; margin-bottom:14px; }
+  .cta-inline { display:inline-block; background:#b9986a; color:#fff; font-weight:bold; font-size:14px; padding:12px 24px; border-radius:6px; text-decoration:none; margin-top:8px; }
 
-  .cta-inline { display:inline-block; background:#b9986a; color:#fff; font-weight:bold; font-size:13px; padding:11px 20px; border-radius:6px; text-decoration:none; margin-top:4px; }
-
-  .cta-banner { background:#1b2a35; color:#fff; padding:32px 24px; text-align:center; }
-  .cta-banner p { font-size:13px; color:rgba(255,255,255,0.8); margin-bottom:16px; line-height:1.6; }
-  .cta-banner .btn { display:inline-block; background:#b9986a; color:#fff; font-weight:bold; font-size:14px; padding:13px 26px; border-radius:6px; text-decoration:none; }
+  /* CTA BANNER */
+  .cta-banner { background:#1b2a35; color:#fff; padding:56px 40px; text-align:center; }
+  .cta-banner p { font-size:15px; color:rgba(255,255,255,0.8); margin-bottom:18px; line-height:1.6; }
+  .cta-banner .btn { display:inline-block; background:#b9986a; color:#fff; font-weight:bold; font-size:15px; padding:14px 32px; border-radius:6px; text-decoration:none; }
 </style>
 </head>
 <body>
@@ -70,31 +98,44 @@
   </div>
 
   <div class="audience-btns">
-    <a href="#employers" class="audience-btn employers">Employers <span>↗</span></a>
-    <a href="#employees" class="audience-btn employees">Employees <span>↗</span></a>
+    <div class="audience-inner">
+      <a href="#employers" class="audience-btn employers">Employers <span>↗</span></a>
+      <a href="#employees" class="audience-btn employees">Employees <span>↗</span></a>
+    </div>
   </div>
 
-  <div class="lawsuits">
-    <div class="section-label">We Can Help With</div>
-    <h2>Employment Lawsuits We Handle</h2>
-    <ul>
-      <li>Wrongful Termination</li>
-      <li>Retaliation</li>
-      <li>Wage and Hour Disputes</li>
-      <li>Discrimination</li>
-      <li>Sexual Harassment</li>
-      <li>PAGA Claims</li>
-    </ul>
+  <div class="container">
+    <div class="two-col">
+      <div class="lawsuits">
+        <div class="section-label">We Can Help With</div>
+        <h2>Employment Lawsuits We Handle</h2>
+        <ul>
+          <li>Wrongful Termination</li>
+          <li>Retaliation</li>
+          <li>Wage and Hour Disputes</li>
+          <li>Discrimination</li>
+          <li>Sexual Harassment</li>
+          <li>PAGA Claims</li>
+        </ul>
+      </div>
+      <div class="lawsuits" style="background:#fff;">
+        <div class="section-label">Why McLellan</div>
+        <h2>Efficient. Candid. Results-Oriented.</h2>
+        <p style="font-size:15px;line-height:1.7;color:#444;margin-top:8px;">We understand that every day a lawsuit continues costs you money, attention, and peace of mind. Our goal is to resolve your matter as swiftly as possible while protecting your financial position and reputation.</p>
+      </div>
+    </div>
   </div>
 
-  <div class="employers-section" id="employers">
-    <div class="section-label">Employers</div>
-    <h2>Employment Litigation Defense for California Employers</h2>
-    <p>California employers face some of the highest litigation exposure in the country. McLellan Law Group represents businesses of all sizes across Silicon Valley, Santa Clara County, and the Bay Area in wrongful termination claims, PAGA actions, wage and hour disputes, retaliation, and discrimination lawsuits.</p>
-    <p>Our goal is to resolve your matter as swiftly as possible while protecting your company's financial position and reputation. After resolution, we help reduce future exposure by reviewing HR policies, updating employee handbooks, and drafting compliant employment contracts and severance agreements.</p>
-    <h3>PAGA Defense for California Employers</h3>
-    <p>If your business has received a PAGA notice, time is critical. McLellan Law Group defends California employers against PAGA claims throughout Silicon Valley, Santa Clara County, and the Bay Area — advising on notice responses, asserting available defenses, and pursuing early resolution strategies to minimize per-violation penalties.</p>
-    <a href="#contact" class="cta-inline">Request a Free Consultation</a>
+  <div class="employers-wrap" id="employers">
+    <div class="container">
+      <div class="section-label">Employers</div>
+      <h2>Employment Litigation Defense for California Employers</h2>
+      <p>California employers face some of the highest litigation exposure in the country. McLellan Law Group represents businesses of all sizes across Silicon Valley, Santa Clara County, and the Bay Area in wrongful termination claims, PAGA actions, wage and hour disputes, retaliation, and discrimination lawsuits.</p>
+      <p>After resolution, we help reduce future exposure by reviewing HR policies, updating employee handbooks, and drafting compliant employment contracts and severance agreements.</p>
+      <h3>PAGA Defense for California Employers</h3>
+      <p>If your business has received a PAGA notice, time is critical. McLellan Law Group defends California employers against PAGA claims throughout Silicon Valley, Santa Clara County, and the Bay Area — advising on notice responses, asserting available defenses, and pursuing early resolution strategies to minimize per-violation penalties.</p>
+      <a href="#contact" class="cta-inline">Request a Free Consultation</a>
+    </div>
   </div>
 
   <div class="cta-banner" id="contact">
