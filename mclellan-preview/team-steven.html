@@ -4,68 +4,65 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Steven McLellan — McLellan Law Group</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Inter',sans-serif; background:#0d0d0d; color:#f0ece4; }
+  body { font-family:'Barlow',sans-serif; background:#1b2a35; color:#f0ece4; }
 
-  /* NAV */
   .nav {
     display:flex; align-items:center; justify-content:space-between;
-    padding:24px 64px; background:#0d0d0d; border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:24px 64px; background:#1b2a35; border-bottom:1px solid rgba(255,255,255,0.08);
     position:sticky; top:0; z-index:100;
   }
-  .nav .logo { font-family:'Cormorant Garamond',serif; font-weight:400; color:#f0ece4; font-size:18px; letter-spacing:3px; text-transform:uppercase; }
-  .nav .contact-btn { border:1px solid rgba(255,255,255,0.25); color:#f0ece4; padding:10px 28px; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; text-decoration:none; transition:all 0.2s; }
-  .nav .contact-btn:hover { background:#f0ece4; color:#0d0d0d; }
+  .nav .logo { font-family:'Cormorant Garamond',serif; font-weight:400; color:#f0ece4; font-size:20px; letter-spacing:3px; text-transform:uppercase; }
+  .nav .contact-btn { border:1px solid #b9986a; color:#b9986a; padding:10px 28px; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; text-decoration:none; }
 
   /* HERO */
   .hero { display:grid; grid-template-columns:55% 45%; min-height:90vh; }
   .hero-left { position:relative; overflow:hidden; }
-  .hero-left img { width:100%; height:100%; object-fit:cover; object-position:center top; filter:grayscale(15%) brightness(0.85); }
-  .hero-left-overlay { position:absolute; inset:0; background:linear-gradient(to right, transparent 60%, #0d0d0d 100%); }
-  .hero-right { background:#0d0d0d; padding:80px 64px 80px 48px; display:flex; flex-direction:column; justify-content:center; }
-  .breadcrumb { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:48px; }
-  .hero-right h1 { font-family:'Cormorant Garamond',serif; font-size:72px; font-weight:300; line-height:0.95; letter-spacing:-1px; color:#f0ece4; margin-bottom:4px; }
-  .hero-right h1 em { font-style:italic; color:rgba(255,255,255,0.5); }
-  .role { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:20px; margin-bottom:48px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,0.08); }
-  
-  .stat-row { display:flex; gap:40px; margin-bottom:56px; }
-  .stat .num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:#f0ece4; line-height:1; }
-  .stat .label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-top:6px; line-height:1.5; }
+  .hero-left img { width:100%; height:100%; object-fit:cover; object-position:center top; filter:grayscale(10%) brightness(0.85); }
+  .hero-left-overlay { position:absolute; inset:0; background:linear-gradient(to right, transparent 55%, #1b2a35 100%); }
+  .hero-right { background:#1b2a35; padding:80px 64px 80px 48px; display:flex; flex-direction:column; justify-content:center; }
+  .breadcrumb { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:48px; }
+  .hero-right h1 { font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; line-height:0.95; letter-spacing:-1px; color:#f0ece4; margin-bottom:4px; }
+  .hero-right h1 em { font-style:italic; color:#b9986a; }
+  .role { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:20px; margin-bottom:48px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,0.08); }
 
-  .cta { display:inline-flex; align-items:center; gap:14px; color:#f0ece4; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; text-decoration:none; padding-bottom:4px; border-bottom:1px solid rgba(255,255,255,0.3); width:fit-content; }
+  .stat-row { display:flex; gap:40px; margin-bottom:56px; }
+  .stat .num { font-family:'Cormorant Garamond',serif; font-size:56px; font-weight:300; color:#b9986a; line-height:1; }
+  .stat .label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-top:6px; line-height:1.6; }
+
+  .cta { display:inline-flex; align-items:center; gap:14px; background:#b9986a; color:#fff; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; text-decoration:none; padding:14px 28px; width:fit-content; }
 
   /* BODY */
-  .body-wrap { display:grid; grid-template-columns:1fr 340px; gap:0; padding:96px 64px; background:#0d0d0d; border-top:1px solid rgba(255,255,255,0.06); }
+  .body-wrap { display:grid; grid-template-columns:1fr 340px; gap:0; padding:96px 64px; background:#1b2a35; border-top:1px solid rgba(255,255,255,0.06); }
 
-  /* ABOUT */
   .about { padding-right:80px; border-right:1px solid rgba(255,255,255,0.06); }
-  .section-tag { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:32px; }
-  .lead { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; line-height:1.55; color:#f0ece4; margin-bottom:36px; font-style:italic; }
-  .about p { font-size:14px; line-height:1.85; color:rgba(255,255,255,0.55); margin-bottom:20px; }
+  .section-tag { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:#b9986a; margin-bottom:32px; }
+  .lead { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; line-height:1.5; color:#f0ece4; margin-bottom:36px; font-style:italic; }
+  .about p { font-size:16px; line-height:1.85; color:rgba(255,255,255,0.6); margin-bottom:20px; }
 
   .victories { margin-top:64px; }
   .victory-item { padding:28px 0; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:start; gap:32px; }
   .victory-item:last-child { border-bottom:1px solid rgba(255,255,255,0.06); }
-  .victory-item h3 { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#f0ece4; margin-bottom:8px; }
-  .victory-item p { font-size:13px; line-height:1.7; color:rgba(255,255,255,0.45); }
-  .victory-tag { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.25); white-space:nowrap; }
+  .victory-item h3 { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:400; color:#f0ece4; margin-bottom:8px; }
+  .victory-item p { font-size:14px; line-height:1.7; color:rgba(255,255,255,0.45); }
+  .victory-tag { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#b9986a; white-space:nowrap; }
 
   /* SIDEBAR */
   .sidebar { padding-left:64px; }
   .accordion { border-bottom:1px solid rgba(255,255,255,0.06); }
   .accordion:first-child { border-top:1px solid rgba(255,255,255,0.06); }
-  .accordion-header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; cursor:pointer; font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.5); }
-  .accordion-header .icon { font-size:16px; color:rgba(255,255,255,0.25); transition:transform 0.2s; }
-  .accordion-body { font-size:13px; line-height:1.8; color:rgba(255,255,255,0.4); padding-bottom:20px; display:none; }
+  .accordion-header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; cursor:pointer; font-size:11px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.5); }
+  .accordion-header .icon { font-size:16px; color:#b9986a; transition:transform 0.2s; }
+  .accordion-body { font-size:14px; line-height:1.8; color:rgba(255,255,255,0.4); padding-bottom:20px; display:none; }
   .accordion.open .accordion-body { display:block; }
-  .accordion.open .icon { transform:rotate(45deg); }
-  .accordion.open .accordion-header { color:rgba(255,255,255,0.85); }
+  .accordion.open .icon { transform:rotate(45deg); display:inline-block; }
+  .accordion.open .accordion-header { color:#f0ece4; }
 
-  .award { margin-top:48px; padding:28px; border:1px solid rgba(255,255,255,0.08); }
-  .award-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:12px; }
-  .award-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#f0ece4; margin-bottom:6px; }
+  .award { margin-top:48px; padding:28px; border:1px solid rgba(185,152,106,0.3); }
+  .award-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#b9986a; margin-bottom:12px; }
+  .award-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:#f0ece4; margin-bottom:6px; }
   .award-years { font-size:12px; color:rgba(255,255,255,0.35); letter-spacing:2px; }
 </style>
 </head>
